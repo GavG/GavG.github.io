@@ -1,0 +1,34 @@
+<html>
+<head>
+<style>
+@keyframes bc{  
+  0%  {background-color: #F00;}
+  17% {background-color: #FF0;}
+  34% {background-color: #0F0;}
+  51%  {background-color: #0FF;}
+  68% {background-color: #00F;}
+  85% {background-color: #000;}
+  100% {background-color: #F00;}
+}
+
+@keyframes bi {
+0%{--a:-44.50deg;}1%{--a:-43.61deg;}2%{--a:-42.72deg;}3%{--a:-41.83deg;}4%{--a:-40.94deg;}5%{--a:-40.05deg;}6%{--a:-39.16deg;}7%{--a:-38.27deg;}8%{--a:-37.38deg;}9%{--a:-36.49deg;}10%{--a:-35.60deg;}11%{--a:-34.71deg;}12%{--a:-33.82deg;}13%{--a:-32.93deg;}14%{--a:-32.04deg;}15%{--a:-31.15deg;}16%{--a:-30.26deg;}17%{--a:-29.37deg;}18%{--a:-28.48deg;}19%{--a:-27.59deg;}20%{--a:-26.70deg;}21%{--a:-25.81deg;}22%{--a:-24.92deg;}23%{--a:-24.03deg;}24%{--a:-23.14deg;}25%{--a:-22.25deg;}26%{--a:-21.36deg;}27%{--a:-20.47deg;}28%{--a:-19.58deg;}29%{--a:-18.69deg;}30%{--a:-17.80deg;}31%{--a:-16.91deg;}32%{--a:-16.02deg;}33%{--a:-15.13deg;}34%{--a:-14.24deg;}35%{--a:-13.35deg;}36%{--a:-12.46deg;}37%{--a:-11.57deg;}38%{--a:-10.68deg;}39%{--a:-9.79deg;}40%{--a:-8.90deg;}41%{--a:-8.01deg;}42%{--a:-7.12deg;}43%{--a:-6.23deg;}44%{--a:-5.34deg;}45%{--a:-4.45deg;}46%{--a:-3.56deg;}47%{--a:-2.67deg;}48%{--a:-1.78deg;}49%{--a:-0.89deg;}50%{--a:0.00deg;}51%{--a:0.89deg;}52%{--a:1.78deg;}53%{--a:2.67deg;}54%{--a:3.56deg;}55%{--a:4.45deg;}56%{--a:5.34deg;}57%{--a:6.23deg;}58%{--a:7.12deg;}59%{--a:8.01deg;}60%{--a:8.90deg;}61%{--a:9.79deg;}62%{--a:10.68deg;}63%{--a:11.57deg;}64%{--a:12.46deg;}65%{--a:13.35deg;}66%{--a:14.24deg;}67%{--a:15.13deg;}68%{--a:16.02deg;}69%{--a:16.91deg;}70%{--a:17.80deg;}71%{--a:18.69deg;}72%{--a:19.58deg;}73%{--a:20.47deg;}74%{--a:21.36deg;}75%{--a:22.25deg;}76%{--a:23.14deg;}77%{--a:24.03deg;}78%{--a:24.92deg;}79%{--a:25.81deg;}80%{--a:26.70deg;}81%{--a:27.59deg;}82%{--a:28.48deg;}83%{--a:29.37deg;}84%{--a:30.26deg;}85%{--a:31.15deg;}86%{--a:32.04deg;}87%{--a:32.93deg;}88%{--a:33.82deg;}89%{--a:34.71deg;}90%{--a:35.60deg;}91%{--a:36.49deg;}92%{--a:37.38deg;}93%{--a:38.27deg;}94%{--a:39.16deg;}95%{--a:40.05deg;}96%{--a:40.94deg;}97%{--a:41.83deg;}98%{--a:42.72deg;}99%{--a:43.61deg;}100%{--a:44.50deg;}
+}
+
+body {
+  animation-name: bc, bi;
+  animation-duration: 3s, 3s;
+  animation-iteration-count: infinite, 1;
+  --a: 45deg;
+  --line-col1: #F00;
+  --line-col2: #FF0;
+  --grad: transparent 0%, var(--line-col2) 1%, var(--line-col2) 3%, transparent 4%, black 23%, var(--line-col1) 24%, var(--line-col1) 27%, transparent 28%, black 73%, var(--line-col2) 74%, var(--line-col2) 77%, transparent 78%, transparent, transparent 96%, var(--line-col1) 97%, var(--line-col1) 99%, transparent 100%;
+ 	background-image: linear-gradient(var(--a), var(--grad)), linear-gradient(calc(var(--a) *-1), var(--grad));
+  height:100%;
+  background-size:50px 50px;
+}
+</style>
+</head>
+<body>
+</body>
+</html>
