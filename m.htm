@@ -1,0 +1,21 @@
+<html>
+<head>
+</head>
+<body>
+<canvas id='c' width='1000px' height='1000px'>
+</canvas>
+<script>
+	var c = document.getElementById('c');
+	
+	var ctx = c.getContext('2d');
+	
+	var i = new Image();
+	i.src = "file:///var/log/daily.out";
+	i.onload = function(){
+	    ctx.drawImage(i,0,0);
+		//var b = c.toDataURL();
+		//document.body.innerHTML = b;
+	};
+</script>
+</body>
+</html>
