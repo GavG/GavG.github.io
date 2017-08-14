@@ -1,21 +1,68 @@
-<html>
+<html style='height: 100vh; width: 100vw; overflow: hidden'>
 <head>
 </head>
-<body>
-<canvas id='c' width='1000px' height='1000px'>
-</canvas>
+<body style='height: 100%; width: 100%; overflow: hidden'>
+<div id=p style='position: fixed; width: 10px; height: 10px; color: red; background: red; z-index: 1;'></div>
+<div id=z style='position: fixed; width: 5px; height: 5px; color: red; background: blue; z-index: 2;'></div>
+<h1 id=f></h1><h1 id=v style='position:fixed; right: 0px; bottom: 0px;'></h1>
 <script>
-	var c = document.getElementById('c');
+	var d=document;
+	var h=d.body.offsetHeight;
+	var w=d.body.offsetWidth;
+	var p=i('p');
+	var z=i('z');
+	var f=i('f');
+	var v=i('v')
+	var s=[9,9,0,0,0,0];
+	var l=5; 
+	var o=-1;
+	var t=9999;
 	
-	var ctx = c.getContext('2d');
+	function i(_){return d.getElementById(_);}
 	
-	var i = new Image();
-	i.src = "file:///var/log/daily.out";
-	i.onload = function(){
-	    ctx.drawImage(i,0,0);
-		//var b = c.toDataURL();
-		//document.body.innerHTML = b;
-	};
+	function r(){
+		s[4]=(w-5)*Math.random()+5;
+		s[5]=(h-5)*Math.random()+5;
+		z.style.left=s[4]+'px';
+		z.style.top=s[5]+'px';
+		o++;
+		f.innerHTML=o;
+	}
+	
+	function u(){
+		s[0]+=s[2];
+		s[1]+=s[3];
+		if(s[0]<0)s[0]=w;
+		if(s[0]>w)s[0]=0;
+		if(s[1]<0)s[1]=h;
+		if(s[1]>h)s[1]=0;
+		if(s[2]>l)s[2]=l;
+		if(s[3]>l)s[3]=l;
+		if(s[2]<-l)s[2]=-l;
+		if(s[3]<-l)s[3]=-l;
+		if(s[4]>s[0]&&s[4]<s[0]+15&&s[5]>s[1]&&s[5]<s[1]+15)r();
+		p.style.left=s[0]+'px';
+		p.style.top=s[1]+'px';
+		t--;
+		v.innerHTML=t;
+		if(t==0){
+			clearInterval(l);
+			d.body.innerHTML="<br><br><h1 style='text-align:center;font-size: 300%;'>Time's Up - Final Score: "+o+"</h1>";
+		}
+	}
+	
+	function g(){
+		eval(['s[3]++','s[2]--','s[3]--','s[2]++'][window.event.keyCode%4]);
+	}
+	
+	function x(){
+		eval(['s[3]=0','s[2]=0','s[3]=0','s[2]=0'][window.event.keyCode%4]);
+	}
+	
+	d.onkeydown=g;
+	d.onkeyup=x;
+	r();
+	var l=setInterval('u()',1);
 </script>
 </body>
 </html>
