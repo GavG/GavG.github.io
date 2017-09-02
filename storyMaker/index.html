@@ -1,0 +1,312 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<style>
+		*, *:focus{
+			outline: none;
+		}
+		
+		html, body{
+			width: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		
+		#main{
+			width: 100%;
+			margin: auto;
+		}
+		
+		#story{
+			width: 100%;
+			min-height: 100px;
+			line-height: 12px;
+		}
+		
+		table{
+			width: 100%;
+			text-align: center;
+		}
+		
+		td{
+			width: calc(100% / 3);
+		}
+		
+		/* Style the tab */
+		div.tab {
+			width: 100%;
+		    overflow: scroll;
+		    background-color: #f1f1f1;
+		}
+
+		/* Style the buttons inside the tab */
+		div.tab button {
+			width: calc(100% / 3);
+			min-width: 80px;
+		    background-color: inherit;
+		    float: left;
+		    border: none;
+		    outline: none;
+		    cursor: pointer;
+		    padding: 14px 16px;
+		    transition: 0.3s;
+		}
+
+		/* Create an active/current tablink class */
+		div.tab button.active {
+		    background-color: #ccc;
+		}
+
+		/* Style the tab content */
+		.tabcontent {
+		    display: none;
+		    -webkit-animation: fadeEffect 1s;
+		    animation: fadeEffect 1s;
+  			 text-align: center;
+  		 	 width:100%;
+  		  	height:50vh;
+			
+		}
+		
+	    .wrapper { margin:150px auto; max-width:640px;}
+
+		@-webkit-keyframes fadeEffect {
+		    from {opacity: 0;}
+		    to {opacity: 1;}
+		}
+
+		@keyframes fadeEffect {
+		    from {opacity: 0;}
+		    to {opacity: 1;}
+		}
+		
+		@media screen and (min-width: 540px) {
+			div.tab button {
+				width: calc(100% / 6);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id='main'>
+	<h1>My Story</h1>
+	<span>Tap to change</span>
+	
+	<p id='story'><p>
+		
+	<button onclick='deleteLast()'>Del</button>
+	<button onclick='deleteLast()'>Save</button>
+	<button onclick='deleteLast()'>Share</button>
+	<button onclick='deleteLast()'>Clear</button>
+	<button onclick='makePlural()'>Plural</button>
+	
+	<div class="tab">
+	  <button id='default_tab' class="tablinks" onclick="openTab(event, 'prePrimer')">Pre-Primer</button>
+	  <button class="tablinks" onclick="openTab(event, 'primer')">Primer</button>
+	  <button class="tablinks" onclick="openTab(event, 'grade1')">1st Grade</button>
+	  <button class="tablinks" onclick="openTab(event, 'grade2')">2nd Grade</button>
+	  <button class="tablinks" onclick="openTab(event, 'grade3')">3rd Grade</button>
+	  <button class="tablinks" onclick="openTab(event, 'nouns')">Nouns</button>
+	</div>
+
+	<div id='letter'></div>
+
+	<div id="prePrimer" class="tabcontent">
+	</div>
+
+	<div id="primer" class="tabcontent">
+	</div>
+	
+	<div id="grade1" class="tabcontent">
+	</div>
+
+	<div id="grade2" class="tabcontent">
+	</div>
+	
+	<div id="grade3" class="tabcontent">
+	</div>
+	
+	<div id="nouns" class="tabcontent">
+	</div>
+	
+</div>
+	
+<script src='jquery-3.2.1.min.js'></script>	
+<script src='jquery.tap.min.js'></script>
+<script src='jQuery.WSlot.min.js'></script>
+<script>
+	var story_box = document.getElementById('story');
+	var letter = document.getElementById('letter');
+	var story = ['test','word', '.', 'next', 'dog'];
+	var story_string = '';
+	var undo = [];
+	var title = 'test';
+	
+	
+	var nouns = [];
+	var pronouns = [];
+	var verbs = [];
+	var adverbs = [];
+	var adjectives = [];
+	var prepositions = [];
+	var conjunctions = [];
+	var interjections = [];
+	var determiners = [];
+	
+	
+	
+	
+	
+	var prePrimer = ["a", "and", "away", "big", "blue", "can", "come", "down", "find", "for", "funny", "go", "help", "here", "I", "in", "is", "it", "jump", "little", "look", "make", "me", "my", "not", "one", "play", "red", "run", "said", "see", "the", "three", "to", "two", "up", "we", "where", "yellow", "you"];
+	
+	var primer = ["all", "am", "are", "at", "ate", "be", "black", "brown", "but", "came", "did", "do", "eat", "four", "get", "good", "have", "he", "into", "like", "must", "new", "no", "now", "on", "our", "out", "please", "pretty", "ran", "ride", "saw", "say", "she", "so", "soon", "that", "there", "they", "this", "too", "under", "want", "was", "well", "went", "what", "white", "who", "will", "with", "yes",];
+	
+	var grade1 = ["after", "again", "an", "any", "as", "ask", "by", "could", "every", "fly", "from", "give", "giving", "had", "has", "her", "him", "his", "how", "just", "know", "let", "live", "may", "of", "old", "once", "open", "over", "put", "round", "some", "stop", "take", "thank", "them", "then", "think", "walk", "were", "when",];
+	
+	var grade2 = ["always", "around", "because", "been", "before", "best", "both", "buy", "call", "cold", "does", "don't", "fast", "first", "five", "found", "gave", "goes", "green", "its", "made", "many", "off", "or", "pull", "read", "right", "sing", "sit", "sleep", "tell", "their", "these", "those", "upon", "us", "use", "very", "wash", "which", "why", "wish", "work", "would", "write", "your",];
+	
+	var grade3 = ["about", "better", "bring", "carry", "clean", "cut", "done", "draw", "drink", "eight", "fall", "far", "full", "got", "grow", "hold", "hot", "hurt", "if", "keep", "kind", "laugh", "light", "long", "much", "myself", "never", "nine", "only", "own", "pick", "seven", "shall", "show", "six", "small", "start", "ten", "today", "together", "try", "warm",];	
+	
+	var nouns = ["apple", "baby", "back", "ball", "bear", "bed", "bell", "bird", "birthday", "boat", "box", "boy", "bread", "brother", "cake", "car", "cat", "chair", "chicken", "children", "Christmas", "coat", "corn", "cow", "day", "dog", "doll", "door", "duck", "egg", "eye", "farm", "farmer", "father", "feet", "fire", "fish", "floor", "flower", "game", "garden", "girl", "good-bye", "grass", "ground", "hand", "head", "hill", "home", "horse", "house", "kitty", "leg", "letter", "man", "men", "milk", "money", "morning", "mother", "name", "nest", "night", "paper", "party", "picture", "pig", "rabbit", "rain", "ring", "robin", "Santa Claus", "school", "seed", "sheep", "shoe", "sister", "snow", "song", "squirrel", "stick", "street", "sun", "table", "thing", "time", "top", "toy", "tree", "watch", "water", "way", "wind", "window", "wood",];
+	
+	window.onload= main;
+	
+	function main(){
+		document.getElementById("default_tab").click();
+		
+		addList('prePrimer', prePrimer);
+		addList('primer', primer);
+		addList('grade1', grade1);
+		addList('grade2', grade2);
+		addList('grade3', grade3);
+		addList('nouns', nouns);
+		
+		storyString();
+
+		flashCaret();
+		
+		deleteLast();
+		
+		undoDelete();
+		
+		addWord('snake');
+		
+		makePlural();
+		
+	}
+	
+	function addList(id, list){
+		
+		list = toTables(list);
+		
+		var elem = $('#'+id);
+		  elem.WSlot({
+		  items : list, 
+		  center : 'center',
+		  distance : 'auto',
+		  displayed_length : 2,
+		  angle : 30,
+		  rotation : 0,
+		  item_height : 30,
+		});
+		
+		var interval;
+		
+		elem.on('tap', 'td', function(){addWord(this.innerHTML)});
+		elem.on('mousedown', function(){interval = setInterval(function(){letter.innerHTML = list[elem.WSlot('get')]}, 1)});
+		elem.on('mouseup', function(){clearInterval(interval)});
+	}
+	
+	function toTables(array){
+		var tables = [];
+		for (var i=0; i<array.length; i+=3){
+			tables.push("<table><tr><td>"+array[i]+"</td><td>"+(array[i+1] || "")+"</td><td>"+(array[i+2] || "")+"</td></tr></table>")
+		}
+		return tables;
+	}
+	
+	function storyString(){
+		checkCase();
+		story_string = story.join(' ').replace(/\s+(\W)/g, "$1");
+		story_box.innerHTML = story_string;
+		saveStory();
+	}
+	
+	function saveStory(){
+		localStorage.setItem(title, JSON.stringify(story));
+	}
+	
+	function checkCase(){
+		if (story.length){
+			story[0] = capitalise(story[0]);
+			
+			for (var i = 1; i < story.length; i++){
+				if (story[i] == '.' && i != story.length){
+					story[i+1] = capitalise(story[i+1]);
+				}
+			}
+		}
+		
+	}
+	
+	function capitalise(string) {
+	    return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+	
+	function makePlural(){
+		story.push(story.pop()+'s');
+		storyString();
+	}
+	
+	function deleteLast(){
+		undo.push(story.pop());
+		storyString();
+	}
+	
+	function undoDelete(){
+		var undoWord = undo.pop();
+			if (undoWord){
+				story.push(undoWord);
+				storyString();
+			}
+	}
+	
+	function addWord(word){
+		story.push(word);
+		storyString();
+	}
+	
+	function flashCaret(){
+		setInterval(function(){
+			story_box.innerHTML = story_string + ' |';
+		}, 1000);
+		
+		setTimeout( function(){setInterval(function(){
+			story_box.innerHTML = story_string;
+		}, 1000);}, 500);
+	}
+	
+	
+	function openTab(evt, tabName) {
+	    // Declare all variables
+	    var i, tabcontent, tablinks;
+
+	    // Get all elements with class="tabcontent" and hide them
+	    tabcontent = document.getElementsByClassName("tabcontent");
+	    for (i = 0; i < tabcontent.length; i++) {
+	        tabcontent[i].style.display = "none";
+	    }
+
+	    // Get all elements with class="tablinks" and remove the class "active"
+	    tablinks = document.getElementsByClassName("tablinks");
+	    for (i = 0; i < tablinks.length; i++) {
+	        tablinks[i].className = tablinks[i].className.replace(" active", "");
+	    }
+
+	    // Show the current tab, and add an "active" class to the button that opened the tab
+	    document.getElementById(tabName).style.display = "block";
+	    evt.currentTarget.className += " active";
+	}
+	
+</script>
+</body>

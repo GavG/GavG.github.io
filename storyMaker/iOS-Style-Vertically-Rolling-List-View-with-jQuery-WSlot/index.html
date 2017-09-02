@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<title>WSlot jQuery Plugin Demos</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+	<style>
+    .wrapper { margin:150px auto; max-width:640px;}
+	.container {
+	  width:200px;
+	  height:200px;
+    margin:0 auto;
+	}
+	.container>div {
+	  font-size:14pt;
+	}
+    .date-picker {
+        width: 300px;
+        height: 100px;
+        margin: 0 auto;
+        padding: 0 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .date-picker-display {
+        width: 100%;
+        height: 30px;
+        text-align: center;
+      }
+      .month {
+        height: 100%;
+        width: 50%;
+        float: left;
+      }
+      .day {
+        height: 100%;
+        width: 20%;
+        float: left;
+      }
+      .year {
+        height: 100%;
+        width: 30%;
+        float: left;
+      }
+	</style>
+  </head>
+  <body><div id="jquery-script-menu">
+<div class="jquery-script-center">
+<ul>
+<li><a href="http://www.jqueryscript.net/other/iOS-Style-Vertically-Rolling-List-View-with-jQuery-WSlot.html">Download This Plugin</a></li>
+<li><a href="http://www.jqueryscript.net/">Back To jQueryScript.Net</a></li>
+</ul>
+<div class="jquery-script-ads"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-2783044520727903";
+/* jQuery_demo */
+google_ad_slot = "2780937993";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>
+<div class="jquery-script-clear"></div>
+</div>
+</div>
+	<div class="wrapper">
+    <h1>WSlot jQuery Plugin Basic Demo</h1>
+	<div class="container">
+	</div>
+	<div style="text-align:center">
+      <button id="get">get index</button>
+      <button id="getText">get text</button>
+      <button id="random">random</button>
+    </div>
+    <h1>WSlot jQuery Plugin Date Picker Demo</h1>
+     <div class="date-picker-display"></div>
+    <div class="date-picker">
+      <div class="month">
+      </div>
+      <div class="day">
+      </div>
+      <div class="year">
+      </div>
+    </div>
+</div>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="jQuery.WSlot.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			
+			        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10) {
+            dd='0'+dd
+        }
+        if(mm<10) {
+            mm='0'+mm
+        }
+        var todaystring = mm+'/'+dd+'/'+yyyy;
+        $('.date-picker-display').html(todaystring);
+
+        $('.month').WSlot({
+          items:['january','february','march','april','may','june','july','august','september','october','november','december'],
+          center:today.getMonth(),
+          angle:25,
+          distance:'auto',
+          displayed_length:3,
+          rotation:-5
+        }).on('WSlot.change',function(e,index){
+          // console.log(index);
+          initDate(index,parseInt($('.year').WSlot('getText')),$('.day').WSlot('get'));
+          updateText();
+        });
+        
+        initDate(today.getMonth(),today.getFullYear(),today.getDate()-1);
+
+        var years = [];
+        for (var i = 1972; i <= 2015; i++) {
+          years.push(i);
+        };
+        $('.year').WSlot({
+          items:years,
+          center:'last',
+          angle:25,
+          distance:'auto',
+          displayed_length:3,
+          rotation:5
+        }).on('WSlot.change',function(e,index){
+          // console.log(index);
+          initDate(parseInt($('.month').WSlot('get')),parseInt($('.year').WSlot('getText')),$('.day').WSlot('get'));
+          updateText();
+        });
+
+        function updateText() {
+          var dd = ('0'+($('.day').WSlot('get')+1)).slice(-2);
+          var mm = ('0'+($('.month').WSlot('get')+1)).slice(-2);
+          var yyyy = $('.year').WSlot('getText');
+          var todaystring = mm+'/'+dd+'/'+yyyy;
+          $('.date-picker-display').html(todaystring);
+        }
+
+        function initDate(month,year,selected) {
+          var totalDay = daysInMonth(month,year);
+          var days = [];
+          for (var i = 1; i <= totalDay; i++) {
+            days.push(i);
+          };
+          $('.day').empty().WSlot({
+            items:days,
+            center:selected,
+            angle:25,
+            distance:'auto',
+            displayed_length:3,
+            rotation:0
+          }).off('WSlot.change').on('WSlot.change',function(e,index){
+            // console.log(index);
+            updateText();
+          });
+        }
+
+        function daysInMonth(month,year) {
+          return new Date(year, month+1, 0).getDate();
+        }
+			
+			
+			
+		$('.container').WSlot({
+          items:['one','two','three','four','five','six','seven','eight','nine','ten'],
+          center : 'first',
+          distance : 50,
+          displayed_length : 2,
+          angle : 30,
+          rotation : 0,
+          item_height : 20,
+        }).on('WSlot.change',function(e,index){
+          console.log(index);
+        });
+
+        $('#get').on('click',function(){
+          alert($('.container').WSlot('get'));
+        });
+        $('#getText').on('click',function(){
+          alert($('.container').WSlot('getText'));
+        });
+        $('#random').on('click',function(){
+          var rand = Math.floor(Math.random() * 9);
+          $('.container').WSlot('rollTo',rand);
+        });
+		});   
+	</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>
