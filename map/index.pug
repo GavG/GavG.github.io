@@ -1,0 +1,109 @@
+//output:index.html
+- var N = "↑";
+- var E = "→";
+- var S = "↓";
+- var W = "←";
+- var NE = "↗";
+- var NW = "↖";
+- var SE = "↘";
+- var SW = "↙";
+doctype html
+html
+  head
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    meta(name="viewport" content="height=device-height, initial-scale=1")
+    link(rel='stylesheet' href='css/responsive.min.css')
+  body
+    #1.frame.blue
+      a.nav.right.middle(href='#2') #{E}
+      a.nav.right.bottom(href='#5') #{SE}
+      a.nav.bottom.center(href='#4') #{S}
+    #2.frame.red
+      a.nav.right.middle(href='#3') #{E}
+      a.nav.right.bottom(href='#6') #{SE}
+      a.nav.bottom.center(href='#5') #{S}
+      a.nav.left.middle(href='#1') #{W}
+      a.nav.left.bottom(href='#4') #{SW}
+
+    #3.frame.yellow
+      a.nav.bottom.center(href='#6') #{S}
+      a.nav.left.middle(href='#2') #{W}
+      a.nav.left.bottom(href='#5') #{SW}
+
+    #4.frame.green
+      a.nav.top.center(href='#1') #{N}
+      a.nav.top.right(href='#2') #{NE}
+      a.nav.right.middle(href='#5') #{E}
+      a.nav.right.bottom(href='#8') #{SE}
+      a.nav.bottom.center(href='#7') #{S}
+
+    #5.frame.orange
+      a.nav.top.center(href='#2') #{N}
+      a.nav.top.left(href='#1') #{NW}
+      a.nav.top.right(href='#3') #{NE}
+      a.nav.right.middle(href='#6') #{E}
+      a.nav.right.bottom(href='#9') #{SE}
+      a.nav.bottom.center(href='#8') #{S}
+      a.nav.left.middle(href='#4') #{W}
+      a.nav.left.bottom(href='#7') #{SW}
+
+    #6.frame.pink
+      a.nav.top.center(href='#3') #{N}
+      a.nav.top.left(href='#2') #{NW}
+      a.nav.bottom.center(href='#9') #{S}
+      a.nav.left.middle(href='#5') #{W}
+      a.nav.left.bottom(href='#8') #{SW}
+
+    #7.frame.gray
+      a.nav.top.center(href='#4') #{N}
+      a.nav.top.right(href='#5') #{NE}
+      a.nav.right.middle(href='#8') #{E}
+
+    #8.frame.black
+      a.nav.top.center(href='#5') #{N}
+      a.nav.top.left(href='#4') #{NW}
+      a.nav.top.right(href='#6') #{NE}
+      a.nav.right.middle(href='#9') #{E}
+      a.nav.left.middle(href='#7') #{W}
+
+    #9.frame.brown
+      a.nav.top.center(href='#6') #{N}
+      a.nav.top.left(href='#5') #{NW}
+      a.nav.left.middle(href='#8') #{W}
+
+    script.
+      window.onload = addScrolls();
+
+      function addScrolls(){
+        [].forEach.call(document.getElementsByClassName('nav'), function(elem){
+          elem.addEventListener('click', function(event) {
+            event.preventDefault();
+            scrollToElem(elem.getAttribute('href')[1], 200);
+            });
+          });
+      }
+
+      function scrollToElem(id, duration){
+
+      var elem = document.getElementById(id);
+
+      var startingY = window.pageYOffset;
+      var startingX = window.pageXOffset;
+
+      var diffY = elem.offsetTop - startingY;
+      var diffX = elem.offsetLeft - startingX;
+
+      var start;
+      window.requestAnimationFrame(function step(timestamp) {
+        if (!start){start = timestamp}
+        var time = timestamp - start;
+        var percent = Math.min(time / duration, 1);
+        window.scrollTo(startingX + diffX * percent, startingY + diffY * percent);
+        if (time < duration) {
+          window.requestAnimationFrame(step)
+        } else {
+          window.location = '#' + id;
+        }
+      });
+      }
+  }  
