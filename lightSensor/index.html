@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Light Sensing API</title>
+  </head>
+  <body>
+    <h1 id="level" style="color: red"></h1>
+    <script>
+      window.addEventListener('devicelight', function(event) {
+        document.getElementById('level').innerHTML = event.value;
+        document.body.style.background = 'rgb('+event.value*25.5+' '+event.value*25.5+' '+event.value*25.5+')';
+        });
+    </script>
+  </body>
+</html>
