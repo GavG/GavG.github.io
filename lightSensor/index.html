@@ -13,6 +13,13 @@
   <body>
     <h1 id="level" style="color: red"></h1>
     <script>
+      let sensor = new ProximitySensor();
+        sensor.start();
+      
+        sensor.onchange = () => console.log(sensor.distance);
+      
+        sensor.onerror = event => console.log(event.error.name, event.error.message);
+      
       window.addEventListener('devicelight', function(event) {
         document.getElementById('level').innerHTML = event.value;
         document.body.style.background = 'rgb('+event.value*25.5+' '+event.value*25.5+' '+event.value*25.5+')';

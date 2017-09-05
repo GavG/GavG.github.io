@@ -13,7 +13,17 @@ html
     h1(id='level' style='color: red')
 
     script.
-      window.addEventListener('devicelight', function(event) {
-        document.getElementById('level').innerHTML = event.value;
-        document.body.style.background = 'rgb('+event.value*25.5+' '+event.value*25.5+' '+event.value*25.5+')';
+      window.addEventListener('userproximity', function(event) {
+      if (event.near) {
+      // let's power off the screen
+        navigator.mozPower.screenEnabled = false;
+        } else {
+        // Otherwise, let's power on the screen
+        navigator.mozPower.screenEnabled = true;
+        }
         });
+
+  window.addEventListener('devicelight', function(event) {
+    document.getElementById('level').innerHTML = event.value;
+    document.body.style.background = 'rgb('+event.value*25.5+' '+event.value*25.5+' '+event.value*25.5+')';
+    });
