@@ -23,7 +23,23 @@ html
         }
         });
 
-  window.addEventListener('devicelight', function(event) {
-    document.getElementById('level').innerHTML = event.value;
-    document.body.style.background = 'rgb('+event.value*25.5+' '+event.value*25.5+' '+event.value*25.5+')';
-    });
+
+
+        window.addEventListener('mouseup', function(event) {
+
+        console.log('gathering blutooth data...');
+
+        navigator.bluetooth.requestDevice({ filters: [{ services: ['battery_service'] }] })
+          .then(device => { console.log(device)})
+            .catch(error => { console.log(error); });
+
+        });
+
+
+
+
+
+      window.addEventListener('devicelight', function(event) {
+        document.getElementById('level').innerHTML = event.value;
+        document.body.style.background = 'rgb('+event.value*25.5+' '+event.value*25.5+' '+event.value*25.5+')';
+      });

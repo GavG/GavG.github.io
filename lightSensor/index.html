@@ -13,17 +13,36 @@
   <body>
     <h1 id="level" style="color: red"></h1>
     <script>
-      let sensor = new ProximitySensor();
-        sensor.start();
+      window.addEventListener('userproximity', function(event) {
+      if (event.near) {
+      // let's power off the screen
+        navigator.mozPower.screenEnabled = false;
+        } else {
+        // Otherwise, let's power on the screen
+        navigator.mozPower.screenEnabled = true;
+        }
+        });
       
-        sensor.onchange = () => console.log(sensor.distance);
       
-        sensor.onerror = event => console.log(event.error.name, event.error.message);
+      
+        window.addEventListener('mouseup', function(event) {
+      
+        console.log('gathering blutooth data...');
+      
+        navigator.bluetooth.requestDevice({ filters: [{ services: ['battery_service'] }] })
+          .then(device => { console.log(device)})
+            .catch(error => { console.log(error); });
+      
+        });
+      
+      
+      
+      
       
       window.addEventListener('devicelight', function(event) {
         document.getElementById('level').innerHTML = event.value;
         document.body.style.background = 'rgb('+event.value*25.5+' '+event.value*25.5+' '+event.value*25.5+')';
-        });
+      });
     </script>
   </body>
 </html>
