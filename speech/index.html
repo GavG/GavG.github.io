@@ -10,26 +10,32 @@
   <body>
     <button id="start">start</button>
     <button id="stop">stop</button>
-    <div class="output">Output</div>
+    <div id="output">Output</div>
     <script>
+      var output = document.getElementById('output');
+      
       if (!('webkitSpeechRecognition' in window)) {
-        console.log('speech API not supported');
+        log('speech API not supported');
       } else { //Let’s do some cool stuff :)
       
-        console.log('speech API supported');
+        log('speech API supported');
       
         var recognition = new webkitSpeechRecognition(); //That is the object that will manage our whole recognition process.
       
         var start = document.getElementById('start');
         var stop = document.getElementById('stop');
       
+        function log(message){
+          output.innerHTML = output.innerHTML + message;
+        }
+      
         start.addEventListener('click', function(event){
-          console.log('start clicked');
+          log('start clicked');
           recognition.start();
         });
       
         stop.addEventListener('click', function(){
-          console.log('stop clicked');
+          log('stop clicked');
           recognition.stop();
         });
       
@@ -40,27 +46,27 @@
         recognition.maxAlternatives = 1; //Since from our experience, the highest result is really the best...
       
         recognition.onstart = function() {
-          console.log('listening');
+          log('listening');
         };
       
         recognition.onend = function() {
-          console.log('stopped');
+          log('stopped');
         };
       
         recognition.onspeechstart = function() {
-          console.log('speech started');
+          log('speech started');
         };  
       
         recognition.onspeechend = function() {
-          console.log('speech stopped');
+          log('speech stopped');
         };
       
         recognition.onnomatch = function(event) {
-          console.log('no matched');
+          log('no matched');
         };
       
         recognition.onresult = function(event) { //the event holds the results
-        console.log('results acquired');
+        log('results acquired');
         //Yay – we have results! Let’s check if they are defined and if final or not:
           if (typeof(event.results) === 'undefined') { //Something is wrong…
             recognition.stop();
@@ -69,9 +75,9 @@
       
             for (var i = event.resultIndex; i < event.results.length; ++i) {      
               if (event.results[i].isFinal) { //Final results
-                console.log("final results: " + event.results[i][0].transcript);   //Of course – here is the place to do useful things with the results.
+                log("final results: " + event.results[i][0].transcript);   //Of course – here is the place to do useful things with the results.
               } else {   //i.e. interim...
-                console.log("interim results: " + event.results[i][0].transcript);  //You can use these results to give the user near real time experience.
+                log("interim results: " + event.results[i][0].transcript);  //You can use these results to give the user near real time experience.
               } 
             } //end for loop
           }
