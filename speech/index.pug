@@ -76,8 +76,10 @@ html
             for (var i = event.resultIndex; i < event.results.length; ++i) {      
               if (event.results[i].isFinal) { //Final results
                 log("final results: " + event.results[i][0].transcript);   //Of course – here is the place to do useful things with the results.
+                console.log(event.results[i][0]);
+                console.log(event.results[i]);
               } else {   //i.e. interim...
-                log("interim results: " + event.results[i][0].transcript);  //You can use these results to give the user near real time experience.
+                //log("interim results: " + event.results[i][0].transcript);  //You can use these results to give the user near real time experience.
               } 
             } //end for loop
           }
