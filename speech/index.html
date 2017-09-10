@@ -16,6 +16,8 @@
         //Speech API not supported here…
       } else { //Let’s do some cool stuff :)
       
+        var recognition = new webkitSpeechRecognition(); //That is the object that will manage our whole recognition process.
+      
         var start = document.getElementById('start');
         var stop = document.getElementById('stop');
       
@@ -27,7 +29,6 @@
           recognition.stop();
         });
       
-        var recognition = new webkitSpeechRecognition(); //That is the object that will manage our whole recognition process. 
         recognition.continuous = true;   //Suitable for dictation. 
         recognition.interimResults = true;  //If we want to start receiving results even if they are not final.
         //Define some more additional parameters for the recognition:
@@ -42,7 +43,21 @@
           console.log('stopped');
         };
       
+        recognition.onspeechstart = function() {
+          console.log('speech started');
+        };  
+      
+        recognition.onspeechend = function() {
+          console.log('speech stopped');
+        };
+      
+        recognition.onnomatch = function(event) {
+          console.log('no matched');
+        };
+      
+      
         recognition.onresult = function(event) { //the event holds the results
+        console.log('results acquired');
         //Yay – we have results! Let’s check if they are defined and if final or not:
           if (typeof(event.results) === 'undefined') { //Something is wrong…
             recognition.stop();
