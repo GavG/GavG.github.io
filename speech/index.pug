@@ -100,13 +100,14 @@ html
         for (var i=0; i<words.length; i++){
           switch (words[i]){
             case 'function':
+            case 'functions':
               log('found  function');
               _function = words[i+1];
               switch (words[i+2]){
                 case 'string':
                   for (var j = i+3; j<words.length; j++){
                     if (words[j] == 'end'){
-                      _params = "'" + _params + "'";
+                      _params = "'" + _params + " '";
                         break;
                       } else {
                       _params += words[j];
