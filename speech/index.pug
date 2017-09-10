@@ -97,10 +97,10 @@ html
         var _params = '';
 
         for (var i=0; i<words.length; i++){
-          switch (word[i]){
+          switch (words[i]){
             case 'function':
-              _function = word[i+1];
-              switch (word[i+2]){
+              _function = words[i+1];
+              switch (words[i+2]){
                 case 'string':
                   for (var j = i+3; j<words.length; j++){
                     if (words[j] == 'end'){
