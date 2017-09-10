@@ -66,7 +66,7 @@
         };
       
         recognition.onresult = function(event) { //the event holds the results
-        log('results acquired');
+        //log('results acquired');
         //Yay – we have results! Let’s check if they are defined and if final or not:
           if (typeof(event.results) === 'undefined') { //Something is wrong…
             recognition.stop();
@@ -78,10 +78,46 @@
                 log("final results: " + event.results[i][0].transcript);   //Of course – here is the place to do useful things with the results.
                 console.log(event.results[i][0]);
                 console.log(event.results[i]);
+      
+                evaluate(event.results[i][0].transcript);
               } else {   //i.e. interim...
                 //log("interim results: " + event.results[i][0].transcript);  //You can use these results to give the user near real time experience.
               } 
             } //end for loop
+          }
+      }
+      
+      function evaluate(result){
+        var words = result.split(' ');
+      
+        var _element = '';
+        var _color = '';
+        var _innerHTML = '';
+        var _function = '';
+        var _params = '';
+      
+        for (var i=0; i<words.length; i++){
+          switch (word[i]){
+            case 'function':
+              _function = word[i+1];
+              switch (word[i+2]){
+                case 'string':
+                  for (var j = i+3; j<words.length; j++){
+                    if (words[j] == 'end'){
+                      _params = "'" + _params + "'";
+                        break;
+                        }
+                    _params += words[j];
+                    }
+      
+              }
+              break;
+          }
+      
+          if (_function && _params){
+            log("evaluating: "+ _function + "(" + _params + ")");
+            eval(_function + "(" + _params + ")");
+            }
           }
       }
     </script>
