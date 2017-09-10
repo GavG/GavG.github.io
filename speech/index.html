@@ -8,15 +8,23 @@
     </style>
   </head>
   <body>
+    <button id="start">start</button>
+    <button id="stop">stop</button>
     <div class="output">Output</div>
     <script>
       if (!('webkitSpeechRecognition' in window)) {
         //Speech API not supported here…
       } else { //Let’s do some cool stuff :)
       
-        var body = document.body;
-        body.addEventListener('click', function(){
+        var start = document.getElementById('start');
+        var stop = document.getElementById('stop');
+      
+        start.addEventListener('click', function(){
           recognition.start();
+        });
+      
+        stop.addEventListener('click', function(){
+          recognition.stop();
         });
       
         var recognition = new webkitSpeechRecognition(); //That is the object that will manage our whole recognition process. 
