@@ -12,8 +12,10 @@ html
     .output Output
     script.
       if (!('webkitSpeechRecognition' in window)) {
-        //Speech API not supported here…
+        console.log('speech API not supported');
       } else { //Let’s do some cool stuff :)
+
+        console.log('speech API supported');
 
         var recognition = new webkitSpeechRecognition(); //That is the object that will manage our whole recognition process.
 
@@ -21,10 +23,12 @@ html
         var stop = document.getElementById('stop');
 
         start.addEventListener('click', function(event){
+          console.log('start clicked');
           recognition.start();
         });
 
         stop.addEventListener('click', function(){
+          console.log('stop clicked');
           recognition.stop();
         });
 
@@ -53,7 +57,6 @@ html
         recognition.onnomatch = function(event) {
           console.log('no matched');
         };
-
 
         recognition.onresult = function(event) { //the event holds the results
         console.log('results acquired');
