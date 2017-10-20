@@ -1,0 +1,85 @@
+<html>
+
+<head>
+  <style>
+    * {
+      color: #FFF;
+    }
+
+    body {
+      background-color: #000;
+      height: 100%;
+      width: 100%;
+    }
+
+    input {
+      background: none;
+      border: none;
+      width: 100%;
+      outline: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id='hist'>
+  </div>
+  <form onsubmit='return a()'>
+    <input id='com' type='text' autofocus autocomplete="off"></input>
+  </form>
+  <script>
+    var hist = document.getElementById('hist');
+    var com = document.getElementById('com');
+    var com_hist = [];
+    var hist_count = 1;
+    var ret;
+    var next;
+    var res;
+
+    function a() {
+      next = com.value;
+      com_hist.push(next);
+      hist_count = 1;
+      console.log(next);
+      hist.innerHTML = hist.innerHTML + ret + next;
+      com.value = "";
+      ret = '<br>';
+
+      try {
+        res = eval(next);
+      } catch (e) {
+        res = e.message;
+      }
+
+      hist.innerHTML = hist.innerHTML + ret + res;
+      return false;
+    }
+
+    document.onkeydown = checkKey;
+
+    function checkKey(e) {
+
+      e = e || window.event;
+
+      if (com_hist.length > 0) {
+
+        if (e.keyCode == '38') {
+          com.value = com_hist[com_hist.length - hist_count];
+          hist_count += 1;
+        } else if (e.keyCode == '40') {
+          com.value = com_hist[com_hist.length - hist_count];
+          hist_count -= 1;
+        }
+      }
+
+      if (hist_count > com_hist.length) {
+        hist_count = com_hist.length;
+      } else if (hist_count < 1) {
+        hist_count = 1;
+      }
+
+    }
+  </script>
+</body>
+
+</html>

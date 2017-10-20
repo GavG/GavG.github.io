@@ -1,0 +1,28 @@
+//output: index.html
+doctype html
+html
+  head
+    link(rel='stylesheet' href='css/responsive.min.css')
+  body
+    #left.half
+    #right.half
+
+script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+
+script.
+  var left = $('#left');
+  var right = $('#right');
+
+  $(window).scroll(function() {
+
+    var wScroll = $(this).scrollTop();
+
+    $(left).css({
+      'left': - wScroll
+    });
+
+    $(right).css({
+      'right': - wScroll
+    });
+
+    });
