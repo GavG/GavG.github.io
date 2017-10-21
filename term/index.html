@@ -1,29 +1,36 @@
 <html>
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     * {
       color: #FFF;
+      font-family: monospace;
+      font-size: 12px;
     }
 
     body {
       background-color: #000;
-      height: 100%;
       width: 100%;
     }
 
-    input {
+    textarea {
       background: none;
       border: none;
       width: calc(100% - 20px);
       outline: none;
       float: left;
+      resize: none;
     }
 
     i {
-      width: 20px;
+      width: 12px;
       display: block;
       float: left;
+    }
+
+    #hist {
+      word-wrap: break-word;
     }
   </style>
 </head>
@@ -32,7 +39,7 @@
   <div id='hist'>
   </div>
   <form action='#' onsubmit='return peaceLovaAndBananas()'>
-    <i>></i><input id='com' type='text' autofocus autocomplete="off"></input>
+    <i>></i><textarea id='com' rows='1' autofocus autocomplete="off" onblur="this.focus()" onkeyup="auto_grow(this)"></textarea>
   </form>
   <script>
     var hist = document.getElementById('hist');
@@ -42,19 +49,23 @@
     var ret = '';
     var next = '';
     var res = '';
+    var textSize = 12;
 
     function peaceLovaAndBananas() {
       next = com.value;
+      com.value = "";
+
+      window.scrollTo(0, document.body.scrollHeight);
 
       if (/peaceLovaAndBananas/.test(next)) {
         next = "as you were r kid";
       }
 
-      com_hist.push(next);
+      if (next != '/n') {
+        com_hist.push(next.trim());
+      }
       hist_count = 1;
-      console.log(next);
       hist.innerHTML = hist.innerHTML + ret + "> " + next;
-      com.value = "";
       ret = '<br>';
 
       try {
@@ -68,11 +79,17 @@
       return false;
     }
 
-    document.onkeydown = checkKey;
+    document.onkeyup = checkKey;
 
     function checkKey(e) {
 
       e = e || window.event;
+
+      if (e.keyCode == 13) {
+        com.style.height = textSize + 'px';
+        hist_count = com_hist.length;
+        peaceLovaAndBananas();
+      }
 
       if (com_hist.length > 0) {
 
@@ -85,12 +102,18 @@
         }
       }
 
+      auto_grow(com);
+
       if (hist_count > com_hist.length) {
         hist_count = com_hist.length;
       } else if (hist_count < 1) {
         hist_count = 1;
       }
+    }
 
+    function auto_grow(element) {
+      element.style.height = textSize + "px";
+      element.style.height = (element.scrollHeight + textSize) + "px";
     }
   </script>
 </body>
