@@ -55,6 +55,7 @@
 
     function peaceLovaAndBananas() {
       next = com.value;
+      next = next.replace(/(\r\n|\n|\r)/gm, "");
       com.value = "";
 
       window.scrollTo(0, document.body.scrollHeight);
@@ -76,7 +77,6 @@
         res = e.message;
         return false;
       }
-
       hist.innerHTML = hist.innerHTML + ret + " " + res;
       return false;
     }
