@@ -15,8 +15,15 @@
     input {
       background: none;
       border: none;
-      width: 100%;
+      width: calc(100% - 20px);
       outline: none;
+      float: left;
+    }
+
+    i {
+      width: 20px;
+      display: block;
+      float: left;
     }
   </style>
 </head>
@@ -24,8 +31,8 @@
 <body>
   <div id='hist'>
   </div>
-  <form onsubmit='return a()'>
-    <input id='com' type='text' autofocus autocomplete="off"></input>
+  <form action='#' onsubmit='return peaceLovaAndBananas()'>
+    <i>></i><input id='com' type='text' autofocus autocomplete="off"></input>
   </form>
   <script>
     var hist = document.getElementById('hist');
@@ -36,12 +43,17 @@
     var next = '';
     var res = '';
 
-    function a() {
+    function peaceLovaAndBananas() {
       next = com.value;
+
+      if (/peaceLovaAndBananas/.test(next)) {
+        next = "as you were r kid";
+      }
+
       com_hist.push(next);
       hist_count = 1;
       console.log(next);
-      hist.innerHTML = hist.innerHTML + ret + next;
+      hist.innerHTML = hist.innerHTML + ret + "> " + next;
       com.value = "";
       ret = '<br>';
 
@@ -49,9 +61,10 @@
         res = eval(next);
       } catch (e) {
         res = e.message;
+        return false;
       }
 
-      hist.innerHTML = hist.innerHTML + ret + res;
+      hist.innerHTML = hist.innerHTML + ret + " " + res;
       return false;
     }
 
