@@ -12,12 +12,14 @@
     body {
       background-color: #000;
       width: 100%;
+      margin: 0;
     }
 
     textarea {
       background: none;
       border: none;
-      width: calc(100% - 20px);
+      width: 100%;
+      max-width: calc(100% - 20px);
       outline: none;
       float: left;
       resize: none;
@@ -65,7 +67,7 @@
         com_hist.push(next.trim());
       }
       hist_count = 1;
-      hist.innerHTML = hist.innerHTML + ret + "> " + next;
+      hist.innerHTML = hist.innerHTML + ret + ">&nbsp;" + next;
       ret = '<br>';
 
       try {
