@@ -58,8 +58,6 @@
       next = next.replace(/(\r\n|\n|\r)/gm, "");
       com.value = "";
 
-      window.scrollTo(0, document.body.scrollHeight);
-
       if (/peaceLovaAndBananas/.test(next)) {
         next = "as you were r kid";
       }
@@ -116,6 +114,7 @@
     function auto_grow(element) {
       element.style.height = textSize + "px";
       element.style.height = (element.scrollHeight + textSize) + "px";
+      window.scrollTo(0, document.body.scrollHeight);
     }
   </script>
 </body>
