@@ -1,0 +1,66 @@
+<head>
+  <style>
+    html,
+    body {
+      width: 110%;
+      height: 50px;
+      background: linear-gradient(141deg, #244DB7 0%, #696CB3 50%, #8379BB 75%);
+      --g: #111;
+      --d: #444;
+      --p: 75%;
+      --a: rgba(240, 233, 234, .5);
+      --b: rgba(240, 233, 234, 1);
+      overflow: hidden;
+    }
+
+    #a {
+      position: absolute;
+      bottom: -100px;
+      right: 0;
+      left: 0;
+      margin: auto;
+      height: 650px;
+      width: 200px;
+      border-radius: 260% 260% 200% 200%;
+      overflow: hidden;
+    }
+
+    #a:after {
+      content: "";
+      position: absolute;
+      margin: auto;
+      left: -200px;
+      top: 50px;
+      height: 600px;
+      width: 650px;
+      transform: rotate(63deg);
+      background: linear-gradient(115deg, transparent var(--p), var(--b) var(--p)) 0 0,
+      linear-gradient(245deg, transparent var(--p), var(--b) var(--p)) 0 0,
+      linear-gradient(115deg, transparent var(--p), var(--a) var(--p)) 10px -20px,
+      linear-gradient(245deg, transparent var(--p), var(--a) var(--p)) 10px -20px,
+      var(--g);
+      background-size: 20px 40px;
+    }
+
+    #a:before {
+      content: "";
+      position: absolute;
+      right: 0;
+      left: 0;
+      margin: auto;
+      height: 650px;
+      clip: rect(0px, 200px, 95px, 0px);
+      width: 200px;
+      background: var(--g);
+      background-image: linear-gradient(63deg, var(--d) 25%, transparent 25%, transparent 75%, var(--d) 75%, var(--d)),
+      linear-gradient(-63deg, var(--d) 25%, transparent 25%, transparent 75%, var(--d) 75%, var(--d));
+      background-size: 20px 40px;
+      z-index: 2;
+      border-radius: 260% 260% 0% 0%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="a"></div>
+</body>

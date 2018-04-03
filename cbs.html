@@ -1,0 +1,42 @@
+<head>
+  <style>
+    html,
+    body,
+    div {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+
+    input,
+    input+div {
+      display: none;
+    }
+
+    input:checked+div {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <label for='1'>
+    <input id='0' type='radio' name='wahey'>
+    <div style='background:green'></div>
+  </label>
+  <label for='2'>
+    <input id='1' type='radio' name='wahey'>
+    <div style='background:orange'></div>
+  </label>
+  <label for='3'>
+    <input id='2' type='radio' name='wahey'>
+    <div style='background:blue'></div>
+  </label>
+  <label for='0'>
+    <input id='3' type='radio' name='wahey'>
+    <div style='background:red'></div>
+  </label>
+  <label for='0'>
+    <div style='background:black'></div>
+  </label>
+</body>
