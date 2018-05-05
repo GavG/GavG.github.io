@@ -15,16 +15,19 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous" /></script>
 
   <script type='text/javascript'>
+
+  var token = '';
+
     function main() {
-      var token = $('#token').val();
+      token = $('#token').val();
 
       if (!token) {
         return alert('The DEVELOPER_ACCESS_TOKEN field must be populated');
       }
-      getArchiveList(token);
+      getArchiveList();
     }
 
-    function getArchiveList(token) {
+    function getArchiveList() {
       $.ajax({
         url: "https://api.botengine.ai/archives",
         success: function(data, status) {
@@ -42,9 +45,23 @@
     }
 
     function processArchiveList(list) {
+
+      var results = [];
+
       for (i = 0; i < list.length; ++i) {
-          console.log(list[i]);
+        $.ajax({
+          url: "https://api.botengine.ai/archives/"+list[i].id,
+          success: function(data, status) {
+            results.push(data);
+          },
+          error: function(xhr, textStatus, errorThrown){
+             alert('request failed - '+errorThrown);
+          },
+          beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer ' + token); }
+        });
       }
+
+      console.log(results);
     }
   </script>
 </body>
