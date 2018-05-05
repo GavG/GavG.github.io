@@ -26,13 +26,17 @@
       $.ajax({
         url: "https://api.botengine.ai/archives",
         success: function(data, status) {
-          return console.log("The returned data", data);
+          processArchiveList(data);
         },
-        fail: function(response) {
-          console.log(response)
+        error: function(xhr, textStatus, errorThrown){
+           alert('request failed - '+errorThrown);
         },
         beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer ' + token); }
       });
+    }
+
+    function processArchiveList(list) {
+      console.log(list);
     }
   </script>
 </body>
