@@ -44,6 +44,12 @@
       return 'hi';
     }
 
+    function flatten(arr) {
+      return arr.reduce(function (flat, toFlatten) {
+        return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+      }, []);
+    }
+
     function processArchiveList(list) {
 
       var results = [];
@@ -61,7 +67,23 @@
         });
       }
 
-      console.log(results);
+      console.log(flattern(results));
+
+      return false;
+
+      var csvContent = "data:text/csv;charset=utf-8,";
+      for (j = 0; j < results.length; ++j) {
+         var r = results[j];
+         var cs = r.conversation;
+
+         for (k = 0; k < cs.length; ++k) {
+           var m = cs[k];
+            var row = [r.id, r.sessionId, r.date, m.confidence, m.date, ].join(",");
+         }
+
+
+         csvContent += row + "\r\n";
+      }
     }
   </script>
 </body>
