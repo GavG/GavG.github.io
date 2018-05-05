@@ -53,6 +53,9 @@
           url: "https://api.botengine.ai/archives/"+list[i].id,
           success: function(data, status) {
             results.push(data);
+            if(results.length == list.length){
+              toCSV(results);
+            }
           },
           error: function(xhr, textStatus, errorThrown){
              alert('request failed - '+errorThrown);
@@ -60,7 +63,9 @@
           beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer ' + token); }
         });
       }
+    }
 
+    function toCSV(results){
       var csvContent = "data:text/csv;charset=utf-8,";
       for (j = 0; j < results.length; ++j) {
          var r = results[j];
@@ -76,7 +81,6 @@
 
 
          csvContent += row + "\r\n";
-      }
     }
   </script>
 </body>
