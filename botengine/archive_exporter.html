@@ -29,15 +29,13 @@
 
       console.log('getting archives...');
 
-      $.get("https://api.botengine.ai/account", {
-          authorization: 'Bearer ' + token
-        })
-        .done(function(data) {
-          console.log(data);
-        })
-        .fail(function() {
-          alert("error");
-        });
+      $.ajax({
+        url: "https://api.botengine.ai/archives",
+        success: function(data, status) {
+          return console.log("The returned data", data);
+        },
+        beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer ' + token); }
+      });
     }
   </script>
 </body>
