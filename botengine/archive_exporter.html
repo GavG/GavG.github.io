@@ -52,9 +52,11 @@
     }
 
     function objToArray(obj){
+      console.log(obj);
       var arr = $.map(myObj, function(value, index) {
           return [value];
       });
+      console.log(arr);
       return arr;
     }
 
