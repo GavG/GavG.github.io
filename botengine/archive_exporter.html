@@ -29,8 +29,8 @@
 
       console.log('getting archives...');
 
-      $.get("https://api.botengine.ai/archives", {
-          authorization: 'Bearer ${' + token + '}'
+      $.get("https://api.botengine.ai/account", {
+          authorization: 'Bearer ' + token
         })
         .done(function(data) {
           console.log(data);
