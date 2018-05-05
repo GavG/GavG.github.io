@@ -19,20 +19,17 @@
       if (!token) {
         return alert('The DEVELOPER_ACCESS_TOKEN field must be populated');
       }
-
-      console.log('got token: ' + token);
-
       getArchiveList(token);
     }
 
     function getArchiveList(token) {
-
-      console.log('getting archives...');
-
       $.ajax({
         url: "https://api.botengine.ai/archives",
         success: function(data, status) {
           return console.log("The returned data", data);
+        },
+        fail: function(response) {
+          console.log(response)
         },
         beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer ' + token); }
       });
