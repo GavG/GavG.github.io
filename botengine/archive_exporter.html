@@ -44,22 +44,6 @@
       return 'hi';
     }
 
-    function flatten(arr) {
-      return arr.reduce(function (flat, toFlatten) {
-        toFlatten = objToArray(toFlatten);
-        return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
-      }, []);
-    }
-
-    function objToArray(obj){
-      console.log(obj);
-      var arr = $.map(myObj, function(value, index) {
-          return [value];
-      });
-      console.log(arr);
-      return arr;
-    }
-
     function processArchiveList(list) {
 
       var results = [];
@@ -77,18 +61,17 @@
         });
       }
 
-      console.log(flatten(results).join(','));
-
-      return false;
-
       var csvContent = "data:text/csv;charset=utf-8,";
       for (j = 0; j < results.length; ++j) {
          var r = results[j];
          var cs = r.conversation;
 
+         console.log(cs);
+         return false;
+
          for (k = 0; k < cs.length; ++k) {
            var m = cs[k];
-            var row = [r.id, r.sessionId, r.date, m.confidence, m.date, ].join(",");
+            var row = [r.id, r.sessionId, r.date, m.confidence, m.date].join(",");
          }
 
 
