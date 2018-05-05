@@ -6,9 +6,11 @@
 </head>
 
 <body>
-  <label for='token'>DEVELOPER_ACCESS_TOKEN</label>
-  <input type='text' id='token' name='token'></input>
-  <button onclick='main()'>Export to CSV</button>
+  <form onsubmit='main(); return false;'>
+    <label for='token'>DEVELOPER_ACCESS_TOKEN</label>
+    <input type='text' id='token' name='token'></input>
+    <button type='submit'>Export to CSV</button>
+  </form>
 
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous" /></script>
 
