@@ -65,6 +65,10 @@
       }
     }
 
+    function flatten(obj){
+      return '"'+JSON.stringify(obj)+'"';
+    }
+
     function toCSV(results){
       var csvContent = "";
 
@@ -75,7 +79,7 @@
          var cs = r.conversation;
          for (k = 0; k < cs.length; ++k) {
            var m = cs[k];
-            var row = [r.id, r.sessionId, r.date, m.confidence, m.date, JSON.stringify(m.fulfillment), m.incomplete, JSON.stringify(m.interaction), m.lifespan, JSON.stringify(m.parameters), m.resolvedQuery, m.score, m.source, m.storyId, m.trigger].join(",");
+            var row = [r.id, r.sessionId, r.date, m.confidence, m.date, flatten(m.fulfillment), m.incomplete, flatten(m.interaction), m.lifespan, flatten(m.parameters), m.resolvedQuery, m.score, m.source, m.storyId, m.trigger].join(",");
          }
          csvContent += row + "\r\n";
        }
