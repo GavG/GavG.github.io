@@ -73,10 +73,6 @@
       for (j = 0; j < results.length; ++j) {
          var r = results[j];
          var cs = r.conversation;
-
-         console.log(cs);
-         return false;
-
          for (k = 0; k < cs.length; ++k) {
            var m = cs[k];
             var row = [r.id, r.sessionId, r.date, m.confidence, m.date, JSON.stringify(m.fulfillment), m.incomplete, JSON.stringify(m.interaction), m.lifespan, JSON.stringify(m.parameters), m.resolvedQuery, m.score, m.source, m.storyId, m.trigger].join(",");
