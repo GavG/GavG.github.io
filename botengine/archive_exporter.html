@@ -65,7 +65,7 @@
     }
 
     function flatten(obj){
-      return JSON.stringify(obj).replace(",", "|").replace("\r\n", ' ');
+      return JSON.stringify(obj).replace(/,/g, "|").replace(/\r\n/g, ' ');
     }
 
     function toCSV(results){
