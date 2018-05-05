@@ -8,12 +8,22 @@
       margin: 0;
     }
 
+    div {
+      counter-increment: i;
+    }
+
+    div::before {
+      content: counter(i);
+    }
+
     input,
-    input+div {
+    input+div,
+    div::before {
       display: none;
     }
 
-    input:checked+div {
+    input:checked+div,
+    input:checked+div::before {
       display: block;
     }
   </style>
