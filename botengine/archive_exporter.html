@@ -66,7 +66,10 @@
     }
 
     function toCSV(results){
-      var csvContent = "data:text/csv;charset=utf-8,";
+      var csvContent = "data:text/csv;charset=utf-8, confidence, fu";
+
+      csvContent += "chat_ID, chat_sessionId, chat_date, message_confidence, message_date, message_fullfilment, message_incomplete, message_interaction, message_lifespan, message_parameters, message_resolvedQuery, message_score, message_storyId, message_trigger";
+
       for (j = 0; j < results.length; ++j) {
          var r = results[j];
          var cs = r.conversation;
@@ -76,7 +79,7 @@
 
          for (k = 0; k < cs.length; ++k) {
            var m = cs[k];
-            var row = [r.id, r.sessionId, r.date, m.confidence, m.date].join(",");
+            var row = [r.id, r.sessionId, r.date, m.confidence, m.date, JSON.stringify(m.fulfillment), m.incomplete, JSON.stringify(m.interaction), m.lifespan, JSON.stringify(m.parameters), m.resolvedQuery, m.score, m.source, m.storyId, m.trigger].join(",");
          }
          csvContent += row + "\r\n";
        }
