@@ -46,8 +46,16 @@
 
     function flatten(arr) {
       return arr.reduce(function (flat, toFlatten) {
+        toFlatten = objToArray(toFlatten);
         return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
       }, []);
+    }
+
+    function objToArray(obj){
+      var arr = $.map(myObj, function(value, index) {
+          return [value];
+      });
+      return arr;
     }
 
     function processArchiveList(list) {
