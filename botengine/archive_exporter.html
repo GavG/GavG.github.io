@@ -71,7 +71,7 @@
     function toCSV(results){
       var csvContent = "";
 
-      csvContent += "chat_ID, chat_sessionId, chat_date, message_confidence, message_date, message_fullfilment, message_incomplete, message_interaction, message_lifespan, message_parameters, message_resolvedQuery, message_score, message_storyId, message_trigger";
+      csvContent += "chat_ID, chat_sessionId, chat_date, message_confidence, message_date, message_fullfilment, message_incomplete, message_interaction, message_lifespan, message_parameters, message_resolvedQuery, message_score, message_storyId, message_trigger" + "\r\n";
 
       for (j = 0; j < results.length; ++j) {
          var r = results[j];
