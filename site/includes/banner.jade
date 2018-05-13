@@ -1,0 +1,8 @@
+mixin banner(src)
+  header.w3-display-container.w3-content.w3-wide.header
+    img(id="bannerImg" src=src).w3-image
+  script.
+    var logo = document.getElementById('bannerImg');
+    window.addEventListener('scroll', function() {
+        logo.style.marginTop = (-1 * document.documentElement.scrollTop / 2)+'px';
+    });
