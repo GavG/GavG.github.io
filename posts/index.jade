@@ -1,0 +1,14 @@
+//output:index.html, pretty:false
+extends ../layout
+
+include ../includes/postLink
+
+block content
+  
+  +banner(baseURL+'/images/logo.png', '#ffdab9')
+
+  div.w3-content.w3-padding
+    div(id="posts").w3-container.w3-padding-32
+      h3.w3-border-bottom.w3-border-light-grey.w3-padding-16 Recent Posts
+      
+      +postLink(baseURL+'/posts/001.html', 'Rapid Mobile App Bodging', baseURL+'/images/posts/rmab.png')
