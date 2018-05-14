@@ -292,8 +292,11 @@ body{
 }
 
 #app{
-  min-height: 38vh;
   max-width: 1564px;
+}
+
+.w3-container{
+  min-height: 38vh;
 }
 
 .w3-content{
