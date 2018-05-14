@@ -1,8 +1,8 @@
 mixin definition(title, text)
-label
-blockquote
-  strong= title
-  input(type='checkbox')
-  div
-    p text
+  label(for='def_'+title)
+    blockquote
+      strong= title
+      input(id='def_'+title type='checkbox')
+      div
+        p!= text
           
