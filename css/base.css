@@ -305,7 +305,6 @@ body{
 }
 
 .header{
-  max-width: 1564px;
   padding-top: 50px;
   display: -webkit-box;
   display: -ms-flexbox;
