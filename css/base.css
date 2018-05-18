@@ -317,6 +317,9 @@ body{
           align-items: center;
   height: 50vh;
   z-index: -1;
+  margin: 0px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .br-2{

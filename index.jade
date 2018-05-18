@@ -4,9 +4,10 @@ extends layout
 include includes/postLink
 include includes/appLink
 
-block content
-  
+block header
   +banner(baseURL+'/images/logo.png', 'paleturquoise')
+
+block content
   
   div.w3-content.w3-padding
     div(id='about').w3-container
