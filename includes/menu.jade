@@ -2,7 +2,12 @@ div.w3-top
   div.w3-bar.w3-white.w3-wide.w3-padding.w3-card
     a(href="https://gavg.github.io").w3-bar-item.w3-button Gav
       img(id="logo" src=baseURL+'/images/logo.png')
-    div.w3-right.w3-hide-small
+    input(type="checkbox" id="menu-toggle-input")
+    label(id="menu-toggle" for="menu-toggle-input" tabindex="1" onblur="console.log('blur')").w3-bar-item.w3-right
+      div.bar1
+      div.bar2
+      div.bar3
+    div.w3-right
       a(href=baseURL+"/index.html#about").w3-bar-item.w3-button About
       a(href=baseURL+"/posts/index.html").w3-bar-item.w3-button Posts
       a(href=baseURL+"/apps/index.html").w3-bar-item.w3-button Apps
