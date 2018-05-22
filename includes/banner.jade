@@ -5,4 +5,5 @@ mixin banner(src, col)
     var logo = document.getElementById('bannerImg');
     window.addEventListener('scroll', function() {
         logo.style.marginTop = document.documentElement.scrollTop +'px';
+        logo.style.transform = 'rotate('+document.documentElement.scrollTop +'deg)';
     });
