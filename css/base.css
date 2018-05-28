@@ -274,6 +274,10 @@ blockquote input:checked + div{
   }
 }
 
+a{
+  z-index: 3;
+}
+
 #bannerImg{
   width: 100px;
 }
@@ -300,7 +304,6 @@ body{
 }
 
 .w3-content{
-  background: #FFF;
   max-width: 1564px;
 }
 
@@ -370,10 +373,13 @@ body{
   }
 
   #menu-toggle-input + #menu-toggle + .w3-right{
-    max-height: 0px;
+    max-height: 0vh;
+    overflow: hidden;
+    width: 100%;
   }
   #menu-toggle-input:checked + #menu-toggle + .w3-right{
     max-height: 100vh;
+    width: 100%;
   }
 
   .w3-right .w3-bar-item{
@@ -387,4 +393,39 @@ footer div {
   display: flex;
   -ms-flex-pack: distribute;
       justify-content: space-around;
+}
+
+.progress-indicator {
+  height: 50px;
+  width: 50px;
+  position: fixed;
+  top: 0;
+  left: calc(50% - 25px);
+  z-index: 1;
+  text-align: center;
+}
+
+.progress-count {
+  position: fixed;
+  top: 0;
+  left: calc(50% - 25px);
+  width: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-size: 12px;
+  color: #b3b3b3;
+}
+
+.progress-circle {
+  width: 50px;
+}
+
+.back-circle { fill: rgba(255,255,255,0.9); }
+
+.progress-circle .animated-circle {
+  fill: transparent;
+  stroke-width: 20px;
+  stroke: #b3b3b3;
+  stroke-dasharray: 126;
+  stroke-dashoffset: 126;
 }
