@@ -4,7 +4,8 @@ mixin banner(src, col)
   script.
     var logo = document.getElementById('bannerImg');
     window.addEventListener('scroll', function() {
-        logo.style.marginTop = document.documentElement.scrollTop +'px';
-        logo.style.transform = 'rotate(' + document.documentElement.scrollTop * 3 +'deg)';
-        logo.style.webkitTransform = 'rotate(' + document.documentElement.scrollTop * 3 +'deg)';
+        var offset = window.scrollY || window.pageYOffset || document.body.scrollTop + (document.documentElement && document.documentElement.scrollTop || 0);
+        logo.style.marginTop = offset +'px';
+        logo.style.transform = 'rotate(' + offset * 3 +'deg)';
+        logo.style.webkitTransform = 'rotate(' + offset * 3 +'deg)';
     });
