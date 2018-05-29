@@ -295,16 +295,8 @@ body{
   height: 100%;
 }
 
-#app{
-  max-width: 1564px;
-}
-
 .w3-container{
   min-height: 38vh;
-}
-
-.w3-content{
-  max-width: 1564px;
 }
 
 .header{
