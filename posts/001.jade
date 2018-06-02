@@ -4,11 +4,11 @@ extends ../layout
 include ../includes/definition
 include ../includes/appLink
 
-block content
-  
-  include ../includes/progressIndicator
-  
+block header
   +banner(baseURL+'/images/posts/rmab.png', '#7fffd4')
+  include ../includes/progressIndicator
+
+block content
 
   div.w3-container
     h3.w3-border-bottom.w3-border-light-grey.w3-padding-16 Rapid Mobile App Bodging
