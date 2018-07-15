@@ -1,0 +1,14 @@
+//output:002.html, pretty:false
+extends ../layout
+
+block header
+  +banner(baseURL+'/images/posts/lock.png', '#FFEC47')
+  include ../includes/progressIndicator
+
+block content
+
+  div.w3-container
+    h3.w3-border-bottom.w3-border-light-grey.w3-padding-16 CTF Puzzle!
+
+    p Recenlty I've been playing Capture The Flag (CTF) style puzzles. These involve using technical knowlege to derive a hidden message. This can include breaking encrytions, exploiting program / file type flaws, reverse engineering and general intuitive problem solving. Google has a great #[a(href="https://capturetheflag.withgoogle.com/", target="_blank") website] that offers these puzzles as educational exercise at begginer and competition levels. 
+    p Here's my go at crafting one of these puzzles: #[a(href=baseURL+"/misc/CTF/index.html") CTF], think you can decrypt the message? - The puzzle has perfect information, good luck!
