@@ -1822,7 +1822,7 @@ blockquote input:checked+div {
 }
 
 .container-row .w3-display-container {
-  min-width: 220px;
+  min-width: 100px;
 }
 
 @media only screen and (max-width: 800px) {
