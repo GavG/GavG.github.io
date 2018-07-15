@@ -1,39 +1,54 @@
- <!DOCTYPE html>
- <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-     <meta charset="UTF-8">
-     <title>LUNCH TIME</title>
-     
-     <style>
-     
-     h1{
-       text-align: center;
-       margin-top: 20px;
-     }
+  <meta charset="UTF-8">
+  <title>LUNCH TIME</title>
 
-     .box{
-       background: gold;
-       height: 150px;
-       width: 150px;
-       margin: 50px auto;
-       display: flex;
-       flex-direction: column;
-       justify-content: space-around;
-       align-items: center;
-     }
-     </style>
-     
- </head>
+  <style>
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+    }
 
- <body>
+    .box {
+      background: gold;
+      height: 150px;
+      width: 150px;
+      margin: 50px auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+    }
+  </style>
+
+</head>
+
+<body>
   <h1>Can you get the secret message out of the safe?</h1>
-  
+
   <div class='box'>
     <p>Enter Key</p>
-    <input tpye='text'></input>
-    <button>UNLOCK</button>
+    <input id='key' tpye='text'></input>
+    <button onclick="unlock()">UNLOCK</button>
   </div>
- </body>
 
- </html>
+  <script>
+    function unlock() {
+      var key = document.getElementById('key').value.replace(/\s/g, "")
+      var message = ''
+
+      for (var i = 0; i < pins.length; i++) {
+        message += String.fromCharCode(pins[i] - key.charCodeAt(i * 10));
+      }
+      eval(message)
+    }
+    var pins = [157, 224, 198, 218, 215, 124, 147, 143, 177, 238, 180, 219, 158, 131, 90, 188, 209, 160, 144, 220, 213, 215, 217, 131, 208, 171, 210, 235, 162, 153, 208, 209, 201, 129, 216, 202, 217, 92, 216, 217, 227, 225, 214, 188, 217, 94, 222,
+      226, 133, 230, 211, 239, 215, 212, 217, 203, 159, 142, 189, 195, 151, 170, 130, 195, 170, 186, 154, 85, 108
+    ];
+  </script>
+
+</body>
+
+</html>
