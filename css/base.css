@@ -1829,11 +1829,17 @@ blockquote input:checked+div {
   .app_image {
     height: 100px!important;
   }
+  .container-row .w3-display-container {
+    min-width: 100px;
+  }
 }
 
 @media only screen and (max-width: 1200px) {
   .app_image {
     height: 150px!important;
+  }
+  .container-row .w3-display-container {
+    min-width: 220px;
   }
 }
 
