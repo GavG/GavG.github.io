@@ -10,6 +10,6 @@ block content
   div.w3-content.w3-padding
     div(id="posts").w3-container.w3-padding-32
       h3.w3-border-bottom.w3-border-light-grey.w3-padding-16 Recent Posts
-
-      +postLink(baseURL+'/posts/001.html', 'Rapid Mobile App Bodging', baseURL+'/images/posts/rmab.png')
-      +postLink(baseURL+'/posts/002.html', 'CTF Puzzle', baseURL+'/images/posts/lock.png')
+      div.container-row
+        +postLink(baseURL+'/posts/001.html', 'Rapid Mobile App Bodging', baseURL+'/images/posts/rmab.png')
+        +postLink(baseURL+'/posts/002.html', 'CTF Puzzle', baseURL+'/images/posts/lock.png')
