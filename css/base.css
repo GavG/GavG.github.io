@@ -1793,7 +1793,7 @@ a {
 }
 
 .app_image {
-  width: 200px!important;
+  height: 200px!important;
 }
 
 blockquote {
@@ -1827,13 +1827,13 @@ blockquote input:checked+div {
 
 @media only screen and (max-width: 800px) {
   .app_image {
-    width: 100px!important;
+    height: 100px!important;
   }
 }
 
 @media only screen and (max-width: 1200px) {
   .app_image {
-    width: 150px!important;
+    height: 150px!important;
   }
 }
 
@@ -1996,9 +1996,4 @@ footer div {
   stroke: #b3b3b3;
   stroke-dasharray: 126;
   stroke-dashoffset: 126;
-}
-
-.post-img {
-  height: 50px;
-  width: auto;
 }
