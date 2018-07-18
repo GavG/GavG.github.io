@@ -156,6 +156,7 @@
       timeout = setTimeout(function() {
         beep_interval = setInterval(function() {
           beep.play();
+          window.navigator.vibrate(200);
           document.body.style.backgroundColor = (i + 1) % 2 ? '#F00' : bg_col;
           i++;
           if (i > 9) {
