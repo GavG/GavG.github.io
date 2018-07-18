@@ -12,14 +12,20 @@
       width: 100%;
       padding: 0;
       margin: 0;
-      font-family: fantasy, Papyrus;
+      font-family: fantasy, Papyrus, Droid Sans;
       color: #FFF;
+    }
+
+    html {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
 
     body {
       background-color: #45437d;
       display: flex;
-      height: 100vh;
+      flex-grow: 1;
       flex-direction: column;
     }
 
@@ -86,6 +92,7 @@
       justify-content: space-around;
       flex-wrap: wrap;
       margin: auto;
+      max-width: 800px;
     }
   </style>
 
