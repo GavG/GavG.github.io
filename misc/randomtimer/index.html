@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RANDOM TIMER</title>
+  <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
 
   <style>
     body,
@@ -29,20 +30,24 @@
       min-height: 600px;
     }
 
+    #app,
+    input {
+      font-family: 'Permanent Marker', fantasy, Papyrus;
+    }
+
     #app {
-      font-family: fantasy, Papyrus, Droid Sans, Arial;
-      margin: auto;
       width: 100%;
       text-align: center;
       display: flex;
       flex-grow: 1;
       flex-direction: column;
       justify-content: space-around;
+      align-items: center;
     }
 
     h1 {
       text-align: center;
-      margin: 40px auto;
+      font-size: 100px;
     }
 
     h2 {
@@ -64,7 +69,6 @@
       color: #FFF;
       border-radius: 5px;
       display: block;
-      margin: 40px auto;
       outline: none;
       border: none;
     }
@@ -91,8 +95,14 @@
       flex-direction: row;
       justify-content: space-around;
       flex-wrap: wrap;
-      margin: auto;
+      align-items: center;
       max-width: 800px;
+    }
+
+    @media only screen and (max-width: 800px) {
+      h1 {
+        font-size: 40px;
+      }
     }
   </style>
 
