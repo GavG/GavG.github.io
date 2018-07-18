@@ -108,13 +108,68 @@
         font-size: 40px;
       }
     }
+
+    @keyframes flickerAnimation {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @-o-keyframes flickerAnimation {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @-moz-keyframes flickerAnimation {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @-webkit-keyframes flickerAnimation {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .animate-flicker {
+      -webkit-animation: flickerAnimation 2s infinite;
+      -moz-animation: flickerAnimation 2s infinite;
+      -o-animation: flickerAnimation 2s infinite;
+      animation: flickerAnimation 2s infinite;
+    }
   </style>
 
 </head>
 
 <body>
   <div id='app'>
-    <h1>Random Timer</h1>
+    <h1 id='title'>Random Timer</h1>
 
     <div class='wide'>
       <div class='dashed border-red'>
@@ -136,7 +191,9 @@
 
   <script>
     var timeout;
+    var beep_interval;
     var go_button = document.getElementById('go');
+    var title = document.getElementById('title');
     var go_str = 'GO!';
     var stop_str = 'STOP!';
     var bg_col = '#45437d';
@@ -152,9 +209,13 @@
       if (go_button.value == go_str) {
         go_button.value = stop_str;
         go_button.style.backgroundColor = '#C55';
+        title.classList.add('animate-flicker');
       } else {
+        clearInterval(beep_interval);
         go_button.value = go_str;
         go_button.style.backgroundColor = '#5C5';
+        document.body.style.backgroundColor = bg_col;
+        title.classList.remove('animate-flicker');
         return false;
       }
 
@@ -162,7 +223,6 @@
       var min_time = parseInt((document.getElementById('mintime_mins').value * 60) + document.getElementById('mintime_secs').value);
 
       var time = (Math.floor(Math.random() * (max_time - min_time + 1)) + min_time) * 1000;
-      var beep_interval;
       var i = 0;
 
       console.log(time)
@@ -170,6 +230,7 @@
       timeout = setTimeout(function() {
         beep_interval = setInterval(function() {
           beep.play();
+          title.classList.remove('animate-flicker');
           window.navigator.vibrate(200);
           document.body.style.backgroundColor = (i + 1) % 2 ? '#F00' : bg_col;
           i++;
