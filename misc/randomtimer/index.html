@@ -224,13 +224,12 @@
 
     go_button.addEventListener('click', function() {
 
-      clearTimeout(timeout);
-
       if (go_button.value == go_str) {
         go_button.value = stop_str;
         go_button.style.backgroundColor = red;
         title.classList.add('animate-flicker');
       } else {
+        clearTimeout(timeout);
         clearInterval(beep_interval);
         go_button.value = go_str;
         go_button.style.backgroundColor = green;
@@ -248,6 +247,7 @@
       console.log(time)
 
       timeout = setTimeout(function() {
+        beep.play();
         beep_interval = setInterval(function() {
           beep.play();
           title.classList.remove('animate-flicker');
