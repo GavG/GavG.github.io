@@ -1,9 +1,9 @@
 {
   "short_name": "RT",
   "name": "Random Timer",
-  "background_color": "#472ed1",
+  "background_color": "#062868",
   "display": "standalone",
-  "theme_color": "#472ed1",
+  "theme_color": "#062868",
   "icons": [{
       "src": "icon-192.png",
       "type": "image/png",
