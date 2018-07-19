@@ -8,9 +8,8 @@
       "sizes": "192x192"
     }
   ],
-  "start_url": "index.html",
-  "background_color": "rgba(71, 46, 209, 1)",
+  "background_color": "#472ed1",
   "display": "standalone",
   "scope": "/",
-  "theme_color": "rgba(71, 46, 209, 1)"
+  "theme_color": "#472ed1"
 }
