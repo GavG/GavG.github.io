@@ -251,7 +251,9 @@
         beep_interval = setInterval(function() {
           beep.play();
           title.classList.remove('animate-flicker');
-          window.navigator.vibrate(200);
+          if (typeof window.navigator.vibrate === "function") {
+            window.navigator.vibrate(200);
+          }
           if (i % 2) {
             document.body.classList.add('red')
           } else {
