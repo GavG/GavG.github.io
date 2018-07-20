@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="theme-color" content="#062868" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -24,16 +25,13 @@
     }
 
     html {
-      display: flex;
-      flex-direction: column;
+      overflow: hidden;
     }
 
     body {
+      overflow: auto;
       background: rgb(0, 57, 122);
       background: linear-gradient(90deg, rgba(0, 57, 122, 1) 0%, rgba(69, 56, 173, 1) 50%, rgba(71, 46, 209, 1) 100%);
-      display: flex;
-      flex-grow: 1;
-      flex-direction: column;
     }
 
     body.red {
@@ -60,9 +58,9 @@
 
     #app {
       width: 100%;
+      height: 100%;
       text-align: center;
       display: flex;
-      flex-grow: 1;
       flex-direction: column;
       justify-content: space-around;
       align-items: center;
@@ -80,6 +78,7 @@
     #go {
       width: 200px;
       height: 50px;
+      margin: 0;
       background-color: #5C5;
       font-size: 150%;
       color: #FFF;
