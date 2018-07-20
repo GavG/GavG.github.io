@@ -250,19 +250,20 @@
       var min_time = parseInt((document.getElementById('mintime_mins').value * 60) + document.getElementById('mintime_secs').value);
 
       var time = (Math.floor(Math.random() * (max_time - min_time + 1)) + min_time) * 1000;
-      var i = 0;
 
       console.log(time)
 
-      timeout = setTimeout(function() {
-
-        if (is_safari) {
-          for (var j = 0; j < 11; j++) {
-            setTimeout(function() {
-              beep.play()
-            }, j * 500)
-          }
+      if (is_safari) {
+        //safari's user intent delegation game is poor...
+        s_time = time
+        for (var s = 0; s < 11; s++) {
+          setTimeout('beep.play()', s_time);
+          s_time += 500;
         }
+      }
+
+      var i = 0;
+      timeout = setTimeout(function() {
 
         beep_interval = setInterval(function() {
           if (!is_safari) {
