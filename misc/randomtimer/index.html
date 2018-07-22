@@ -78,6 +78,7 @@
     #go {
       width: 200px;
       height: 50px;
+      min-height: 50px;
       margin: 20px 0;
       background-color: #5C5;
       font-size: 150%;
@@ -130,6 +131,12 @@
       }
       input {
         margin: 5px;
+      }
+    }
+
+    @media only screen and (max-height: 600px) and (max-width: 440px) {
+      .wide {
+        min-height: 400px;
       }
     }
 
