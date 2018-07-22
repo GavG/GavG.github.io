@@ -245,7 +245,7 @@
           <button class='sec' onclick="quickset_max(0, 30)">30s</button>
           <button class='sec' onclick="quickset_max(0, 10)">10s</button>
         </div>
-        <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_mins" placeholder="0" oninput="maxtime_secs.placeholder='0'" /> mins
+        <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_mins" placeholder="0" /> mins
         <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_secs" placeholder="0" /> secs
       </div>
 
@@ -262,7 +262,7 @@
       </div>
     </div>
 
-    <input type='submit' id="go" value='GO!' />
+    <input type='submit' id="go" value='GO!' disabled/>
 
   </div>
 
