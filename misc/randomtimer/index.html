@@ -204,14 +204,14 @@
     <div class='wide'>
       <div class='dashed border-red'>
         <h2>Max Time</h2>
-        <input type="number" min="0" step="1" id="maxtime_mins" placeholder="0" oninput="maxtime_secs.placeholder='0'" /> mins
-        <input type="number" min="0" step="1" id="maxtime_secs" placeholder="30" /> secs
+        <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_mins" placeholder="0" oninput="maxtime_secs.placeholder='0'" /> mins
+        <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_secs" placeholder="30" /> secs
       </div>
 
       <div class='dashed border-green'>
         <h2>Min Time</h2>
-        <input type="number" min="0" step="1" id="mintime_mins" placeholder="0" /> mins
-        <input type="number" min="0" step="1" id="mintime_secs" placeholder="0" /> secs
+        <input type="number" min="0" step="1" oninput="numcheck(this)" id="mintime_mins" placeholder="0" /> mins
+        <input type="number" min="0" step="1" oninput="numcheck(this)" id="mintime_secs" placeholder="0" /> secs
       </div>
     </div>
 
@@ -220,6 +220,11 @@
   </div>
 
   <script>
+    function numcheck(input) {
+      input.value = input.value.replace(/\D/g, '');
+      console.log(input.value)
+    }
+
     function preload_vals(val_names) {
       for (var pv = 0; pv < val_names.length; pv++) {
         var val = localStorage.getItem(val_names[pv]);
@@ -277,15 +282,10 @@
 
       var [maxtime_mins, maxtime_secs, mintime_mins, mintime_secs] = get_vals(storables);
 
-      var maxtime = Math.abs(parseInt((maxtime_mins * 60) + maxtime_secs));
-      var mintime = Math.abs(parseInt((mintime_mins * 60) + mintime_secs)) + 1;
+      var maxtime = parseInt((maxtime_mins * 60) + maxtime_secs) || 30;
+      var mintime = parseInt((mintime_mins * 60) + mintime_secs) + 1;
 
-      if (mintime > maxtime) {
-        alert("The minimum time must be less than the maximum time!");
-        return false;
-      }
-
-      var time = (Math.floor(Math.random() * ((maxtime || 30) - mintime)) + mintime) * 1000;
+      var time = Math.abs(Math.floor(Math.random() * (maxtime - mintime)) + mintime) * 1000;
 
       console.log("randtime: " + time);
 
