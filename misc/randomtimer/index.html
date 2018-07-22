@@ -51,7 +51,8 @@
     }
 
     #app,
-    #go {
+    #go,
+    .quick-row button {
       font-family: 'Permanent Marker', fantasy, Papyrus;
       -webkit-appearance: none;
     }
@@ -72,7 +73,7 @@
     }
 
     h2 {
-      margin-top: 20px;
+      margin: 10px 0;
     }
 
     #go {
@@ -87,6 +88,15 @@
       display: block;
       outline: none;
       border: none;
+    }
+
+    #go.running {
+      background-color: #C55;
+    }
+
+    #go:not(.running):disabled {
+      background-color: #666;
+      color: #999;
     }
 
     .dashed {
@@ -114,6 +124,31 @@
       align-items: center;
       max-width: 800px;
       margin: auto 0;
+    }
+
+    .quick-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin: 10px 0;
+    }
+
+    .quick-row button {
+      border-radius: 5px;
+      border: none;
+      color: #FFF;
+    }
+
+    .quick-row button.min {
+      background-color: #55C;
+    }
+
+    .quick-row button.sec {
+      background-color: #99F;
+    }
+
+    .invalid {
+      background-color: #C55;
     }
 
     @media only screen and (max-width: 800px) {
@@ -204,12 +239,24 @@
     <div class='wide'>
       <div class='dashed border-red'>
         <h2>Max Time</h2>
+        <div class='quick-row'>
+          <button class='min' onclick="quickset_max(2 ,0)">2m</button>
+          <button class='min' onclick="quickset_max(1 ,0)">1m</button>
+          <button class='sec' onclick="quickset_max(0, 30)">30s</button>
+          <button class='sec' onclick="quickset_max(0, 10)">10s</button>
+        </div>
         <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_mins" placeholder="0" oninput="maxtime_secs.placeholder='0'" /> mins
-        <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_secs" placeholder="30" /> secs
+        <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_secs" placeholder="0" /> secs
       </div>
 
       <div class='dashed border-green'>
         <h2>Min Time</h2>
+        <div class='quick-row'>
+          <button class='min' onclick="quickset_min(1 ,0)">1m</button>
+          <button class='sec' onclick="quickset_min(0, 30)">30s</button>
+          <button class='sec' onclick="quickset_min(0, 10)">10s</button>
+          <button class='sec' onclick="quickset_min(0, 0)">0s</button>
+        </div>
         <input type="number" min="0" step="1" oninput="numcheck(this)" id="mintime_mins" placeholder="0" /> mins
         <input type="number" min="0" step="1" oninput="numcheck(this)" id="mintime_secs" placeholder="0" /> secs
       </div>
@@ -220,70 +267,106 @@
   </div>
 
   <script>
-    function numcheck(input) {
-      input.value = input.value.replace(/\D/g, '');
-      console.log(input.value)
-    }
-
-    function preload_vals(val_names) {
-      for (var pv = 0; pv < val_names.length; pv++) {
-        var val = localStorage.getItem(val_names[pv]);
-        if (val) {
-          document.getElementById(val_names[pv]).value = val;
-        }
-      }
-    }
-
-    function get_vals(val_names) {
-      var vals = [];
-      for (var gv = 0; gv < val_names.length; gv++) {
-        vals[gv] = document.getElementById(val_names[gv]).value;
-      }
-      return vals;
-    }
-
-    function store_vals(val_names) {
-      for (var sv = 0; sv < val_names.length; sv++) {
-        localStorage.setItem(val_names[sv], document.getElementById(val_names[sv]).value);
-      }
-    }
-
-    var storables = ['maxtime_mins', 'maxtime_secs', 'mintime_mins', 'mintime_secs'];
+    var maxmin_input = document.getElementById('maxtime_mins');
+    var maxsec_input = document.getElementById('maxtime_secs');
+    var minmin_input = document.getElementById('mintime_mins');
+    var minsec_input = document.getElementById('mintime_secs');
+    var go_button = document.getElementById('go');
+    var title = document.getElementById('title');
 
     var timeout;
     var beep_interval;
-    var go_button = document.getElementById('go');
-    var title = document.getElementById('title');
-    var green = '#5C5';
-    var red = '#C55';
     var go_str = 'GO!';
     var stop_str = 'STOP!';
     var is_safari = navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf('Chrome') == -1;
 
+    function quickset_max(mins, secs) {
+      maxmin_input.value = mins;
+      maxsec_input.value = secs;
+      comp_check();
+    }
+
+    function quickset_min(mins, secs) {
+      minmin_input.value = mins;
+      minsec_input.value = secs;
+      comp_check();
+    }
+
+    function numcheck(input) {
+      input.value = input.value.replace(/\D/g, '');
+      comp_check();
+    }
+
+    function comp_check() {
+      var comp = get_max_time() < get_min_time();
+      if (comp) {
+        maxmin_input.classList.add('invalid');
+        maxsec_input.classList.add('invalid');
+        if (!timeout) {
+          go_button.disabled = true;
+        }
+      } else {
+        maxmin_input.classList.remove('invalid');
+        maxsec_input.classList.remove('invalid');
+        go_button.disabled = false;
+      }
+      return comp;
+    }
+
+    function preload_vals() {
+      for (var pv = 0; pv < inputs.length; pv++) {
+        var val = localStorage.getItem(pv);
+        if (val) {
+          inputs[pv].value = val;
+        }
+      }
+    }
+
+    function store_vals() {
+      for (var sv = 0; sv < inputs.length; sv++) {
+        localStorage.setItem(sv, inputs[sv].value);
+      }
+    }
+
+    function get_max_time() {
+      return parseInt((maxmin_input.value * 60) + maxsec_input.value);
+    }
+
+    function get_min_time() {
+      return parseInt((minmin_input.value * 60) + minsec_input.value) + 1;
+    }
+
+    var inputs = [maxmin_input, maxsec_input, minmin_input, minsec_input];
+
     var beep = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU' + Array(1e3).join(123));
 
-    preload_vals(storables);
+    preload_vals();
 
     go_button.addEventListener('click', function() {
 
       if (go_button.value == go_str) {
+
+        if (comp_check()) {
+          return false;
+        }
+
         go_button.value = stop_str;
-        go_button.style.backgroundColor = red;
+        go_button.classList.add('running');
         title.classList.add('animate-flicker');
       } else {
         clearTimeout(timeout);
+        timeout = false;
         clearInterval(beep_interval);
         go_button.value = go_str;
-        go_button.style.backgroundColor = green;
+        go_button.classList.remove('running');
         document.body.classList.remove('red');
         title.classList.remove('animate-flicker');
+        comp_check();
         return false;
       }
 
-      var [maxtime_mins, maxtime_secs, mintime_mins, mintime_secs] = get_vals(storables);
-
-      var maxtime = parseInt((maxtime_mins * 60) + maxtime_secs) || 30;
-      var mintime = parseInt((mintime_mins * 60) + mintime_secs) + 1;
+      var maxtime = get_max_time();
+      var mintime = get_min_time();
 
       var time = Math.abs(Math.floor(Math.random() * (maxtime - mintime)) + mintime) * 1000;
 
@@ -317,14 +400,14 @@
           i++;
           if (i > 9) {
             go_button.value = go_str;
-            go_button.style.backgroundColor = green;
+            go_button.classList.remove('running');
             document.body.classList.remove('red');
             clearInterval(beep_interval);
           }
         }, 500)
       }, time);
 
-      store_vals(storables);
+      store_vals();
     })
   </script>
 
