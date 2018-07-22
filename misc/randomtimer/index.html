@@ -31,12 +31,12 @@
     body {
       overflow: auto;
       background: rgb(0, 57, 122);
-      background: linear-gradient(90deg, rgba(0, 57, 122, 1) 0%, rgba(69, 56, 173, 1) 50%, rgba(71, 46, 209, 1) 100%);
+      background: linear-gradient(0deg, rgba(0, 57, 122, 1) 0%, rgba(69, 56, 173, 1) 50%, rgba(71, 46, 209, 1) 100%);
     }
 
     body.red {
       background: rgb(122, 0, 0);
-      background: linear-gradient(90deg, rgba(122, 0, 0, 1) 0%, rgba(173, 56, 56, 1) 50%, rgba(209, 63, 46, 1) 100%);
+      background: linear-gradient(0deg, rgba(122, 0, 0, 1) 0%, rgba(173, 56, 56, 1) 50%, rgba(209, 63, 46, 1) 100%);
     }
 
     input {
@@ -197,7 +197,7 @@
     <div class='wide'>
       <div class='dashed border-red'>
         <h2>Max Time</h2>
-        <input type="number" min="0" step="1" id="maxtime_mins" placeholder="0" /> mins
+        <input type="number" min="0" step="1" id="maxtime_mins" placeholder="0" oninput="maxtime_secs.placeholder='0'" /> mins
         <input type="number" min="0" step="1" id="maxtime_secs" placeholder="30" /> secs
       </div>
 
@@ -243,10 +243,10 @@
         return false;
       }
 
-      var max_time = parseInt((document.getElementById('maxtime_mins').value * 60) + document.getElementById('maxtime_secs').value) || 30;
+      var max_time = parseInt((document.getElementById('maxtime_mins').value * 60) + document.getElementById('maxtime_secs').value);
       var min_time = parseInt((document.getElementById('mintime_mins').value * 60) + document.getElementById('mintime_secs').value);
 
-      var time = (Math.floor(Math.random() * (max_time - min_time + 1)) + min_time) * 1000;
+      var time = (Math.floor(Math.random() * ((max_time || 30) - min_time + 1)) + min_time) * 1000;
 
       console.log(time)
 
