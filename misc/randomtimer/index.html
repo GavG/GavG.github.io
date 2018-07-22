@@ -292,7 +292,7 @@
     }
 
     function numcheck(input) {
-      input.value = input.value.replace(/\D/g, '');
+      input.value = parseInt(input.value.replace(/\D/g, ''), 10);
       comp_check();
     }
 
@@ -329,11 +329,11 @@
     }
 
     function get_max_time() {
-      return (parseInt(maxmin_input.value) * 60) + parseInt(maxsec_input.value);
+      return (parseInt(maxmin_input.value || 0, 10) * 60) + parseInt(maxsec_input.value || 0, 10);
     }
 
     function get_min_time() {
-      return (parseInt(minmin_input.value) * 60) + parseInt(minsec_input.value) + 1;
+      return (parseInt(minmin_input.value || 0, 10) * 60) + parseInt(minsec_input.value || 0, 10) + 1;
     }
 
     var inputs = [maxmin_input, maxsec_input, minmin_input, minsec_input];
@@ -367,6 +367,9 @@
 
       var maxtime = get_max_time();
       var mintime = get_min_time();
+
+      console.log("MAX: " + maxtime)
+      console.log("MIN: " + mintime)
 
       var time = Math.abs(Math.floor(Math.random() * (maxtime - mintime)) + mintime) * 1000;
 
