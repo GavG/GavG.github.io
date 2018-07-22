@@ -329,11 +329,11 @@
     }
 
     function get_max_time() {
-      return parseInt((maxmin_input.value * 60) + maxsec_input.value);
+      return (parseInt(maxmin_input.value) * 60) + parseInt(maxsec_input.value);
     }
 
     function get_min_time() {
-      return parseInt((minmin_input.value * 60) + minsec_input.value) + 1;
+      return (parseInt(minmin_input.value) * 60) + parseInt(minsec_input.value) + 1;
     }
 
     var inputs = [maxmin_input, maxsec_input, minmin_input, minsec_input];
