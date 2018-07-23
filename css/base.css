@@ -1818,6 +1818,7 @@ blockquote input:checked+div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  flex-wrap: wrap;
   -ms-flex-pack: distribute;
   justify-content: space-around;
 }
@@ -1838,6 +1839,12 @@ blockquote input:checked+div {
   }
   .container-row .w3-display-container {
     min-width: 100px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .post-link {
+    width: 50%;
   }
 }
 
