@@ -1841,12 +1841,6 @@ blockquote input:checked+div {
   }
 }
 
-@media only screen and (max-width: 700px) {
-  .app_image {
-    height: 50px;
-  }
-}
-
 a {
   z-index: 3;
 }
