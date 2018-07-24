@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1">
-  <meta name="theme-color" content="#062868" />
+  <meta name="theme-color" content="#472ed1" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
@@ -30,7 +30,7 @@
     body {
       font-size: 25px;
       overflow: auto;
-      background: rgb(0, 57, 122);
+      background: #472ed1;
       background: linear-gradient(0deg, rgba(0, 57, 122, 1) 0%, rgba(69, 56, 173, 1) 50%, rgba(71, 46, 209, 1) 100%);
     }
 
@@ -330,6 +330,9 @@
     var go_button = document.getElementById('go');
     var title = document.getElementById('title');
 
+    var red = '#7a0000';
+    var blue = '#472ed1';
+
     var timeout;
     var beep_interval;
     var go_str = 'GO!';
@@ -454,8 +457,10 @@
           }
           if (i % 2) {
             document.body.classList.add('red')
+            document.querySelector('meta[name="description"]').setAttribute("content", blue);
           } else {
             document.body.classList.remove('red')
+            document.querySelector('meta[name="description"]').setAttribute("content", red);
           }
           i++;
           if (i > 9) {
