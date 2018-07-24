@@ -456,16 +456,17 @@
             window.navigator.vibrate(200);
           }
           if (i % 2) {
-            document.body.classList.add('red')
             document.querySelector('meta[name="theme-color"]').setAttribute("content", red);
+            document.body.classList.add('red')
           } else {
-            document.body.classList.remove('red')
             document.querySelector('meta[name="theme-color"]').setAttribute("content", blue);
+            document.body.classList.remove('red')
           }
           i++;
           if (i > 9) {
             go_button.value = go_str;
             go_button.classList.remove('running');
+            document.querySelector('meta[name="theme-color"]').setAttribute("content", blue);
             document.body.classList.remove('red');
             clearInterval(beep_interval);
           }
