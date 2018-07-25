@@ -46,7 +46,10 @@
       border-radius: 5px;
       width: 20px;
       text-align: center;
-      font-size: 50%;
+    }
+    
+    input, .quick-row button {
+      font-size: 12px;
     }
 
     #app,
@@ -73,6 +76,7 @@
 
     h2 {
       margin: 10px 0;
+      margin-top: 0px;
     }
 
     input[type='number'] {
@@ -141,6 +145,7 @@
       border: none;
       color: #FFF;
       font-size: 50%;
+      width: 30px;
     }
 
     .quick-row button.min {
@@ -153,6 +158,10 @@
 
     .invalid {
       background-color: #C55;
+    }
+    
+    label {
+      margin: auto 5px;
     }
 
     @media only screen and (min-width: 800px) {
@@ -181,6 +190,9 @@
       input[type='number'] {
         width: 40px;
       }
+      .quick-row button {
+        width: 40px;
+      }
     }
 
     @media only screen and (min-width: 1200px) {
@@ -194,6 +206,12 @@
         font-size: 50px;
         height: 80px;
         width: 220px;
+      }
+      input, .quick-row button {
+        font-size: 20px;
+      }
+      .quick-row button {
+        width: 50px;
       }
     }
 
@@ -302,7 +320,7 @@
           <button class='sec' onclick="quickset_max(0, 10)">10s</button>
         </div>
         <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_mins" placeholder="0" /><label class="units" for="maxtime_mins">mins</label>
-        <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_secs" placeholder="0" /> secs
+        <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_secs" placeholder="0" /><label class="units" for="maxtime_secs">secs</label>
       </div>
 
       <div class='dashed border-green'>
@@ -313,8 +331,8 @@
           <button class='sec' onclick="quickset_min(0, 10)">10s</button>
           <button class='sec' onclick="quickset_min(0, 0)">0s</button>
         </div>
-        <input type="number" min="0" step="1" oninput="numcheck(this)" id="mintime_mins" placeholder="0" /> mins
-        <input type="number" min="0" step="1" oninput="numcheck(this)" id="mintime_secs" placeholder="0" /> secs
+        <input type="number" min="0" step="1" oninput="numcheck(this)" id="mintime_mins" placeholder="0" /><label class="units" for="mintime_mins">mins</label>
+        <input type="number" min="0" step="1" oninput="numcheck(this)" id="mintime_secs" placeholder="0" /><label class="units" for="mintime_mins">secs</label>
       </div>
     </div>
 
