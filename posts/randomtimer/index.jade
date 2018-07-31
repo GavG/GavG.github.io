@@ -1,12 +1,16 @@
 //output:index.html, pretty:false
 extends ../../layout
 
+block meta
+  meta(property="og:type" content="article")
+  meta(property="og:image" content=baseURL+'/misc/randomtimer/icon.png')
+
 block header
   +banner(baseURL+'/misc/randomtimer/icon.png', '#5C5')
 
 block content
 
-  div.w3-container
+  article.w3-container
     h3.w3-border-bottom.w3-border-light-grey.w3-padding-16 Random Timer
 
     p Ever needed a random timer for a game or some other application? Here you go! 

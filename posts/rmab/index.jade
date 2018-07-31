@@ -1,16 +1,20 @@
-//output:001.html, pretty:false
-extends ../layout
+//output:index.html, pretty:false
+extends ../../layout
 
-include ../includes/definition
-include ../includes/appLink
+include ../../includes/definition
+include ../../includes/appLink
+
+block meta
+  meta(property="og:type" content="article")
+  meta(property="og:image" content=baseURL+'/images/posts/rmab.png')
 
 block header
   +banner(baseURL+'/images/posts/rmab.png', '#7fffd4')
-  include ../includes/progressIndicator
+  include ../../includes/progressIndicator
 
 block content
 
-  div.w3-container
+  article.w3-container
     h3.w3-border-bottom.w3-border-light-grey.w3-padding-16 Rapid Mobile App Bodging
     
     p Often there are times when you need to create a solution to a problem but don't have the necessary time to do a proper job from scratch or simply can't be bothered either because it's boring and laborious or you've simply got better things to do. Hence the concept of the 'bodge' came into being.

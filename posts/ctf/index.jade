@@ -1,13 +1,18 @@
 //output:index.html, pretty:false
 extends ../../layout
 
+block meta
+  meta(property="og:type" content="article")
+  meta(property="og:image" content=baseURL+'/images/posts/lock.png')
+
+
 block header
   +banner(baseURL+'/images/posts/lock.png', '#FFEC47')
   include ../../includes/progressIndicator
 
 block content
 
-  div.w3-container
+  article.w3-container
     h3.w3-border-bottom.w3-border-light-grey.w3-padding-16 CTF Puzzle!
 
     p Recenlty I've been playing Capture The Flag (CTF) style puzzles. These involve using technical knowlege to derive a hidden message. This can include breaking encrytions, exploiting program / file type flaws, reverse engineering and general intuitive problem solving. Google has a great #[a(href="https://capturetheflag.withgoogle.com/", target="_blank") website] that offers these puzzles as educational exercises at begginer and competition levels. 
