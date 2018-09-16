@@ -12,12 +12,15 @@
   <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
 
   <title>RANDOM TIMER</title>
-  
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
     gtag('js', new Date());
 
     gtag('config', 'UA-123089114-1');
@@ -58,8 +61,13 @@
       width: 20px;
       text-align: center;
     }
-    
-    input, .quick-row button {
+
+    button {
+      cursor: pointer;
+    }
+
+    input,
+    .quick-row button {
       font-size: 12px;
     }
 
@@ -170,7 +178,7 @@
     .invalid {
       background-color: #C55;
     }
-    
+
     label {
       margin: auto 5px;
     }
@@ -218,7 +226,8 @@
         height: 80px;
         width: 220px;
       }
-      input, .quick-row button {
+      input,
+      .quick-row button {
         font-size: 20px;
       }
       .quick-row button {

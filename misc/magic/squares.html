@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Squares</title>
+  <meta name="description" content="DESCRIPTION">
+  <link rel="stylesheet" href="PATH">
+
+  <style media="screen">
+    table {
+      border-collapse: collapse;
+    }
+
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+
+    td {
+      width: 60px;
+      height: 60px;
+      padding: 10px;
+      font-size: 30px;
+      text-align: center;
+      vertical-align: middle;
+    }
+  </style>
+
+  <!--[if lt IE 9]>
+       <script src = "http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+     <![endif]-->
+</head>
+
+<body>
+
+  <table>
+    <tr id='l1'>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr id='l2'>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr id='l3'>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+
+  <button onclick='run()'>Go</button>
+
+  <script type="text/javascript">
+    var l1 = [0, 1, 2];
+    var l2 = [3, 4, 5];
+    var l3 = [6, 7, 8];
+
+    var tr_l1 = document.getElementById('l1');
+    var tr_l2 = document.getElementById('l2');
+    var tr_l3 = document.getElementById('l3');
+
+    function draw() {
+      tr_l1.innerHTML = tr(l1);
+      tr_l2.innerHTML = tr(l2);
+      tr_l3.innerHTML = tr(l3);
+    }
+
+    function tr(l) {
+      return "<tr>" + td(l[0]) + td(l[1]) + td(l[2]) + "</tr>";
+    }
+
+    function td(v) {
+      return "<td>" + v + "</td>"
+    }
+
+    function check() {
+
+      //horizontals
+      target = s_sum(l1)
+      if (s_sum(l2) != target) {
+        return false;
+      }
+      if (s_sum(l3) != target) {
+        return false;
+      }
+
+      //verticles
+      if (s_sum([l1[0], l2[0], l3[0]]) != target) {
+        return false;
+      }
+      if (s_sum([l1[1], l2[1], l3[1]]) != target) {
+        return false;
+      }
+      if (s_sum([l1[2], l2[2], l3[2]]) != target) {
+        return false;
+      }
+
+      //diagonals
+      if (s_sum([l1[0], l2[1], l3[2]]) != target) {
+        return false;
+      }
+      if (s_sum([l1[2], l2[1], l3[0]]) != target) {
+        return false;
+      }
+    }
+
+    function s_sum(l) {
+      return (l[0] * l[0]) + (l[1] * l[1]) + (l[2] * l[2]);
+    }
+
+    function randomate() {
+      var a = []
+      while (a.length < 9) {
+        var r = Math.floor(Math.random() * 1000000);
+        if (a.indexOf(r) > -1) continue;
+        a[a.length] = r;
+      }
+      l1 = a.splice(0, 3)
+      l2 = a.splice(0, 3)
+      l3 = a.splice(0, 3)
+    }
+
+    var t;
+
+    function run() {
+      t = setTimeout(function() {
+        randomate()
+        draw()
+        if (!check()) {
+          run()
+        } else {
+          console.log(l1);
+          console.log(l2);
+          console.log(l3);
+          alert('WIN!');
+        }
+      }, 1)
+    }
+  </script>
+
+</body>
+
+</html>
