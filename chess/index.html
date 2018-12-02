@@ -46,6 +46,14 @@
       color: #f9f9f9;
     }
 
+    td.h:after {
+      content: '';
+      background-color: #33889955;
+      width: 12vh;
+      height: 12vh;
+      display: table-cell;
+    }
+
     td.R:after {
       content: '\265C';
     }
@@ -70,14 +78,15 @@
       content: '\265F';
     }
 
-    td.a {
-      outline: solid #ff9900 2px;
-    }
-
     td:after {
       top: 0;
+      background-color: transparent;
       position: relative;
       transition: all 0.2s ease-in-out;
+    }
+
+    td.a {
+      background-color: #ff9900 !important;
     }
 
     td.y-1:after {
@@ -227,24 +236,30 @@
   const white = 'w';
   const black = 'b';
   const active_class = 'a';
+  const highlighted_class = 'h';
 
   var board = document.getElementById('board');
   var cells = board.getElementsByTagName('td');
-  var active_cell;
+  var active_cell = null;
   var turn = white;
   var highlighted_cells = [];
 
   board.addEventListener('click', function(event) {
     cell = event.target;
 
-    if (active_cell) {
-      movePiece(active_cell, cell)
+    if (active_cell && isHighlightedCell(cell)) {
+      var target_cell = active_cell;
+      clearActiveCell();
+      clearHighlightedCells();
+      movePiece(target_cell, cell)
+      return turn = (turn == white) ? black : white;
     }
 
     if (isPlayablePiece(cell)) {
       setActiveCell(cell);
     } else {
       clearActiveCell();
+      clearHighlightedCells();
     }
   })
 
@@ -253,7 +268,10 @@
   }
 
   function clearActiveCell() {
-    setInactiveCell(active_cell);
+    if (active_cell) {
+      active_cell.classList.remove(active_class);
+      active_cell = null;
+    }
   }
 
   function setActiveCell(cell) {
@@ -261,33 +279,36 @@
     if (active_cell != cell) {
       active_cell = cell;
       cell.classList.add(active_class);
-      highlightCells(viableCells(cell))
+      highlightCells(viableCells(cell));
     } else {
       active_cell = null;
     }
   }
 
-  function setInactiveCell(cell) {
-    if (cell) cell.classList.remove(active_class);
+  function highlightCells(cells = []) {
+    clearHighlightedCells();
+    highlighted_cells = cells;
+    for (var i = 0; i < cells.length; i++) {
+      cells[i].classList.add(highlighted_class);
+    }
   }
 
-  function highlightCells(cells = []) {
+  function clearHighlightedCells() {
     dehighlightCells(highlighted_cells);
-    if (highlighted_cells != cells) {
-      for (var i = 0; i < cells.length; i++) {
-        cells[i].classList.add(highlighted_class)
-      }
-    }
   }
 
   function dehighlightCells(cells = []) {
     for (var i = 0; i < cells.length; i++) {
-      cells[i].classList.remove(highlighted_class)
+      cells[i].classList.remove(highlighted_class);
     }
   }
 
+
+  function isHighlightedCell(cell) {
+    if (cell) return cell.classList.contains(highlighted_class);
+  }
+
   function movePiece(current_cell, new_cell) {
-    clearActiveCell();
     var base_class_list = [].slice.call(current_cell.classList);
     var x = new_cell.cellIndex - current_cell.cellIndex
     var y = new_cell.parentNode.rowIndex - current_cell.parentNode.rowIndex;
@@ -299,8 +320,6 @@
       new_cell.classList.add(...base_class_list);
       current_cell.classList = [];
     }, 200)
-
-    turn = (turn == white) ? black : white;
   }
 
   function is_white(cell) {
@@ -312,12 +331,35 @@
   }
 
   function viableCells(cell) {
-    console.log(is_white(cell));
+
+    var cell_is_white = is_white(cell);
+    var cell_is_black = is_black(cell);
+
     if (cell.classList.contains('P')) {
-      if ((is_black(cell) && cell.parentNode.rowIndex == 2) || (is_white(cell) && cell.parentNode.rowIndex == 6)) {
-        console.log(cell)
+      if ((cell_is_black && cell.parentNode.rowIndex == 1) || (cell_is_white && cell.parentNode.rowIndex == 6)) {
+        return n_forwards(cell, 2, true);
+      } else {
+        return n_forwards(cell, 1, false);
       }
     }
+  }
+
+  function n_forwards(cell, n, inclusive) {
+    var y = cell.parentNode.rowIndex;
+    var viable_cells = [];
+    var direction = is_black(cell) ? 1 : -1;
+
+    if (inclusive) {
+      for (var i = 1; i < n + 1; i++) {
+        var row = board.rows[(direction * i) + y];
+        if (row) viable_cells.push(row.cells[cell.cellIndex]);
+      }
+    } else {
+      var row = board.rows[(direction * n) + y];
+      if (row) viable_cells.push(row.cells[cell.cellIndex]);
+    }
+
+    return viable_cells;
   }
 </script>
 
