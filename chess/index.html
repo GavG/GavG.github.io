@@ -5,6 +5,10 @@
   <meta charset="utf-8">
   <title>Chess</title>
   <style>
+    :root {
+      --direction: 1;
+    }
+
     html,
     body {
       margin: 0px;
@@ -30,6 +34,16 @@
       padding: 0px;
     }
 
+    table,
+    td {
+      transition: transform 1s ease-in-out;
+    }
+
+    table.rotate,
+    table.rotate td {
+      transform: rotate(180deg);
+    }
+
     tr:nth-child(even) td:nth-child(odd) {
       background: #555;
     }
@@ -48,10 +62,10 @@
 
     td.h:after {
       content: '';
+      display: table-cell;
       background-color: #33889955;
       width: 12vh;
       height: 12vh;
-      display: table-cell;
     }
 
     td.R:after {
@@ -243,6 +257,10 @@
   var active_cell = null;
   var turn = white;
   var highlighted_cells = [];
+
+  document.addEventListener('keypress', function(event) {
+    if (event.keyCode == 114) board.classList.toggle('rotate');
+  })
 
   board.addEventListener('click', function(event) {
     cell = event.target;
