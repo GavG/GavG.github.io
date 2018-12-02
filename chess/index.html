@@ -331,7 +331,16 @@
   }
 
   function is_occupied(cell) {
-    return is_white(cell) || is_black(cell);
+    return is_black(cell) || is_white(cell);
+  }
+
+  function is_capturable(cell) {
+    switch (turn) {
+      case black:
+        return is_white(cell);
+      case white:
+        return is_black(cell);
+    }
   }
 
   function viableCells(cell) {
@@ -341,27 +350,32 @@
 
     if (cell.classList.contains('P')) {
       if ((cell_is_black && cell.parentNode.rowIndex == 1) || (cell_is_white && cell.parentNode.rowIndex == 6)) {
-        return n_forwards(cell, 2, true, false);
+        return n_y(1, cell, 2, true, false);
       } else {
-        return n_forwards(cell, 1, false, false);
+        return n_y(1, cell, 1, false, false);
       }
+    }
+
+    if (cell.classList.contains('R')) {
+      //forwards, back, left, right
+      return n_y(-1, cell, 7, true, true).concat(n_y(1, cell, 7, true, true));
     }
   }
 
-  function n_forwards(cell, n, inclusive, can_capture) {
+  function n_y(heading = 1, cell, n, inclusive, can_capture) {
     var y = cell.parentNode.rowIndex;
     var viable_cells = [];
-    var direction = is_black(cell) ? 1 : -1;
+    var direction = (is_black(cell) ? 1 : -1) * heading;
 
     if (inclusive) {
       for (var i = 1; i < n + 1; i++) {
         var row = board.rows[(direction * i) + y];
         if (row) {
           var cell = row.cells[cell.cellIndex];
-          if (can_capture || !is_occupied(cell)) {
+          if (!is_occupied(cell) || (can_capture && is_capturable(cell))) {
             viable_cells.push(cell);
           } else {
-            break;
+            return viable_cells;
           }
         }
       }
@@ -376,6 +390,14 @@
     }
 
     return viable_cells;
+  }
+
+  function n_diagonal_forwards(cell, n, inclusive, can_capture, can_only_capture = false) {
+    var y = cell.parentNode.rowIndex;
+    var viable_cells = [];
+    var direction = is_black(cell) ? 1 : -1;
+
+
   }
 </script>
 
