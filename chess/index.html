@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Chess</title>
+  <style>
+    html,
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    body {
+      background: #353535;
+      font: normal 9vh "Lucida Sans Unicode", "Lucida Grande", "Arial Unicode MS", sans-serif;
+    }
+
+    table {
+      margin: 1vh auto;
+      background: #DB8;
+      border-collapse: collapse;
+    }
+
+    td {
+      width: 12vh;
+      height: 12vh;
+      text-align: center;
+      font-size: 9vh;
+      padding: 0px;
+    }
+
+    tr:nth-child(even) td:nth-child(odd) {
+      background: #555;
+    }
+
+    tr:nth-child(odd) td:nth-child(even) {
+      background: #555;
+    }
+
+    td.b {
+      color: #000;
+    }
+
+    td.w {
+      color: #f9f9f9;
+    }
+
+    td.R:after {
+      content: '\265C';
+    }
+
+    td.N:after {
+      content: '\265E';
+    }
+
+    td.B:after {
+      content: '\265D';
+    }
+
+    td.K:after {
+      content: '\265A';
+    }
+
+    td.Q:after {
+      content: '\265B';
+    }
+
+    td.P:after {
+      content: '\265F';
+    }
+
+    td.a {
+      outline: solid #ff9900 2px;
+    }
+
+    td:after {
+      top: 0;
+      position: relative;
+      transition: all 0.2s ease-in-out;
+    }
+
+    td.y-1:after {
+      top: -12vh;
+    }
+
+    td.y-2:after {
+      top: -24vh;
+    }
+
+    td.y-3:after {
+      top: -36vh;
+    }
+
+    td.y-4:after {
+      top: -48vh;
+    }
+
+    td.y-5:after {
+      top: -60vh;
+    }
+
+    td.y-6:after {
+      top: -72vh;
+    }
+
+    td.y-7:after {
+      top: -84vh;
+    }
+
+    td.y1:after {
+      top: 12vh;
+    }
+
+    td.y2:after {
+      top: 24vh;
+    }
+
+    td.y3:after {
+      top: 36vh;
+    }
+
+    td.y4:after {
+      top: 48vh;
+    }
+
+    td.y5:after {
+      top: 60vh;
+    }
+
+    td.y6:after {
+      top: 72vh;
+    }
+
+    td.y7:after {
+      top: 84vh;
+    }
+  </style>
+</head>
+
+<body>
+  <table id='board'>
+    <tr>
+      <td class='b R'></td>
+      <td class='b N'></td>
+      <td class='b B'></td>
+      <td class='b Q'></td>
+      <td class='b K'></td>
+      <td class='b B'></td>
+      <td class='b N'></td>
+      <td class='b R'></td>
+    </tr>
+    <tr>
+      <td class='b P'></td>
+      <td class='b P'></td>
+      <td class='b P'></td>
+      <td class='b P'></td>
+      <td class='b P'></td>
+      <td class='b P'></td>
+      <td class='b P'></td>
+      <td class='b P'></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class='w P'></td>
+      <td class='w P'></td>
+      <td class='w P'></td>
+      <td class='w P'></td>
+      <td class='w P'></td>
+      <td class='w P'></td>
+      <td class='w P'></td>
+      <td class='w P'></td>
+    </tr>
+    <tr>
+      <td class='w R'></td>
+      <td class='w N'></td>
+      <td class='w B'></td>
+      <td class='w Q'></td>
+      <td class='w K'></td>
+      <td class='w B'></td>
+      <td class='w N'></td>
+      <td class='w R'></td>
+    </tr>
+  </table>
+</body>
+
+<script type="text/javascript">
+  const white = 'w';
+  const black = 'b';
+  const active_class = 'a';
+
+  var board = document.getElementById('board');
+  var cells = board.getElementsByTagName('td');
+  var active_cell;
+  var turn = white;
+  var highlighted_cells = [];
+
+  board.addEventListener('click', function(event) {
+    cell = event.target;
+
+    if (active_cell) {
+      movePiece(active_cell, cell)
+    }
+
+    if (isPlayablePiece(cell)) {
+      setActiveCell(cell);
+    } else {
+      clearActiveCell();
+    }
+  })
+
+  function isPlayablePiece(cell) {
+    return cell.classList.contains(turn);
+  }
+
+  function clearActiveCell() {
+    setInactiveCell(active_cell);
+  }
+
+  function setActiveCell(cell) {
+    clearActiveCell();
+    if (active_cell != cell) {
+      active_cell = cell;
+      cell.classList.add(active_class);
+      highlightCells(viableCells(cell))
+    } else {
+      active_cell = null;
+    }
+  }
+
+  function setInactiveCell(cell) {
+    if (cell) cell.classList.remove(active_class);
+  }
+
+  function highlightCells(cells = []) {
+    dehighlightCells(highlighted_cells);
+    if (highlighted_cells != cells) {
+      for (var i = 0; i < cells.length; i++) {
+        cells[i].classList.add(highlighted_class)
+      }
+    }
+  }
+
+  function dehighlightCells(cells = []) {
+    for (var i = 0; i < cells.length; i++) {
+      cells[i].classList.remove(highlighted_class)
+    }
+  }
+
+  function movePiece(current_cell, new_cell) {
+    clearActiveCell();
+    var base_class_list = [].slice.call(current_cell.classList);
+    var x = new_cell.cellIndex - current_cell.cellIndex
+    var y = new_cell.parentNode.rowIndex - current_cell.parentNode.rowIndex;
+
+    if (x) current_cell.classList.add('x' + x);
+    if (y) current_cell.classList.add('y' + y);
+
+    setTimeout(function() {
+      new_cell.classList.add(...base_class_list);
+      current_cell.classList = [];
+    }, 200)
+
+    turn = (turn == white) ? black : white;
+  }
+
+  function is_white(cell) {
+    return cell.classList.contains(white);
+  }
+
+  function is_black(cell) {
+    return cell.classList.contains(black);
+  }
+
+  function viableCells(cell) {
+    console.log(is_white(cell));
+    if (cell.classList.contains('P')) {
+      if ((is_black(cell) && cell.parentNode.rowIndex == 2) || (is_white(cell) && cell.parentNode.rowIndex == 6)) {
+        console.log(cell)
+      }
+    }
+  }
+</script>
+
+</html>
