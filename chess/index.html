@@ -360,6 +360,11 @@
       //forwards, back, left, right
       return n_y(-1, cell, 7, true, true).concat(n_y(1, cell, 7, true, true));
     }
+
+    if (cell.classList.contains('Q')) {
+      //forwards, back, left, right, diagonals
+      return n_y(-1, cell, 7, true, true).concat(n_y(1, cell, 7, true, true));
+    }
   }
 
   function n_y(heading = 1, cell, n, inclusive, can_capture) {
