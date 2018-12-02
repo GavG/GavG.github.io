@@ -317,9 +317,10 @@
     if (y) current_cell.classList.add('y' + y);
 
     setTimeout(function() {
+      new_cell.classList = [];
       new_cell.classList.add(...base_class_list);
       current_cell.classList = [];
-    }, 200)
+    }, 190)
   }
 
   function is_white(cell) {
@@ -377,10 +378,12 @@
         var row = board.rows[(direction * i) + y];
         if (row) {
           var cell = row.cells[cell.cellIndex];
-          if (!is_occupied(cell) || (can_capture && is_capturable(cell))) {
+          var capturable = is_capturable(cell);
+          if (!is_occupied(cell) || (can_capture && capturable)) {
             viable_cells.push(cell);
+            if (capturable) break;
           } else {
-            return viable_cells;
+            break;
           }
         }
       }
