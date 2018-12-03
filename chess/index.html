@@ -36,7 +36,7 @@
 
     table,
     td {
-      transition: transform 1s ease-in-out;
+      transition: transform 0.5s ease-in-out;
     }
 
     td:after {
@@ -46,15 +46,16 @@
       justify-content: center;
       background-color: transparent;
       position: relative;
-      transform: rotate(0deg);
+      transform: scaleY(1);
       transition: all 0.2s ease-in-out;
     }
-    
+
     table.rotate {
-      transform: rotate(180deg);
+      transform: scaleY(-1);
     }
+
     table.rotate td:after {
-      transform: rotate(180deg)!important;
+      transform: scaleY(-1) !important;
     }
 
     tr:nth-child(even) td:nth-child(odd) {
@@ -164,7 +165,7 @@
     td.y7:after {
       top: 84vh;
     }
-    
+
     td.x-1:after {
       left: -12vh;
     }
@@ -320,10 +321,6 @@
   var turn = white;
   var highlighted_cells = [];
 
-  document.addEventListener('keypress', function(event) {
-    if (event.keyCode == 114) board.classList.toggle('rotate');
-  })
-
   board.addEventListener('click', function(event) {
     cell = event.target;
 
@@ -342,6 +339,10 @@
       clearHighlightedCells();
     }
   })
+
+  function rotateBoard() {
+    board.classList.toggle('rotate')
+  }
 
   function isPlayablePiece(cell) {
     return cell.classList.contains(turn);
@@ -383,7 +384,6 @@
     }
   }
 
-
   function isHighlightedCell(cell) {
     if (cell) return cell.classList.contains(highlighted_class);
   }
@@ -393,7 +393,6 @@
     var x = new_cell.cellIndex - current_cell.cellIndex
     var y = new_cell.parentNode.rowIndex - current_cell.parentNode.rowIndex;
 
-    current_cell.classList.add('m');
     if (x) current_cell.classList.add('x' + x);
     if (y) current_cell.classList.add('y' + y);
 
@@ -401,6 +400,7 @@
       new_cell.classList = [];
       new_cell.classList.add(...base_class_list);
       current_cell.classList = [];
+      rotateBoard();
     }, 200)
   }
 
@@ -432,18 +432,18 @@
 
     if (cell.classList.contains('P')) {
       if ((cell_is_black && cell.parentNode.rowIndex == 1) || (cell_is_white && cell.parentNode.rowIndex == 6)) {
-        return n_y(1, cell, 2, true, false);
+        return n_y(1, cell, 2, false);
       } else {
-        return n_y(1, cell, 1, false, false);
+        return n_y(1, cell, 1, false);
       }
     }
 
     if (cell.classList.contains('R')) {
       //forwards, back, left, right
-      return  n_y(1, cell)
-      .concat(n_y(-1, cell),
-              n_x(1, cell,),
-              n_x(-1, cell));
+      return n_y(1, cell)
+        .concat(n_y(-1, cell),
+          n_x(1, cell, ),
+          n_x(-1, cell));
     }
 
     if (cell.classList.contains('Q')) {
@@ -452,74 +452,48 @@
     }
   }
 
-  function n_y(heading = 1, cell, n = 7, inclusive = true, can_capture = true) {
+  function n_y(heading = 1, cell, n = 7, can_capture = true) {
     var y = cell.parentNode.rowIndex;
     var viable_cells = [];
     var direction = (is_black(cell) ? 1 : -1) * heading;
 
-    if (inclusive) {
-      for (var i = 1; i < n + 1; i++) {
-        var row = board.rows[y + (direction * i)];
-        if (row) {
-          var cell = row.cells[cell.cellIndex];
-          var capturable = is_capturable(cell);
-          if (!is_occupied(cell) || (can_capture && capturable)) {
-            viable_cells.push(cell);
-            if (capturable) break;
-          } else {
-            break;
-          }
-        }
-      }
-    } else {
-      var row = board.rows[y + (direction * n)];
+    for (var i = 1; i < n + 1; i++) {
+      var row = board.rows[y + (direction * i)];
       if (row) {
         var cell = row.cells[cell.cellIndex];
-        if (can_capture || !is_occupied(cell)) {
+        var capturable = is_capturable(cell);
+        if (!is_occupied(cell) || (can_capture && capturable)) {
           viable_cells.push(cell);
+          if (capturable) break;
+        } else {
+          break;
         }
       }
     }
 
     return viable_cells;
   }
-  
-  function n_x(heading = 1, cell, n = 7, inclusive = true, can_capture = true) {
+
+  function n_x(heading = 1, cell, n = 7, can_capture = true) {
     var x = cell.cellIndex;
     var row = cell.parentNode;
     var viable_cells = [];
     var direction = (is_black(cell) ? 1 : -1) * heading;
 
-    if (inclusive) {
-      for (var i = 1; i < n + 1; i++) {
-
-        var cell = row.cells[x + (direction * i)];
-        if(typeof cell !== 'undefined'){
-          var capturable = is_capturable(cell);
-          if (!is_occupied(cell) || (can_capture && capturable)) {
-            viable_cells.push(cell);
-            if (capturable) break;
-          } else {
-            break;
-          }
+    for (var i = 1; i < n + 1; i++) {
+      var cell = row.cells[x + (direction * i)];
+      if (typeof cell !== 'undefined') {
+        var capturable = is_capturable(cell);
+        if (!is_occupied(cell) || (can_capture && capturable)) {
+          viable_cells.push(cell);
+          if (capturable) break;
+        } else {
+          break;
         }
-      }
-    } else {
-      var cell = row.cells[x + (direction * n)];
-      if (typeof cell !== 'undefined' && (can_capture || !is_occupied(cell))) {
-        viable_cells.push(cell);
       }
     }
 
     return viable_cells;
-  }
-
-  function n_diagonal_forwards(cell, n, inclusive, can_capture, can_only_capture = false) {
-    var y = cell.parentNode.rowIndex;
-    var viable_cells = [];
-    var direction = is_black(cell) ? 1 : -1;
-
-
   }
 </script>
 
