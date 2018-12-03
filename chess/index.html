@@ -384,23 +384,26 @@
 
     if (cell.classList.contains('R')) {
       //forwards, back, left, right
-      return n_y(-1, cell, 7, true, true).concat(n_y(1, cell, 7, true, true));
+      return  n_y(1, cell)
+      .concat(n_y(-1, cell),
+              n_x(1, cell,),
+              n_x(-1, cell));
     }
 
     if (cell.classList.contains('Q')) {
       //forwards, back, left, right, diagonals
-      return n_y(-1, cell, 7, true, true).concat(n_y(1, cell, 7, true, true));
+      return n_y(-1, cell).concat(n_y(1, cell));
     }
   }
 
-  function n_y(heading = 1, cell, n, inclusive, can_capture) {
+  function n_y(heading = 1, cell, n = 7, inclusive = true, can_capture = true) {
     var y = cell.parentNode.rowIndex;
     var viable_cells = [];
     var direction = (is_black(cell) ? 1 : -1) * heading;
 
     if (inclusive) {
       for (var i = 1; i < n + 1; i++) {
-        var row = board.rows[(direction * i) + y];
+        var row = board.rows[y + (direction * i)];
         if (row) {
           var cell = row.cells[cell.cellIndex];
           var capturable = is_capturable(cell);
@@ -413,12 +416,42 @@
         }
       }
     } else {
-      var row = board.rows[(direction * n) + y];
+      var row = board.rows[y + (direction * n)];
       if (row) {
         var cell = row.cells[cell.cellIndex];
         if (can_capture || !is_occupied(cell)) {
           viable_cells.push(cell);
         }
+      }
+    }
+
+    return viable_cells;
+  }
+  
+  function n_x(heading = 1, cell, n = 7, inclusive = true, can_capture = true) {
+    var x = cell.cellIndex;
+    var row = cell.parentNode;
+    var viable_cells = [];
+    var direction = (is_black(cell) ? 1 : -1) * heading;
+
+    if (inclusive) {
+      for (var i = 1; i < n + 1; i++) {
+
+        var cell = row.cells[x + (direction * i)];
+        if(typeof cell !== 'undefined'){
+          var capturable = is_capturable(cell);
+          if (!is_occupied(cell) || (can_capture && capturable)) {
+            viable_cells.push(cell);
+            if (capturable) break;
+          } else {
+            break;
+          }
+        }
+      }
+    } else {
+      var cell = row.cells[x + (direction * n)];
+      if (typeof cell !== 'undefined' && (can_capture || !is_occupied(cell))) {
+        viable_cells.push(cell);
       }
     }
 
