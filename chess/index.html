@@ -39,9 +39,20 @@
       transition: transform 1s ease-in-out;
     }
 
-    table.rotate,
-    table.rotate td {
+    td:after {
+      top: 0;
+      display: flex;
+      justify-content: center;
+      background-color: transparent;
+      position: relative;
+      transform: rotate(0deg);
+    }
+    
+    table.rotate {
       transform: rotate(180deg);
+    }
+    table.rotate td:after {
+      transform: rotate(180deg)!important;
     }
 
     tr:nth-child(even) td:nth-child(odd) {
@@ -90,13 +101,6 @@
 
     td.P:after {
       content: '\265F';
-    }
-
-    td:after {
-      top: 0;
-      background-color: transparent;
-      position: relative;
-      transition: all 0.2s ease-in-out;
     }
 
     td.a {
@@ -331,8 +335,11 @@
     var x = new_cell.cellIndex - current_cell.cellIndex
     var y = new_cell.parentNode.rowIndex - current_cell.parentNode.rowIndex;
 
+    current_cell.classList.add('m');
     if (x) current_cell.classList.add('x' + x);
     if (y) current_cell.classList.add('y' + y);
+    
+    console.log(current_cell.classList);
 
     setTimeout(function() {
       new_cell.classList = [];
