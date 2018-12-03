@@ -5,10 +5,6 @@
   <meta charset="utf-8">
   <title>Chess</title>
   <style>
-    :root {
-      --direction: 1;
-    }
-
     html,
     body {
       margin: 0px;
@@ -36,7 +32,7 @@
 
     table,
     td {
-      transition: transform 0.5s ease-in-out;
+      transition: transform 1s ease-in-out;
     }
 
     td:after {
@@ -46,16 +42,16 @@
       justify-content: center;
       background-color: transparent;
       position: relative;
-      transform: scaleY(1);
+      transform: rotate(0deg);
       transition: all 0.2s ease-in-out;
     }
 
     table.rotate {
-      transform: scaleY(-1);
+      transform: rotate(180deg);
     }
 
     table.rotate td:after {
-      transform: scaleY(-1) !important;
+      transform: rotate(180deg) !important;
     }
 
     tr:nth-child(even) td:nth-child(odd) {
@@ -341,7 +337,7 @@
   })
 
   function rotateBoard() {
-    board.classList.toggle('rotate')
+    board.classList.toggle('rotate');
   }
 
   function isPlayablePiece(cell) {
@@ -400,7 +396,7 @@
       new_cell.classList = [];
       new_cell.classList.add(...base_class_list);
       current_cell.classList = [];
-      rotateBoard();
+      //rotateBoard();
     }, 200)
   }
 
@@ -439,20 +435,38 @@
     }
 
     if (cell.classList.contains('R')) {
-      //forwards, back, left, right
-      return n_y(1, cell)
-        .concat(n_y(-1, cell),
-          n_x(1, cell, ),
-          n_x(-1, cell));
+      return [].concat(
+        n_y(1, cell),
+        n_y(-1, cell),
+        n_x(1, cell),
+        n_x(-1, cell)
+      );
     }
 
     if (cell.classList.contains('Q')) {
-      //forwards, back, left, right, diagonals
-      return n_y(-1, cell).concat(n_y(1, cell));
+      return [].concat(
+        n_y(1, cell),
+        n_y(-1, cell),
+        n_x(1, cell),
+        n_x(-1, cell),
+        n_xy(1, 1, cell),
+        n_xy(-1, 1, cell),
+        n_xy(1, -1, cell),
+        n_xy(-1, -1, cell),
+      );
+    }
+
+    if (cell.classList.contains('K')) {
+      return [].concat(
+        n_y(1, cell, 1),
+        n_y(-1, cell, 1),
+        n_x(1, cell, 1),
+        n_x(-1, cell, 1)
+      );
     }
   }
 
-  function n_y(heading = 1, cell, n = 7, can_capture = true) {
+  function n_y(heading = 1, cell, n = 7, can_capture = true, blocking = true) {
     var y = cell.parentNode.rowIndex;
     var viable_cells = [];
     var direction = (is_black(cell) ? 1 : -1) * heading;
@@ -462,7 +476,7 @@
       if (row) {
         var cell = row.cells[cell.cellIndex];
         var capturable = is_capturable(cell);
-        if (!is_occupied(cell) || (can_capture && capturable)) {
+        if (!blocking || (!is_occupied(cell) || (can_capture && capturable))) {
           viable_cells.push(cell);
           if (capturable) break;
         } else {
@@ -470,11 +484,10 @@
         }
       }
     }
-
     return viable_cells;
   }
 
-  function n_x(heading = 1, cell, n = 7, can_capture = true) {
+  function n_x(heading = 1, cell, n = 7, can_capture = true, blocking = true) {
     var x = cell.cellIndex;
     var row = cell.parentNode;
     var viable_cells = [];
@@ -484,7 +497,7 @@
       var cell = row.cells[x + (direction * i)];
       if (typeof cell !== 'undefined') {
         var capturable = is_capturable(cell);
-        if (!is_occupied(cell) || (can_capture && capturable)) {
+        if (!blocking || (!is_occupied(cell) || (can_capture && capturable))) {
           viable_cells.push(cell);
           if (capturable) break;
         } else {
@@ -492,7 +505,24 @@
         }
       }
     }
+    return viable_cells;
+  }
 
+  function n_xy(heading_x, heading_y, cell, n = 7, can_capture = true) {
+    viable_cells = [];
+    for (var i = 0; i < n; i++) {
+      var y_cells = n_y(heading_y, cell, 1, can_capture, false);
+      console.log(y_cells)
+      if (y_cells.length) {
+        x_cells = n_x(heading_x, y_cells[0], 1, can_capture);
+        if (x_cells.length) {
+          viable_cells.push(x_cells[0]);
+          cell = x_cells[0];
+        }
+      } else {
+        break;
+      }
+    }
     return viable_cells;
   }
 </script>
