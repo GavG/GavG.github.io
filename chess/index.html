@@ -286,7 +286,7 @@
       <td class='w P'></td>
       <td class='w P'></td>
       <td class='w P'></td>
-      <td class='w P'></td>
+      <td class='w Q'></td>
       <td class='w P'></td>
       <td class='w P'></td>
       <td class='w P'></td>
@@ -449,9 +449,9 @@
         n_y(-1, cell),
         n_x(1, cell),
         n_x(-1, cell),
-        n_xy(1, 1, cell),
-        n_xy(-1, 1, cell),
         n_xy(1, -1, cell),
+        n_xy(-1, 1, cell),
+        n_xy(1, 1, cell),
         n_xy(-1, -1, cell),
       );
     }
@@ -509,18 +509,25 @@
   }
 
   function n_xy(heading_x, heading_y, cell, n = 7, can_capture = true) {
+    var y = cell.parentNode.rowIndex;
+    var x = cell.cellIndex;
     viable_cells = [];
-    for (var i = 0; i < n; i++) {
-      var y_cells = n_y(heading_y, cell, 1, can_capture, false);
-      console.log(y_cells)
-      if (y_cells.length) {
-        x_cells = n_x(heading_x, y_cells[0], 1, can_capture);
-        if (x_cells.length) {
-          viable_cells.push(x_cells[0]);
-          cell = x_cells[0];
+
+    for (var i = 1; i < n + 1; i++) {
+      var row = board.rows[y + (heading_y * i)];
+      if (row) {
+        var cell = row.cells[x + (heading_x * i)];
+        if (typeof(cell) !== 'undefined') {
+          var capturable = is_capturable(cell);
+          if (!is_occupied(cell) || (can_capture && capturable)) {
+            viable_cells.push(cell);
+            if (capturable) break;
+          } else {
+            break;
+          }
+        } else {
+          return viable_cells;
         }
-      } else {
-        break;
       }
     }
     return viable_cells;
