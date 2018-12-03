@@ -41,11 +41,13 @@
 
     td:after {
       top: 0;
+      left: 0;
       display: flex;
       justify-content: center;
       background-color: transparent;
       position: relative;
       transform: rotate(0deg);
+      transition: all 0.2s ease-in-out;
     }
     
     table.rotate {
@@ -161,6 +163,62 @@
 
     td.y7:after {
       top: 84vh;
+    }
+    
+    td.x-1:after {
+      left: -12vh;
+    }
+
+    td.x-2:after {
+      left: -24vh;
+    }
+
+    td.x-3:after {
+      left: -36vh;
+    }
+
+    td.x-4:after {
+      left: -48vh;
+    }
+
+    td.x-5:after {
+      left: -60vh;
+    }
+
+    td.x-6:after {
+      left: -72vh;
+    }
+
+    td.x-7:after {
+      left: -84vh;
+    }
+
+    td.x1:after {
+      left: 12vh;
+    }
+
+    td.x2:after {
+      left: 24vh;
+    }
+
+    td.x3:after {
+      left: 36vh;
+    }
+
+    td.x4:after {
+      left: 48vh;
+    }
+
+    td.x5:after {
+      left: 60vh;
+    }
+
+    td.x6:after {
+      left: 72vh;
+    }
+
+    td.x7:after {
+      left: 84vh;
     }
   </style>
 </head>
@@ -338,14 +396,12 @@
     current_cell.classList.add('m');
     if (x) current_cell.classList.add('x' + x);
     if (y) current_cell.classList.add('y' + y);
-    
-    console.log(current_cell.classList);
 
     setTimeout(function() {
       new_cell.classList = [];
       new_cell.classList.add(...base_class_list);
       current_cell.classList = [];
-    }, 190)
+    }, 200)
   }
 
   function is_white(cell) {
