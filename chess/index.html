@@ -286,7 +286,7 @@
       <td class='w P'></td>
       <td class='w P'></td>
       <td class='w P'></td>
-      <td class='w Q'></td>
+      <td class='w B'></td>
       <td class='w P'></td>
       <td class='w P'></td>
       <td class='w P'></td>
@@ -462,6 +462,15 @@
         n_y(-1, cell, 1),
         n_x(1, cell, 1),
         n_x(-1, cell, 1)
+      );
+    }
+
+    if (cell.classList.contains('B')) {
+      return [].concat(
+        n_xy(1, -1, cell),
+        n_xy(-1, 1, cell),
+        n_xy(1, 1, cell),
+        n_xy(-1, -1, cell),
       );
     }
   }
