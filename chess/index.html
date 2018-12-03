@@ -286,7 +286,7 @@
       <td class='w P'></td>
       <td class='w P'></td>
       <td class='w P'></td>
-      <td class='w B'></td>
+      <td class='w N'></td>
       <td class='w P'></td>
       <td class='w P'></td>
       <td class='w P'></td>
@@ -461,7 +461,11 @@
         n_y(1, cell, 1),
         n_y(-1, cell, 1),
         n_x(1, cell, 1),
-        n_x(-1, cell, 1)
+        n_x(-1, cell, 1),
+        n_xy(1, -1, cell, 1),
+        n_xy(-1, 1, cell, 1),
+        n_xy(1, 1, cell, 1),
+        n_xy(-1, -1, cell, 1),
       );
     }
 
@@ -471,6 +475,15 @@
         n_xy(-1, 1, cell),
         n_xy(1, 1, cell),
         n_xy(-1, -1, cell),
+      );
+    }
+
+    if (cell.classList.contains('N')) {
+      return [].concat(
+        n_x2y(1, cell),
+        n_x2y(-1, cell),
+        n_y2x(1, cell),
+        n_y2x(-1, cell),
       );
     }
   }
@@ -520,7 +533,7 @@
   function n_xy(heading_x, heading_y, cell, n = 7, can_capture = true) {
     var y = cell.parentNode.rowIndex;
     var x = cell.cellIndex;
-    viable_cells = [];
+    var viable_cells = [];
 
     for (var i = 1; i < n + 1; i++) {
       var row = board.rows[y + (heading_y * i)];
@@ -538,6 +551,48 @@
           return viable_cells;
         }
       }
+    }
+    return viable_cells;
+  }
+
+  function n_x2y(heading, cell) {
+    var y = cell.parentNode.rowIndex;
+    var x = cell.cellIndex;
+    var viable_cells = [];
+
+    var row = board.rows[y + heading];
+
+    if (typeof row !== 'undefined') {
+      var cell_l = row.cells[x + 2];
+      var cell_r = row.cells[x - 2];
+
+      if ((typeof cell_l !== 'undefined') && (is_capturable(cell_l) || !is_occupied(cell_l))) {
+        viable_cells.push(cell_l)
+      };
+      if ((typeof cell_r !== 'undefined') && (is_capturable(cell_r) || !is_occupied(cell_r))) {
+        viable_cells.push(cell_r)
+      };
+    }
+    return viable_cells;
+  }
+
+  function n_y2x(heading, cell) {
+    var y = cell.parentNode.rowIndex;
+    var x = cell.cellIndex;
+    var viable_cells = [];
+
+    var row = board.rows[y + (heading * 2)];
+
+    if (typeof row !== 'undefined') {
+      var cell_l = row.cells[x + 1];
+      var cell_r = row.cells[x - 1];
+
+      if ((typeof cell_l !== 'undefined') && (is_capturable(cell_l) || !is_occupied(cell_l))) {
+        viable_cells.push(cell_l)
+      };
+      if ((typeof cell_r !== 'undefined') && (is_capturable(cell_r) || !is_occupied(cell_r))) {
+        viable_cells.push(cell_r)
+      };
     }
     return viable_cells;
   }
