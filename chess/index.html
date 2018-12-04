@@ -327,6 +327,7 @@
   var active_cell = null;
   var turn = white;
   var highlighted_cells = [];
+  var kings = board.getElementsByClassName('K');
 
   board.addEventListener('click', function(event) {
     cell = event.target;
@@ -407,66 +408,85 @@
       new_cell.classList = [];
       new_cell.classList.add(...base_class_list);
       current_cell.classList = [];
-      rotateBoard();
+
+      viableCells(new_cell);
+      checkKings();
+      //rotateBoard();
     }, 200)
   }
 
-  function is_white(cell) {
+  function isWhite(cell) {
     return cell.classList.contains(white);
   }
 
-  function is_black(cell) {
+  function isBlack(cell) {
     return cell.classList.contains(black);
   }
 
-  function get_piece_type(cell) {
+  function getPieceType(cell) {
     for (var i = 0; i < piece_list.length; i++) {
       if (cell.classList.contains(piece_list[i])) return piece_list[i];
     }
   }
 
-  function checker_class(cell) {
-    return 'c-' + get_piece_type(cell)
+  function checkerClass(cell) {
+    return 'c' + turn + getPieceType(cell);
   }
 
-  function clear_checkers(cell) {
+  function clearCheckers(cell) {
 
   }
 
-  function mark_check(checker, target) {
-    target.classList.add(checker_class(checker));
-    if (target.classList.contains(king)) {
-      target.classList.add('c');
+  function checkKings() {
+    for (var i = 0; i < kings.length; i++) {
+      if (inCheck(kings[i])) {
+        kings[i].classList.add('c');
+      }
     }
   }
 
-  function is_occupied(cell) {
-    return is_black(cell) || is_white(cell);
+  function inCheck(cell) {
+    var enemyCheck = 'c' + turn;
+    for (var i = 0; i < cell.classList.length; i++) {
+      if (cell.classList[i].substring(0, 2) === enemyCheck) return true;
+    }
   }
 
-  function is_capturable(cell) {
+  function markThreatened(checker, target) {
+    target.classList.add(checkerClass(checker));
+  }
+
+  function isOccupied(cell) {
+    return isBlack(cell) || isWhite(cell);
+  }
+
+  function isCapturable(cell) {
     switch (turn) {
       case black:
-        return is_white(cell);
+        return isWhite(cell);
       case white:
-        return is_black(cell);
+        return isBlack(cell);
     }
+  }
+
+  function turnDirection() {
+    return turn == white ? -1 : 1;
   }
 
   function viableCells(cell) {
 
-    var cell_is_white = is_white(cell);
-    var cell_is_black = is_black(cell);
+    var cell_isWhite = isWhite(cell);
+    var cell_isBlack = isBlack(cell);
 
     if (cell.classList.contains(pawn)) {
-      if ((cell_is_black && cell.parentNode.rowIndex == 1) || (cell_is_white && cell.parentNode.rowIndex == 6)) {
+      if ((cell_isBlack && cell.parentNode.rowIndex == 1) || (cell_isWhite && cell.parentNode.rowIndex == 6)) {
         var viable_cells = n_y(1, cell, 2, false);
       } else {
         var viable_cells = n_y(1, cell, 1, false);
       }
       var diagonals = n_yx(1, 1, cell, 1).concat(n_yx(1, -1, cell, 1));
       for (var i = 0; i < diagonals.length; i++) {
-        if (is_capturable(diagonals[i])) viable_cells.push(diagonals[i]);
+        if (isCapturable(diagonals[i])) viable_cells.push(diagonals[i]);
       }
       return viable_cells;
     }
@@ -494,6 +514,11 @@
     }
 
     if (cell.classList.contains(king)) {
+      console.log([].concat(
+        n_yx(1, -1, cell, 1),
+        n_yx(1, 1, cell, 1),
+      ));
+
       return [].concat(
         n_y(1, cell, 1),
         n_y(-1, cell, 1),
@@ -528,16 +553,15 @@
   function n_y(heading = 1, cell, n = 7, can_capture = true, blocking = true) {
     var y = cell.parentNode.rowIndex;
     var viable_cells = [];
-    var direction = (is_black(cell) ? 1 : -1) * heading;
 
     for (var i = 1; i < n + 1; i++) {
-      var row = board.rows[y + (direction * i)];
+      var row = board.rows[y + (turnDirection() * i)];
       if (row) {
         var target_cell = row.cells[cell.cellIndex];
-        var capturable = is_capturable(target_cell);
-        if (!blocking || (!is_occupied(target_cell) || (can_capture && capturable))) {
+        var capturable = isCapturable(target_cell);
+        if (!blocking || (!isOccupied(target_cell) || (can_capture && capturable))) {
           viable_cells.push(target_cell);
-          if (can_capture) mark_check(cell, target_cell);
+          if (can_capture) markThreatened(cell, target_cell);
           if (capturable) break;
         } else {
           break;
@@ -551,15 +575,14 @@
     var x = cell.cellIndex;
     var row = cell.parentNode;
     var viable_cells = [];
-    var direction = (is_black(cell) ? 1 : -1) * heading;
 
     for (var i = 1; i < n + 1; i++) {
-      var target_cell = row.cells[x + (direction * i)];
+      var target_cell = row.cells[x + (turnDirection() * i)];
       if (typeof target_cell !== 'undefined') {
-        var capturable = is_capturable(target_cell);
-        if (!blocking || (!is_occupied(target_cell) || (can_capture && capturable))) {
+        var capturable = isCapturable(target_cell);
+        if (!blocking || (!isOccupied(target_cell) || (can_capture && capturable))) {
           viable_cells.push(target_cell);
-          if (can_capture) mark_check(cell, target_cell);
+          if (can_capture) markThreatened(cell, target_cell);
           if (capturable) break;
         } else {
           break;
@@ -574,17 +597,17 @@
     var x = cell.cellIndex;
     var viable_cells = [];
 
-    heading_y = (is_black(cell) ? 1 : -1) * heading_y;
+    heading_y = turnDirection() * heading_y;
 
     for (var i = 1; i < n + 1; i++) {
       var row = board.rows[y + (heading_y * i)];
       if (row) {
         var target_cell = row.cells[x + (heading_x * i)];
         if (typeof(target_cell) !== 'undefined') {
-          var capturable = is_capturable(cell);
-          if (!is_occupied(target_cell) || (can_capture && capturable)) {
+          var capturable = isCapturable(target_cell);
+          if (!isOccupied(target_cell) || (can_capture && capturable)) {
             viable_cells.push(target_cell);
-            if (can_capture) mark_check(cell, target_cell);
+            if (can_capture) markThreatened(cell, target_cell);
             if (capturable) break;
           } else {
             break;
@@ -608,13 +631,13 @@
       var target_cell_l = row.cells[x + 2];
       var target_cell_r = row.cells[x - 2];
 
-      if ((typeof target_cell_l !== 'undefined') && (is_capturable(target_cell_l) || !is_occupied(target_cell_l))) {
+      if ((typeof target_cell_l !== 'undefined') && (isCapturable(target_cell_l) || !isOccupied(target_cell_l))) {
         viable_cells.push(target_cell_l)
-        mark_check(cell, target_cell_l);
+        markThreatened(cell, target_cell_l);
       };
-      if ((typeof target_cell_r !== 'undefined') && (is_capturable(target_cell_r) || !is_occupied(target_cell_r))) {
+      if ((typeof target_cell_r !== 'undefined') && (isCapturable(target_cell_r) || !isOccupied(target_cell_r))) {
         viable_cells.push(target_cell_r);
-        mark_check(cell, target_cell_r);
+        markThreatened(cell, target_cell_r);
       };
     }
     return viable_cells;
@@ -631,13 +654,13 @@
       var target_cell_l = row.cells[x + 1];
       var target_cell_r = row.cells[x - 1];
 
-      if ((typeof target_cell_l !== 'undefined') && (is_capturable(target_cell_l) || !is_occupied(target_cell_l))) {
+      if ((typeof target_cell_l !== 'undefined') && (isCapturable(target_cell_l) || !isOccupied(target_cell_l))) {
         viable_cells.push(target_cell_l);
-        mark_check(cell, target_cell_l);
+        markThreatened(cell, target_cell_l);
       };
-      if ((typeof target_cell_r !== 'undefined') && (is_capturable(target_cell_r) || !is_occupied(target_cell_r))) {
+      if ((typeof target_cell_r !== 'undefined') && (isCapturable(target_cell_r) || !isOccupied(target_cell_r))) {
         viable_cells.push(target_cell_r);
-        mark_check(cell, target_cell_r);
+        markThreatened(cell, target_cell_r);
       };
     }
     return viable_cells;
