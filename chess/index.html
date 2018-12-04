@@ -69,9 +69,9 @@
     td.w {
       color: #f9f9f9;
     }
-    
+
     td.c {
-      background-color: #E22!important;
+      background-color: #E22 !important;
     }
 
     td.h:after {
@@ -290,7 +290,7 @@
       <td class='w P'></td>
       <td class='w P'></td>
       <td class='w P'></td>
-      <td class='w P'></td>
+      <td class='w Q'></td>
       <td class='w P'></td>
       <td class='w P'></td>
       <td class='w P'></td>
@@ -314,6 +314,13 @@
   const black = 'b';
   const active_class = 'a';
   const highlighted_class = 'h';
+  const rook = 'R';
+  const bishop = 'B';
+  const knight = 'N';
+  const pawn = 'P';
+  const queen = 'Q';
+  const king = 'K';
+  const piece_list = [rook, bishop, knight, pawn, queen, king];
 
   var board = document.getElementById('board');
   var cells = board.getElementsByTagName('td');
@@ -411,10 +418,25 @@
   function is_black(cell) {
     return cell.classList.contains(black);
   }
-  
-  function mark_if_check(cell){
-    if(is_capturable(cell) && cell.classList.contains('K')){
-      cell.classList.add('c');
+
+  function get_piece_type(cell) {
+    for (var i = 0; i < piece_list.length; i++) {
+      if (cell.classList.contains(piece_list[i])) return piece_list[i];
+    }
+  }
+
+  function checker_class(cell) {
+    return 'c-' + get_piece_type(cell)
+  }
+
+  function clear_checkers(cell) {
+
+  }
+
+  function mark_check(checker, target) {
+    target.classList.add(checker_class(checker));
+    if (target.classList.contains(king)) {
+      target.classList.add('c');
     }
   }
 
@@ -436,7 +458,7 @@
     var cell_is_white = is_white(cell);
     var cell_is_black = is_black(cell);
 
-    if (cell.classList.contains('P')) {
+    if (cell.classList.contains(pawn)) {
       if ((cell_is_black && cell.parentNode.rowIndex == 1) || (cell_is_white && cell.parentNode.rowIndex == 6)) {
         var viable_cells = n_y(1, cell, 2, false);
       } else {
@@ -449,7 +471,7 @@
       return viable_cells;
     }
 
-    if (cell.classList.contains('R')) {
+    if (cell.classList.contains(rook)) {
       return [].concat(
         n_y(1, cell),
         n_y(-1, cell),
@@ -458,7 +480,7 @@
       );
     }
 
-    if (cell.classList.contains('Q')) {
+    if (cell.classList.contains(queen)) {
       return [].concat(
         n_y(1, cell),
         n_y(-1, cell),
@@ -471,7 +493,7 @@
       );
     }
 
-    if (cell.classList.contains('K')) {
+    if (cell.classList.contains(king)) {
       return [].concat(
         n_y(1, cell, 1),
         n_y(-1, cell, 1),
@@ -484,7 +506,7 @@
       );
     }
 
-    if (cell.classList.contains('B')) {
+    if (cell.classList.contains(bishop)) {
       return [].concat(
         n_yx(1, -1, cell),
         n_yx(-1, 1, cell),
@@ -493,7 +515,7 @@
       );
     }
 
-    if (cell.classList.contains('N')) {
+    if (cell.classList.contains(knight)) {
       return [].concat(
         n_x2y(1, cell),
         n_x2y(-1, cell),
@@ -511,10 +533,11 @@
     for (var i = 1; i < n + 1; i++) {
       var row = board.rows[y + (direction * i)];
       if (row) {
-        var cell = row.cells[cell.cellIndex];
-        var capturable = is_capturable(cell);
-        if (!blocking || (!is_occupied(cell) || (can_capture && capturable))) {
-          viable_cells.push(cell);
+        var target_cell = row.cells[cell.cellIndex];
+        var capturable = is_capturable(target_cell);
+        if (!blocking || (!is_occupied(target_cell) || (can_capture && capturable))) {
+          viable_cells.push(target_cell);
+          if (can_capture) mark_check(cell, target_cell);
           if (capturable) break;
         } else {
           break;
@@ -531,12 +554,12 @@
     var direction = (is_black(cell) ? 1 : -1) * heading;
 
     for (var i = 1; i < n + 1; i++) {
-      var cell = row.cells[x + (direction * i)];
-      if (typeof cell !== 'undefined') {
-        var capturable = is_capturable(cell);
-        if (!blocking || (!is_occupied(cell) || (can_capture && capturable))) {
-          viable_cells.push(cell);
-          if (can_capture) mark_if_check(cell);
+      var target_cell = row.cells[x + (direction * i)];
+      if (typeof target_cell !== 'undefined') {
+        var capturable = is_capturable(target_cell);
+        if (!blocking || (!is_occupied(target_cell) || (can_capture && capturable))) {
+          viable_cells.push(target_cell);
+          if (can_capture) mark_check(cell, target_cell);
           if (capturable) break;
         } else {
           break;
@@ -556,12 +579,12 @@
     for (var i = 1; i < n + 1; i++) {
       var row = board.rows[y + (heading_y * i)];
       if (row) {
-        var cell = row.cells[x + (heading_x * i)];
-        if (typeof(cell) !== 'undefined') {
+        var target_cell = row.cells[x + (heading_x * i)];
+        if (typeof(target_cell) !== 'undefined') {
           var capturable = is_capturable(cell);
-          if (!is_occupied(cell) || (can_capture && capturable)) {
-            viable_cells.push(cell);
-            if (can_capture) mark_if_check(cell);
+          if (!is_occupied(target_cell) || (can_capture && capturable)) {
+            viable_cells.push(target_cell);
+            if (can_capture) mark_check(cell, target_cell);
             if (capturable) break;
           } else {
             break;
@@ -582,16 +605,16 @@
     var row = board.rows[y + heading];
 
     if (typeof row !== 'undefined') {
-      var cell_l = row.cells[x + 2];
-      var cell_r = row.cells[x - 2];
+      var target_cell_l = row.cells[x + 2];
+      var target_cell_r = row.cells[x - 2];
 
-      if ((typeof cell_l !== 'undefined') && (is_capturable(cell_l) || !is_occupied(cell_l))) {
-        viable_cells.push(cell_l)
-        mark_if_check(cell);
+      if ((typeof target_cell_l !== 'undefined') && (is_capturable(target_cell_l) || !is_occupied(target_cell_l))) {
+        viable_cells.push(target_cell_l)
+        mark_check(cell, target_cell_l);
       };
-      if ((typeof cell_r !== 'undefined') && (is_capturable(cell_r) || !is_occupied(cell_r))) {
-        viable_cells.push(cell_r);
-        mark_if_check(cell);
+      if ((typeof target_cell_r !== 'undefined') && (is_capturable(target_cell_r) || !is_occupied(target_cell_r))) {
+        viable_cells.push(target_cell_r);
+        mark_check(cell, target_cell_r);
       };
     }
     return viable_cells;
@@ -605,16 +628,16 @@
     var row = board.rows[y + (heading * 2)];
 
     if (typeof row !== 'undefined') {
-      var cell_l = row.cells[x + 1];
-      var cell_r = row.cells[x - 1];
+      var target_cell_l = row.cells[x + 1];
+      var target_cell_r = row.cells[x - 1];
 
-      if ((typeof cell_l !== 'undefined') && (is_capturable(cell_l) || !is_occupied(cell_l))) {
-        viable_cells.push(cell_l);
-        mark_if_check(cell);
+      if ((typeof target_cell_l !== 'undefined') && (is_capturable(target_cell_l) || !is_occupied(target_cell_l))) {
+        viable_cells.push(target_cell_l);
+        mark_check(cell, target_cell_l);
       };
-      if ((typeof cell_r !== 'undefined') && (is_capturable(cell_r) || !is_occupied(cell_r))) {
-        viable_cells.push(cell_r);
-        mark_if_check(cell);
+      if ((typeof target_cell_r !== 'undefined') && (is_capturable(target_cell_r) || !is_occupied(target_cell_r))) {
+        viable_cells.push(target_cell_r);
+        mark_check(cell, target_cell_r);
       };
     }
     return viable_cells;
