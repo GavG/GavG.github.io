@@ -336,8 +336,7 @@
       var target_cell = active_cell;
       clearActiveCell();
       clearHighlightedCells();
-      movePiece(target_cell, cell)
-      return turn = (turn == white) ? black : white;
+      return movePiece(target_cell, cell)
     }
 
     if (isPlayablePiece(cell)) {
@@ -411,7 +410,8 @@
 
       viableCells(new_cell);
       checkKings();
-      //rotateBoard();
+      turn = (turn == white) ? black : white;
+      rotateBoard();
     }, 200)
   }
 
@@ -475,11 +475,8 @@
 
   function viableCells(cell) {
 
-    var cell_isWhite = isWhite(cell);
-    var cell_isBlack = isBlack(cell);
-
     if (cell.classList.contains(pawn)) {
-      if ((cell_isBlack && cell.parentNode.rowIndex == 1) || (cell_isWhite && cell.parentNode.rowIndex == 6)) {
+      if ((isBlack(cell) && cell.parentNode.rowIndex == 1) || (isWhite(cell) && cell.parentNode.rowIndex == 6)) {
         var viable_cells = n_y(1, cell, 2, false);
       } else {
         var viable_cells = n_y(1, cell, 1, false);
@@ -514,11 +511,6 @@
     }
 
     if (cell.classList.contains(king)) {
-      console.log([].concat(
-        n_yx(1, -1, cell, 1),
-        n_yx(1, 1, cell, 1),
-      ));
-
       return [].concat(
         n_y(1, cell, 1),
         n_y(-1, cell, 1),
