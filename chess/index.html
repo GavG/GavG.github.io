@@ -547,7 +547,7 @@
     var viable_cells = [];
 
     for (var i = 1; i < n + 1; i++) {
-      var row = board.rows[y + (turnDirection() * i)];
+      var row = board.rows[y + (turnDirection() * heading * i)];
       if (row) {
         var target_cell = row.cells[cell.cellIndex];
         var capturable = isCapturable(target_cell);
@@ -569,7 +569,7 @@
     var viable_cells = [];
 
     for (var i = 1; i < n + 1; i++) {
-      var target_cell = row.cells[x + (turnDirection() * i)];
+      var target_cell = row.cells[x + (i * heading)];
       if (typeof target_cell !== 'undefined') {
         var capturable = isCapturable(target_cell);
         if (!blocking || (!isOccupied(target_cell) || (can_capture && capturable))) {
