@@ -481,7 +481,7 @@
       } else {
         var viable_cells = n_y(1, cell, 1, false);
       }
-      var diagonals = n_yx(1, 1, cell, 1).concat(n_yx(1, -1, cell, 1));
+      var diagonals = n_yx(1, 1, cell, 1).concat(n_yx(-1, 1, cell, 1));
       for (var i = 0; i < diagonals.length; i++) {
         if (isCapturable(diagonals[i])) viable_cells.push(diagonals[i]);
       }
