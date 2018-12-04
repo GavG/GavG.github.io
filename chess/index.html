@@ -69,6 +69,10 @@
     td.w {
       color: #f9f9f9;
     }
+    
+    td.c {
+      background-color: #E22!important;
+    }
 
     td.h:after {
       content: '';
@@ -407,6 +411,12 @@
   function is_black(cell) {
     return cell.classList.contains(black);
   }
+  
+  function mark_if_check(cell){
+    if(is_capturable(cell) && cell.classList.contains('K')){
+      cell.classList.add('c');
+    }
+  }
 
   function is_occupied(cell) {
     return is_black(cell) || is_white(cell);
@@ -526,6 +536,7 @@
         var capturable = is_capturable(cell);
         if (!blocking || (!is_occupied(cell) || (can_capture && capturable))) {
           viable_cells.push(cell);
+          if (can_capture) mark_if_check(cell);
           if (capturable) break;
         } else {
           break;
@@ -550,6 +561,7 @@
           var capturable = is_capturable(cell);
           if (!is_occupied(cell) || (can_capture && capturable)) {
             viable_cells.push(cell);
+            if (can_capture) mark_if_check(cell);
             if (capturable) break;
           } else {
             break;
@@ -575,9 +587,11 @@
 
       if ((typeof cell_l !== 'undefined') && (is_capturable(cell_l) || !is_occupied(cell_l))) {
         viable_cells.push(cell_l)
+        mark_if_check(cell);
       };
       if ((typeof cell_r !== 'undefined') && (is_capturable(cell_r) || !is_occupied(cell_r))) {
-        viable_cells.push(cell_r)
+        viable_cells.push(cell_r);
+        mark_if_check(cell);
       };
     }
     return viable_cells;
@@ -595,10 +609,12 @@
       var cell_r = row.cells[x - 1];
 
       if ((typeof cell_l !== 'undefined') && (is_capturable(cell_l) || !is_occupied(cell_l))) {
-        viable_cells.push(cell_l)
+        viable_cells.push(cell_l);
+        mark_if_check(cell);
       };
       if ((typeof cell_r !== 'undefined') && (is_capturable(cell_r) || !is_occupied(cell_r))) {
-        viable_cells.push(cell_r)
+        viable_cells.push(cell_r);
+        mark_if_check(cell);
       };
     }
     return viable_cells;
