@@ -428,10 +428,15 @@
 
     if (cell.classList.contains('P')) {
       if ((cell_is_black && cell.parentNode.rowIndex == 1) || (cell_is_white && cell.parentNode.rowIndex == 6)) {
-        return n_y(1, cell, 2, false);
+        var viable_cells = n_y(1, cell, 2, false);
       } else {
-        return n_y(1, cell, 1, false);
+        var viable_cells = n_y(1, cell, 1, false);
       }
+      var diagonals = n_yx(1, 1, cell, 1).concat(n_yx(1, -1, cell, 1));
+      for (var i = 0; i < diagonals.length; i++) {
+        if (is_capturable(diagonals[i])) viable_cells.push(diagonals[i]);
+      }
+      return viable_cells;
     }
 
     if (cell.classList.contains('R')) {
@@ -449,10 +454,10 @@
         n_y(-1, cell),
         n_x(1, cell),
         n_x(-1, cell),
-        n_xy(1, -1, cell),
-        n_xy(-1, 1, cell),
-        n_xy(1, 1, cell),
-        n_xy(-1, -1, cell),
+        n_yx(1, -1, cell),
+        n_yx(-1, 1, cell),
+        n_yx(1, 1, cell),
+        n_yx(-1, -1, cell),
       );
     }
 
@@ -462,19 +467,19 @@
         n_y(-1, cell, 1),
         n_x(1, cell, 1),
         n_x(-1, cell, 1),
-        n_xy(1, -1, cell, 1),
-        n_xy(-1, 1, cell, 1),
-        n_xy(1, 1, cell, 1),
-        n_xy(-1, -1, cell, 1),
+        n_yx(1, -1, cell, 1),
+        n_yx(-1, 1, cell, 1),
+        n_yx(1, 1, cell, 1),
+        n_yx(-1, -1, cell, 1),
       );
     }
 
     if (cell.classList.contains('B')) {
       return [].concat(
-        n_xy(1, -1, cell),
-        n_xy(-1, 1, cell),
-        n_xy(1, 1, cell),
-        n_xy(-1, -1, cell),
+        n_yx(1, -1, cell),
+        n_yx(-1, 1, cell),
+        n_yx(1, 1, cell),
+        n_yx(-1, -1, cell),
       );
     }
 
@@ -530,10 +535,12 @@
     return viable_cells;
   }
 
-  function n_xy(heading_x, heading_y, cell, n = 7, can_capture = true) {
+  function n_yx(heading_x, heading_y, cell, n = 7, can_capture = true) {
     var y = cell.parentNode.rowIndex;
     var x = cell.cellIndex;
     var viable_cells = [];
+
+    heading_y = (is_black(cell) ? 1 : -1) * heading_y;
 
     for (var i = 1; i < n + 1; i++) {
       var row = board.rows[y + (heading_y * i)];
