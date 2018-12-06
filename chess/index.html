@@ -411,7 +411,7 @@
 
   function movePiece(current_cell, new_cell) {
 
-    clearCheckerCells(current_cell);
+    clearCheckerCells();
 
     var base_class_list = [].slice.call(current_cell.classList);
     var x = new_cell.cellIndex - current_cell.cellIndex
@@ -462,11 +462,16 @@
     return check_class + getPieceColor(cell) + cell.id + getPieceType(cell);
   }
 
-  function clearCheckerCells(cell) {
-    var checker_class = checkerClass(cell);
-    var cells = board.getElementsByClassName(checker_class);
-    for (var i = 0; i < cells.length; i++) {
-      cells[i].classList.remove(checker_class);
+  function clearCheckerCells() {
+    for (var i = 0; i < board.rows.length; i++) {
+      for (var j = 0; j < board.rows[i].cells.length; j++) {
+        var classes = [].slice.call(board.rows[i].cells[j].classList)
+        for (var c = 0; c < classes.length; c++) {
+          if (classes[c].substring(0, 2) == 'cb' || classes[c].substring(0, 2) == 'cw') {
+            board.rows[i].cells[j].classList.remove(classes[c]);
+          }
+        }
+      }
     }
   }
 
