@@ -395,18 +395,24 @@
   function isHighlightedCell(cell) {
     if (cell) return cell.classList.contains(highlighted_class);
   }
-  
+
   function checkAll() {
-    var pieces = board.querySelectorAll('.' + white +', '+ '.' + black)
+    var pieces = board.querySelectorAll('.' + white + ', ' + '.' + black)
     for (var i = 0; i < pieces.length; i++) {
       viableCells(pieces[i]);
     }
   }
 
+  function removePieceClass(cell) {
+    for (var i = 0; i < piece_list.length; i++) {
+      cell.classList.remove(piece_list[i]);
+    }
+  }
+
   function movePiece(current_cell, new_cell) {
-    
+
     clearCheckerCells(current_cell);
-    
+
     var base_class_list = [].slice.call(current_cell.classList);
     var x = new_cell.cellIndex - current_cell.cellIndex
     var y = new_cell.parentNode.rowIndex - current_cell.parentNode.rowIndex;
@@ -415,16 +421,16 @@
     if (y) current_cell.classList.add('y' + y);
 
     setTimeout(function() {
-      new_cell.classList = [];
+      removePieceClass(new_cell);
       new_cell.classList.add(...base_class_list);
       new_cell.id = current_cell.id
       current_cell.id = null;
       current_cell.classList = [];
 
-      checkKings();
-      turn = (turn == white) ? black : white;
       checkAll();
+      checkKings();
       rotateBoard();
+      turn = (turn == white) ? black : white;
     }, 200)
   }
 
@@ -435,8 +441,8 @@
   function isBlack(cell) {
     return cell.classList.contains(black);
   }
-  
-  function enemyClass(cell){
+
+  function enemyClass(cell) {
     if (isWhite(cell)) return black;
     return white;
   }
@@ -446,9 +452,9 @@
       if (cell.classList.contains(piece_list[i])) return piece_list[i];
     }
   }
-  
+
   function getPieceColor(cell) {
-    if(isWhite(cell)) return white;
+    if (isWhite(cell)) return white;
     return black;
   }
 
@@ -490,7 +496,7 @@
   }
 
   function isCapturable(cell) {
-    if(turn === white) return isBlack(cell);
+    if (turn === white) return isBlack(cell);
     return isWhite(cell);
   }
 
