@@ -227,34 +227,24 @@
 <body>
   <table id='board'>
     <tr>
-      <td class='b R'></td>
-      <td class='b N'></td>
-      <td class='b B'></td>
-      <td class='b Q'></td>
-      <td class='b K'></td>
-      <td class='b B'></td>
-      <td class='b N'></td>
-      <td class='b R'></td>
+      <td id='1' class='b R'></td>
+      <td id='2' class='b N'></td>
+      <td id='3' class='b B'></td>
+      <td id='4' class='b Q'></td>
+      <td id='5' class='b K'></td>
+      <td id='6' class='b B'></td>
+      <td id='7' class='b N'></td>
+      <td id='8' class='b R'></td>
     </tr>
     <tr>
-      <td class='b P'></td>
-      <td class='b P'></td>
-      <td class='b P'></td>
-      <td class='b P'></td>
-      <td class='b P'></td>
-      <td class='b P'></td>
-      <td class='b P'></td>
-      <td class='b P'></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td id='9' class='b P'></td>
+      <td id='A' class='b P'></td>
+      <td id='B' class='b P'></td>
+      <td id='C' class='b P'></td>
+      <td id='D' class='b P'></td>
+      <td id='E' class='b P'></td>
+      <td id='F' class='b P'></td>
+      <td id='G' class='b P'></td>
     </tr>
     <tr>
       <td></td>
@@ -287,24 +277,34 @@
       <td></td>
     </tr>
     <tr>
-      <td class='w P'></td>
-      <td class='w P'></td>
-      <td class='w P'></td>
-      <td class='w Q'></td>
-      <td class='w P'></td>
-      <td class='w P'></td>
-      <td class='w P'></td>
-      <td class='w P'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
     <tr>
-      <td class='w R'></td>
-      <td class='w N'></td>
-      <td class='w B'></td>
-      <td class='w Q'></td>
-      <td class='w K'></td>
-      <td class='w B'></td>
-      <td class='w N'></td>
-      <td class='w R'></td>
+      <td id='H' class='w P'></td>
+      <td id='I' class='w P'></td>
+      <td id='J' class='w P'></td>
+      <td id='K' class='w Q'></td>
+      <td id='L' class='w P'></td>
+      <td id='M' class='w P'></td>
+      <td id='N' class='w P'></td>
+      <td id='O' class='w P'></td>
+    </tr>
+    <tr>
+      <td id='P' class='w R'></td>
+      <td id='Q' class='w N'></td>
+      <td id='R' class='w B'></td>
+      <td id='S' class='w Q'></td>
+      <td id='T' class='w K'></td>
+      <td id='U' class='w B'></td>
+      <td id='V' class='w N'></td>
+      <td id='W' class='w R'></td>
     </tr>
   </table>
 </body>
@@ -313,6 +313,7 @@
   const white = 'w';
   const black = 'b';
   const active_class = 'a';
+  const check_class = 'c';
   const highlighted_class = 'h';
   const rook = 'R';
   const bishop = 'B';
@@ -394,8 +395,18 @@
   function isHighlightedCell(cell) {
     if (cell) return cell.classList.contains(highlighted_class);
   }
+  
+  function checkAll() {
+    var pieces = board.querySelectorAll('.' + white +', '+ '.' + black)
+    for (var i = 0; i < pieces.length; i++) {
+      viableCells(pieces[i]);
+    }
+  }
 
   function movePiece(current_cell, new_cell) {
+    
+    clearCheckerCells(current_cell);
+    
     var base_class_list = [].slice.call(current_cell.classList);
     var x = new_cell.cellIndex - current_cell.cellIndex
     var y = new_cell.parentNode.rowIndex - current_cell.parentNode.rowIndex;
@@ -406,11 +417,13 @@
     setTimeout(function() {
       new_cell.classList = [];
       new_cell.classList.add(...base_class_list);
+      new_cell.id = current_cell.id
+      current_cell.id = null;
       current_cell.classList = [];
 
-      viableCells(new_cell);
       checkKings();
       turn = (turn == white) ? black : white;
+      checkAll();
       rotateBoard();
     }, 200)
   }
@@ -422,31 +435,47 @@
   function isBlack(cell) {
     return cell.classList.contains(black);
   }
+  
+  function enemyClass(cell){
+    if (isWhite(cell)) return black;
+    return white;
+  }
 
   function getPieceType(cell) {
     for (var i = 0; i < piece_list.length; i++) {
       if (cell.classList.contains(piece_list[i])) return piece_list[i];
     }
   }
-
-  function checkerClass(cell) {
-    return 'c' + turn + getPieceType(cell);
+  
+  function getPieceColor(cell) {
+    if(isWhite(cell)) return white;
+    return black;
   }
 
-  function clearCheckers(cell) {
+  function checkerClass(cell) {
+    return check_class + getPieceColor(cell) + cell.id + getPieceType(cell);
+  }
 
+  function clearCheckerCells(cell) {
+    var checker_class = checkerClass(cell);
+    var cells = board.getElementsByClassName(checker_class);
+    for (var i = 0; i < cells.length; i++) {
+      cells[i].classList.remove(checker_class);
+    }
   }
 
   function checkKings() {
     for (var i = 0; i < kings.length; i++) {
       if (inCheck(kings[i])) {
-        kings[i].classList.add('c');
+        kings[i].classList.add(check_class);
+      } else {
+        kings[i].classList.remove(check_class);
       }
     }
   }
 
   function inCheck(cell) {
-    var enemyCheck = 'c' + turn;
+    var enemyCheck = check_class + enemyClass(cell);
     for (var i = 0; i < cell.classList.length; i++) {
       if (cell.classList[i].substring(0, 2) === enemyCheck) return true;
     }
@@ -461,12 +490,8 @@
   }
 
   function isCapturable(cell) {
-    switch (turn) {
-      case black:
-        return isWhite(cell);
-      case white:
-        return isBlack(cell);
-    }
+    if(turn === white) return isBlack(cell);
+    return isWhite(cell);
   }
 
   function turnDirection() {
