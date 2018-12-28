@@ -6,11 +6,81 @@ html, body {
 body {
   background: #353535;
   font: normal 9vh "Lucida Sans Unicode", "Lucida Grande", "Arial Unicode MS", sans-serif;
+  --unit: 12vh;
+}
+
+@media screen and (orientation:portrait) {
+  body {
+    font-size: 9vw;
+    --unit: 12vw;
+  }
+}
+
+.piece.x1 {
+  left: var(--unit);
+}
+
+.piece.x2 {
+  left: calc(2 * var(--unit));
+}
+
+.piece.x3 {
+  left: calc(3 * var(--unit));
+}
+
+.piece.x4 {
+  left: calc(4 * var(--unit));
+}
+
+.piece.x5 {
+  left: calc(5 * var(--unit));
+}
+
+.piece.x6 {
+  left: calc(6 * var(--unit));
+}
+
+.piece.x7 {
+  left: calc(7 * var(--unit));
+}
+
+.piece.y0 {
+  bottom: 0;
+}
+
+.piece.y1 {
+  bottom: var(--unit);
+}
+
+.piece.y2 {
+  bottom: calc(2 * var(--unit));
+}
+
+.piece.y3 {
+  bottom: calc(3 * var(--unit));
+}
+
+.piece.y4 {
+  bottom: calc(4 * var(--unit));
+}
+
+.piece.y5 {
+  bottom: calc(5 * var(--unit));
+}
+
+.piece.y6 {
+  bottom: calc(6 * var(--unit));
+}
+
+.piece.y7 {
+  bottom: calc(7 * var(--unit));
 }
 
 #board {
   width: 96vh;
   height: 96vh;
+  max-width: 96vw;
+  max-height: 96vw;
   margin: auto;
   position: relative;
 }
@@ -18,6 +88,8 @@ body {
 .cell, .piece {
   width: 12vh;
   height: 12vh;
+  max-width: 12vw;
+  max-height: 12vw;
 }
 
 #board.rotate {

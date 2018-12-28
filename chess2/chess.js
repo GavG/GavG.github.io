@@ -65,8 +65,14 @@ class Piece extends Bitboard {
   }
 
   update_html_position() {
-    this.html_element.style.bottom = (this.y * ELEMENT_DIMENSION) + 'vh'
-    this.html_element.style.left = (this.x * ELEMENT_DIMENSION) + 'vh'
+    if (this.x_class || this.y_class) {
+      this.html_element.classList.remove(this.x_class)
+      this.html_element.classList.remove(this.y_class)
+    }
+    this.x_class = 'x' + this.x
+    this.y_class = 'y' + this.y
+    this.html_element.classList.add(this.x_class)
+    this.html_element.classList.add(this.y_class)
   }
 
   move_to(x, y) {
