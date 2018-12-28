@@ -41,7 +41,7 @@ body {
   float: left;
 }
 
-#board.selecting .piece {
+#board.s .piece {
   pointer-events: none;
 }
 
