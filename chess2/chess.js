@@ -54,7 +54,7 @@ class Piece extends Bitboard {
       self.html_element.addEventListener('click', function(event) {
         event.stopPropagation()
         piece_selected(this, self)
-      }, true)
+      })
     }
     self.html_element.classList = []
     self.html_element.classList.add('piece')
