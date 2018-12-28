@@ -180,12 +180,12 @@ function draw_pieces() {
 }
 
 function piece_selected(element, piece) {
+  element.classList.add(SELECTED_CLASS)
   if (selected_element) {
     selected_element.classList.remove(SELECTED_CLASS)
   }
   selected_element = element
   selected_piece = piece
-  selected_element.classList.add(SELECTED_CLASS)
   HTML_BOARD.classList.add(SELECTING_CLASS)
 }
 
