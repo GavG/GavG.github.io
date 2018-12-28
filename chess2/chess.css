@@ -138,7 +138,7 @@ body {
 }
 
 .piece.R:after {
-  content: '\265C';
+  content: '\265C\FE0E';
 }
 
 .piece.N:after {
