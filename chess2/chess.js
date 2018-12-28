@@ -4,7 +4,7 @@ const WIDTH = 8
 const HEIGHT = 8
 const WHITE = true
 const BLACK = false
-const BOARD = document.getElementById('board')
+const HTML_BOARD = document.getElementById('board')
 const SELECTED_CLASS = 'h'
 const WHITE_CLASS = 'w'
 const BLACK_CLASS = 'b'
@@ -49,7 +49,7 @@ class Piece extends Bitboard {
     var self = this
     if (!self.html_element) {
       this.html_element = document.createElement("div")
-      BOARD.appendChild(self.html_element)
+      HTML_BOARD.appendChild(self.html_element)
       self.html_element.addEventListener('click', function() {
         piece_selected(this, self)
       })
@@ -148,7 +148,7 @@ function draw_cells() {
       html_row.appendChild(html_cell)
     }
 
-    BOARD.appendChild(html_row)
+    HTML_BOARD.appendChild(html_row)
   }
 }
 
@@ -164,6 +164,7 @@ function piece_selected(element, piece) {
   }
   selected_element = element
   selected_element.classList.add(SELECTED_CLASS)
+  HTML_BOARD.classList.add('selecting')
 }
 
 init();

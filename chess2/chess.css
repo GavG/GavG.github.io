@@ -40,11 +40,20 @@ body {
   float: left;
 }
 
+#board.selecting .cell {
+  z-index: 2;
+}
+
+#board.selecting .piece {
+  z-index: 1;
+}
+
 .piece {
   -webkit-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
   transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
   text-align: center;
   position: absolute;
+  z-index: 2;
 }
 
 .piece.h {
