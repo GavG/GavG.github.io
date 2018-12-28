@@ -6,6 +6,7 @@ const WHITE = true
 const BLACK = false
 const HTML_BOARD = document.getElementById('board')
 const SELECTED_CLASS = 'h'
+const SELECTING_CLASS = 'selecting'
 const WHITE_CLASS = 'w'
 const BLACK_CLASS = 'b'
 const ELEMENT_DIMENSION = 12
@@ -13,6 +14,7 @@ const ELEMENT_DIMENSION = 12
 var board = 0
 var pieces = []
 var selected_element = null
+var selected_piece = null
 var initialised = 0
 
 class Bitboard {
@@ -27,11 +29,10 @@ class Bitboard {
   }
 
   set_position(_x, _y) {
-    if (x <= this.width && y <= this.height) {
+    if (_x <= this.width && _y <= this.height) {
       this.x = _x
       this.y = _y
-      this.position_board = (y * WIDTH) + x + 1
-      this.set_position_callback()
+      this.position_board = (_y * WIDTH) + _x + 1
     }
   }
 }
@@ -59,8 +60,18 @@ class Piece extends Bitboard {
     self.html_element.classList.add('piece')
     self.html_element.classList.add(self.color ? WHITE_CLASS : BLACK_CLASS)
     self.html_element.classList.add(self.html_class)
-    self.html_element.style.bottom = (self.y * ELEMENT_DIMENSION) + 'vh'
-    self.html_element.style.left = (self.x * ELEMENT_DIMENSION) + 'vh'
+
+    self.update_html_position()
+  }
+
+  update_html_position() {
+    this.html_element.style.bottom = (this.y * ELEMENT_DIMENSION) + 'vh'
+    this.html_element.style.left = (this.x * ELEMENT_DIMENSION) + 'vh'
+  }
+
+  move_to(x, y) {
+    this.set_position(x, y)
+    this.update_html_position()
   }
 
 }
@@ -141,7 +152,7 @@ function create_pieces() {
 }
 
 function draw_cells() {
-  for (var y = 0; y < HEIGHT; y++) {
+  for (var y = HEIGHT - 1; y >= 0; y--) {
     var html_row = document.createElement("div")
     html_row.classList.add("row")
 
@@ -168,17 +179,22 @@ function piece_selected(element, piece) {
     selected_element.classList.remove(SELECTED_CLASS)
   }
   selected_element = element
+  selected_piece = piece
   selected_element.classList.add(SELECTED_CLASS)
-  HTML_BOARD.classList.add('selecting')
+  HTML_BOARD.classList.add(SELECTING_CLASS)
 }
 
 function cell_selected(event) {
-  if (selected_element) {
-    console.log(event.target)
+  var cell = event.target
+  if (selected_element && cell.dataset.x >= 0 && cell.dataset.y >= 0) {
+
+    selected_piece.move_to(cell.dataset.x, cell.dataset.y)
 
     //move if viable
     selected_element.classList.remove(SELECTED_CLASS)
+    HTML_BOARD.classList.remove(SELECTING_CLASS)
     selected_element = null
+    selected_piece = null
   }
 }
 
