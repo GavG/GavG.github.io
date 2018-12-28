@@ -2,12 +2,18 @@
 
 const WIDTH = 8
 const HEIGHT = 8
-const HTML_BOARD = document.getElementById('board')
 const WHITE = true
 const BLACK = false
+const BOARD = document.getElementById('board')
+const SELECTED_CLASS = 'h'
+const WHITE_CLASS = 'w'
+const BLACK_CLASS = 'b'
+const ELEMENT_DIMENSION = 12
 
 var board = 0
 var pieces = []
+var selected_element = null
+var initialised = 0
 
 class Bitboard {
 
@@ -28,9 +34,6 @@ class Bitboard {
       this.set_position_callback()
     }
   }
-  // set_attacking() {
-  //
-  // }
 }
 
 class Piece extends Bitboard {
@@ -39,6 +42,24 @@ class Piece extends Bitboard {
     super(WIDTH, HEIGHT, x, y)
     this.color = !!color
     this.html_class = String(html_class)
+    this.html_element = null
+  }
+
+  draw() {
+    var self = this
+    if (!self.html_element) {
+      this.html_element = document.createElement("div")
+      BOARD.appendChild(self.html_element)
+      self.html_element.addEventListener('click', function() {
+        piece_selected(this, self)
+      })
+    }
+    self.html_element.classList = []
+    self.html_element.classList.add('piece')
+    self.html_element.classList.add(self.color ? WHITE_CLASS : BLACK_CLASS)
+    self.html_element.classList.add(self.html_class)
+    self.html_element.style.top = (self.y * ELEMENT_DIMENSION) + 'vh'
+    self.html_element.style.left = (self.x * ELEMENT_DIMENSION) + 'vh'
   }
 
 }
@@ -81,12 +102,15 @@ class Queen extends Piece {
 }
 
 function init() {
-  reset_board()
-  draw_board()
+  if (!initialised) {
+    board = 0
+    draw_cells()
+    create_pieces()
+  }
+  draw_pieces()
 }
 
-function reset_board() {
-  board = 0
+function create_pieces() {
 
   pieces = [
     new Rook(0, 0, WHITE),
@@ -113,13 +137,33 @@ function reset_board() {
   }
 }
 
-function draw_board() {
-  for (var i = 0; i < pieces.length; i++) {
-    var td = HTML_BOARD.rows[HEIGHT - pieces[i].y - 1].cells[pieces[i].x]
-    td.classList = []
-    td.classList.add(pieces[i].color ? 'w' : 'b')
-    td.classList.add(pieces[i].html_class)
+function draw_cells() {
+  for (var i = 0; i < HEIGHT; i++) {
+    var html_row = document.createElement("div")
+    html_row.classList.add("row")
+
+    for (var j = 0; j < WIDTH; j++) {
+      var html_cell = document.createElement("div")
+      html_cell.classList.add('cell')
+      html_row.appendChild(html_cell)
+    }
+
+    BOARD.appendChild(html_row)
   }
+}
+
+function draw_pieces() {
+  for (var i = 0; i < pieces.length; i++) {
+    pieces[i].draw()
+  }
+}
+
+function piece_selected(element, piece) {
+  if (selected_element) {
+    selected_element.classList.remove(SELECTED_CLASS)
+  }
+  selected_element = element
+  selected_element.classList.add(SELECTED_CLASS)
 }
 
 init();
