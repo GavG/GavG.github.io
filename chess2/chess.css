@@ -10,6 +10,7 @@ body {
 
 #board {
   width: 96vh;
+  height: 96vh;
   margin: auto;
   position: relative;
 }
@@ -40,12 +41,8 @@ body {
   float: left;
 }
 
-#board.selecting .cell {
-  z-index: 2;
-}
-
 #board.selecting .piece {
-  z-index: 1;
+  pointer-events: none;
 }
 
 .piece {

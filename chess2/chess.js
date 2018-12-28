@@ -50,15 +50,16 @@ class Piece extends Bitboard {
     if (!self.html_element) {
       this.html_element = document.createElement("div")
       HTML_BOARD.appendChild(self.html_element)
-      self.html_element.addEventListener('click', function() {
+      self.html_element.addEventListener('click', function(event) {
+        event.stopPropagation()
         piece_selected(this, self)
-      })
+      }, true)
     }
     self.html_element.classList = []
     self.html_element.classList.add('piece')
     self.html_element.classList.add(self.color ? WHITE_CLASS : BLACK_CLASS)
     self.html_element.classList.add(self.html_class)
-    self.html_element.style.top = (self.y * ELEMENT_DIMENSION) + 'vh'
+    self.html_element.style.bottom = (self.y * ELEMENT_DIMENSION) + 'vh'
     self.html_element.style.left = (self.x * ELEMENT_DIMENSION) + 'vh'
   }
 
@@ -105,7 +106,9 @@ function init() {
   if (!initialised) {
     board = 0
     draw_cells()
+    HTML_BOARD.addEventListener('click', cell_selected)
     create_pieces()
+    initialised = true
   }
   draw_pieces()
 }
@@ -138,13 +141,15 @@ function create_pieces() {
 }
 
 function draw_cells() {
-  for (var i = 0; i < HEIGHT; i++) {
+  for (var y = 0; y < HEIGHT; y++) {
     var html_row = document.createElement("div")
     html_row.classList.add("row")
 
-    for (var j = 0; j < WIDTH; j++) {
+    for (var x = 0; x < WIDTH; x++) {
       var html_cell = document.createElement("div")
       html_cell.classList.add('cell')
+      html_cell.dataset.y = y
+      html_cell.dataset.x = x
       html_row.appendChild(html_cell)
     }
 
@@ -165,6 +170,16 @@ function piece_selected(element, piece) {
   selected_element = element
   selected_element.classList.add(SELECTED_CLASS)
   HTML_BOARD.classList.add('selecting')
+}
+
+function cell_selected(event) {
+  if (selected_element) {
+    console.log(event.target)
+
+    //move if viable
+    selected_element.classList.remove(SELECTED_CLASS)
+    selected_element = null
+  }
 }
 
 init();
