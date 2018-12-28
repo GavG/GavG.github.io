@@ -51,8 +51,7 @@ class Piece extends Bitboard {
     if (!self.html_element) {
       this.html_element = document.createElement("div")
       HTML_BOARD.appendChild(self.html_element)
-      self.html_element.addEventListener('click', function(event) {
-        event.stopPropagation()
+      self.html_element.addEventListener('mousedown', function() {
         piece_selected(this, self)
       })
     }
