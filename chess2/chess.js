@@ -3,18 +3,11 @@
 const WIDTH = 8
 const HEIGHT = 8
 const HTML_BOARD = document.getElementById('board')
+const WHITE = true
+const BLACK = false
+
 var board = 0
 var pieces = []
-
-// 7 * * * * * * * *
-// 6 * * * * * * * *
-// 5 * * * * * * * *
-// 4 * * * * * * * *
-// 3 * * * * * * * *
-// 2 * * * * * * * *
-// 1 * * * * * * * *
-// 0 * * * * * * * *
-//   0 1 2 3 4 5 6 7
 
 class Bitboard {
 
@@ -35,11 +28,6 @@ class Bitboard {
       this.set_position_callback()
     }
   }
-
-  set_position_callback() {
-
-  }
-
   // set_attacking() {
   //
   // }
@@ -56,18 +44,40 @@ class Piece extends Bitboard {
 }
 
 class Pawn extends Piece {
-
   constructor(x, y, color) {
     super('P', x, y, color)
     this.first_move = false
   }
+}
 
-  set_position_callback() {
-    //check captures?
-    //check en passant?
-    //check queening?
+class Rook extends Piece {
+  constructor(x, y, color) {
+    super('R', x, y, color)
   }
+}
 
+class Knight extends Piece {
+  constructor(x, y, color) {
+    super('N', x, y, color)
+  }
+}
+
+class Bishop extends Piece {
+  constructor(x, y, color) {
+    super('B', x, y, color)
+  }
+}
+
+class King extends Piece {
+  constructor(x, y, color) {
+    super('K', x, y, color)
+  }
+}
+
+class Queen extends Piece {
+  constructor(x, y, color) {
+    super('Q', x, y, color)
+  }
 }
 
 function init() {
@@ -78,17 +88,38 @@ function init() {
 function reset_board() {
   board = 0
 
+  pieces = [
+    new Rook(0, 0, WHITE),
+    new Knight(1, 0, WHITE),
+    new Bishop(2, 0, WHITE),
+    new Queen(3, 0, WHITE),
+    new King(4, 0, WHITE),
+    new Bishop(5, 0, WHITE),
+    new Knight(6, 0, WHITE),
+    new Rook(7, 0, WHITE),
+    new Rook(0, HEIGHT - 1, BLACK),
+    new Knight(1, HEIGHT - 1, BLACK),
+    new Bishop(2, HEIGHT - 1, BLACK),
+    new Queen(3, HEIGHT - 1, BLACK),
+    new King(4, HEIGHT - 1, BLACK),
+    new Bishop(5, HEIGHT - 1, BLACK),
+    new Knight(6, HEIGHT - 1, BLACK),
+    new Rook(7, HEIGHT - 1, BLACK),
+  ]
+
   for (var i = 0; i < WIDTH; i++) {
-    pieces.push(new Pawn(i, 1, true))
-    pieces.push(new Pawn(i, HEIGHT - 2, false))
+    pieces.push(new Pawn(i, 1, WHITE))
+    pieces.push(new Pawn(i, HEIGHT - 2, BLACK))
   }
 }
 
 function draw_board() {
   for (var i = 0; i < pieces.length; i++) {
-    var td = HTML_BOARD.rows[pieces[i].y].cells[pieces[i].x]
+    var td = HTML_BOARD.rows[HEIGHT - pieces[i].y - 1].cells[pieces[i].x]
     td.classList = []
     td.classList.add(pieces[i].color ? 'w' : 'b')
     td.classList.add(pieces[i].html_class)
   }
 }
+
+init();
