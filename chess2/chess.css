@@ -140,26 +140,50 @@ body {
   color: #f9f9f9;
 }
 
-.piece.R:after {
-  content: '\265C\00FE0E';
+.piece.b.R:after {
+  content: '\265C';
 }
 
-.piece.N:after {
+.piece.b.N:after {
   content: '\265E';
 }
 
-.piece.B:after {
+.piece.b.B:after {
   content: '\265D';
 }
 
-.piece.K:after {
+.piece.b.K:after {
   content: '\265A';
 }
 
-.piece.Q:after {
+.piece.b.Q:after {
   content: '\265B';
 }
 
-.piece.P:after {
+.piece.b.P:after {
   content: '\265F';
+}
+
+.piece.w.R:after {
+  content: '\2656';
+}
+
+.piece.w.N:after {
+  content: '\2658';
+}
+
+.piece.w.B:after {
+  content: '\2657';
+}
+
+.piece.w.K:after {
+  content: '\2654';
+}
+
+.piece.w.Q:after {
+  content: '\2655';
+}
+
+.piece.w.P:after {
+  content: '\2659';
 }
