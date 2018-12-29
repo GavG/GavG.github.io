@@ -14,7 +14,8 @@ const LOW32 = 0x7fffffff
 
 var HTML_BOARD = null
 var board = 0
-var pieces = []
+var white_pieces = []
+var black_pieces = []
 var selected_element = null
 var selected_piece = null
 var initialised = 0
@@ -163,7 +164,7 @@ function init() {
 
 function create_pieces() {
 
-  pieces = [
+  white_pieces = [
     new Rook(0, 0, WHITE),
     new Knight(1, 0, WHITE),
     new Bishop(2, 0, WHITE),
@@ -172,6 +173,9 @@ function create_pieces() {
     new Bishop(5, 0, WHITE),
     new Knight(6, 0, WHITE),
     new Rook(7, 0, WHITE),
+  ]
+
+  black_pieces = [
     new Rook(0, HEIGHT - 1, BLACK),
     new Knight(1, HEIGHT - 1, BLACK),
     new Bishop(2, HEIGHT - 1, BLACK),
@@ -183,8 +187,8 @@ function create_pieces() {
   ]
 
   for (var i = 0; i < WIDTH; i++) {
-    pieces.push(new Pawn(i, 1, WHITE))
-    pieces.push(new Pawn(i, HEIGHT - 2, BLACK))
+    white_pieces.push(new Pawn(i, 1, WHITE))
+    black_pieces.push(new Pawn(i, HEIGHT - 2, BLACK))
   }
 }
 
@@ -206,8 +210,11 @@ function draw_cells() {
 }
 
 function draw_pieces() {
-  for (var i = 0; i < pieces.length; i++) {
-    pieces[i].draw()
+  for (var i = 0; i < white_pieces.length; i++) {
+    white_pieces[i].draw()
+  }
+  for (var i = 0; i < black_pieces.length; i++) {
+    black_pieces[i].draw()
   }
 }
 
