@@ -19,6 +19,10 @@ body {
   }
 }
 
+.piece.x0 {
+  left: 0;
+}
+
 .piece.x1 {
   left: var(--unit);
 }

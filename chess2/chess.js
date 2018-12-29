@@ -4,13 +4,13 @@ const WIDTH = 8
 const HEIGHT = 8
 const WHITE = true
 const BLACK = false
-const HTML_BOARD = document.getElementById('board')
 const SELECTED_CLASS = 'h'
 const SELECTING_CLASS = 's'
 const WHITE_CLASS = 'w'
 const BLACK_CLASS = 'b'
 const ELEMENT_DIMENSION = 12
 
+var HTML_BOARD = null
 var board = 0
 var pieces = []
 var selected_element = null
@@ -19,17 +19,24 @@ var initialised = 0
 
 class Bitboard {
 
-  constructor(h, w, _x, _y) {
+  constructor(h, w, _x = null, _y = null) {
     this.height = h
     this.width = w
-    this.set_position(_x, _y)
+    this.value = 0
+    if (_x !== null && _y !== null) this.set_position(_x, _y)
   }
 
   set_position(_x, _y) {
     if (_x <= this.width && _y <= this.height) {
       this.x = _x
       this.y = _y
-      this.value = Math.pow(2, _x) << (_y * this.width)
+      this.value = (Math.pow(2, _x) << (_y * this.width))
+    }
+  }
+
+  add_position(_x, _y) {
+    if (_x <= this.width && _y <= this.height) {
+      this.value = this.value | (Math.pow(2, _x) << (_y * this.width))
     }
   }
 
@@ -50,6 +57,7 @@ class Piece {
     this.y = _y
     this.color = !!color
     this.position_board = new Bitboard(WIDTH, HEIGHT, _x, _y)
+    this.attacking_board = new Bitboard(WIDTH, HEIGHT)
     this.html_element = null
   }
 
@@ -68,6 +76,7 @@ class Piece {
     self.html_element.classList.add(self.html_class)
 
     self.update_html_position()
+    self.update_attacking_board()
   }
 
   update_html_position() {
@@ -81,27 +90,31 @@ class Piece {
     this.html_element.classList.add(this.y_class)
   }
 
+  update_attacking_board() {}
+
   move_to(_x, _y) {
     this.x = _x
     this.y = _y
     this.position_board.set_position(_x, _y)
     this.update_html_position()
+    this.update_attacking_board()
   }
-
-  attacking_board() {
-    return 0;
-  }
-
 }
 
 class Pawn extends Piece {
   constructor(x, y, color) {
     super('P', x, y, color)
-    this.first_move = false
+    this.first_move = true
   }
 
-  attacking_board() {
-
+  update_attacking_board() {
+    this.attacking_board.set_position(this.x, this.y + 1)
+    console.log(this.y)
+    console.log(this.attacking_board.y)
+    if (this.first_move) {
+      this.attacking_board.add_position(this.x, this.y + 2)
+      this.first_move = false
+    }
   }
 }
 
@@ -137,6 +150,7 @@ class Queen extends Piece {
 
 function init() {
   if (!initialised) {
+    HTML_BOARD = document.getElementById('board')
     board = 0
     draw_cells()
     HTML_BOARD.addEventListener('click', cell_selected)
@@ -199,7 +213,8 @@ function draw_pieces() {
 function piece_selected(element, piece) {
   element.classList.add(SELECTED_CLASS)
 
-  console.log(piece.position_board.visual())
+  console.log(piece.attacking_board.visual())
+  console.log(piece.attacking_board)
 
   if (selected_element) {
     selected_element.classList.remove(SELECTED_CLASS)
