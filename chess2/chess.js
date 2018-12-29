@@ -1,5 +1,15 @@
 //Chess.js - GavG
 
+// 128
+// 64
+// 32
+// 16
+//  8
+//  4   0   0  0  0  0  0  0  0
+//  2   0   0  0  0  0  0  0  0
+//  1   0   1  0  0  0  0  512  256
+//     128  64 32 16 8  4  2  1 <-
+
 const WIDTH = 8
 const HEIGHT = 8
 const WHITE = true
@@ -22,27 +32,34 @@ class Bitboard {
   constructor(h, w, _x, _y) {
     this.height = h
     this.width = w
-    this.x = _x
-    this.y = _y
-    this.position_board = 0
-    this.attacking_board = 0
+    this.set_position(_x, _y)
   }
 
   set_position(_x, _y) {
     if (_x <= this.width && _y <= this.height) {
       this.x = _x
       this.y = _y
-      this.position_board = (_y * WIDTH) + _x + 1
+      this.value = Math.pow(2, _x) << (_y * this.width)
     }
+  }
+
+  visual() {
+    var bit_string = (this.value >>> 0).toString(2);
+    while (bit_string.length < this.width * this.height) {
+      bit_string = "0" + bit_string
+    }
+    return bit_string.replace(new RegExp("(.{" + this.width + "})", "g"), "$1\n")
   }
 }
 
-class Piece extends Bitboard {
+class Piece {
 
-  constructor(html_class, x, y, color) {
-    super(WIDTH, HEIGHT, x, y)
-    this.color = !!color
+  constructor(html_class, _x, _y, color) {
     this.html_class = String(html_class)
+    this.x = _x
+    this.y = _y
+    this.color = !!color
+    this.position_board = new Bitboard(WIDTH, HEIGHT, _x, _y)
     this.html_element = null
   }
 
@@ -74,9 +91,15 @@ class Piece extends Bitboard {
     this.html_element.classList.add(this.y_class)
   }
 
-  move_to(x, y) {
-    this.set_position(x, y)
+  move_to(_x, _y) {
+    this.x = _x
+    this.y = _y
+    this.position_board.set_position(_x, _y)
     this.update_html_position()
+  }
+
+  attacking_board() {
+    return 0;
   }
 
 }
@@ -85,6 +108,10 @@ class Pawn extends Piece {
   constructor(x, y, color) {
     super('P', x, y, color)
     this.first_move = false
+  }
+
+  attacking_board() {
+
   }
 }
 
@@ -181,6 +208,9 @@ function draw_pieces() {
 
 function piece_selected(element, piece) {
   element.classList.add(SELECTED_CLASS)
+
+  console.log(piece.position_board.visual())
+
   if (selected_element) {
     selected_element.classList.remove(SELECTED_CLASS)
   }
