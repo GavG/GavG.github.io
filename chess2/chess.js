@@ -1,15 +1,5 @@
 //Chess.js - GavG
 
-// 128
-// 64
-// 32
-// 16
-//  8
-//  4   0   0  0  0  0  0  0  0
-//  2   0   0  0  0  0  0  0  0
-//  1   0   1  0  0  0  0  512  256
-//     128  64 32 16 8  4  2  1 <-
-
 const WIDTH = 8
 const HEIGHT = 8
 const WHITE = true
