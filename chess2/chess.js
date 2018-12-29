@@ -9,6 +9,8 @@ const SELECTING_CLASS = 's'
 const WHITE_CLASS = 'w'
 const BLACK_CLASS = 'b'
 const ELEMENT_DIMENSION = 12
+const HI32 = 0x80000000
+const LOW32 = 0x7fffffff
 
 var HTML_BOARD = null
 var board = 0
@@ -30,18 +32,19 @@ class Bitboard {
     if (_x <= this.width && _y <= this.height) {
       this.x = _x
       this.y = _y
-      this.value = (Math.pow(2, _x) << (_y * this.width))
+      this.value = left_shift(Math.pow(2, _x), (_y * this.width))
+      console.log(this.value)
     }
   }
 
   add_position(_x, _y) {
     if (_x <= this.width && _y <= this.height) {
-      this.value = this.value | (Math.pow(2, _x) << (_y * this.width))
+      this.value = or_64(this.value, left_shift(Math.pow(2, _x), _y * this.width))
     }
   }
 
   visual() {
-    var bit_string = (this.value >>> 0).toString(2);
+    var bit_string = this.value.toString(2);
     while (bit_string.length < this.width * this.height) {
       bit_string = "0" + bit_string
     }
@@ -63,20 +66,20 @@ class Piece {
 
   draw() {
     var self = this
-    if (!self.html_element) {
+    if (!this.html_element) {
       this.html_element = document.createElement("div")
       HTML_BOARD.appendChild(self.html_element)
-      self.html_element.addEventListener('mousedown', function() {
+      this.html_element.addEventListener('mousedown', function() {
         piece_selected(this, self)
       })
     }
-    self.html_element.classList = []
-    self.html_element.classList.add('piece')
-    self.html_element.classList.add(self.color ? WHITE_CLASS : BLACK_CLASS)
-    self.html_element.classList.add(self.html_class)
+    this.html_element.classList = []
+    this.html_element.classList.add('piece')
+    this.html_element.classList.add(self.color ? WHITE_CLASS : BLACK_CLASS)
+    this.html_element.classList.add(self.html_class)
 
-    self.update_html_position()
-    self.update_attacking_board()
+    this.update_html_position()
+    this.update_attacking_board()
   }
 
   update_html_position() {
@@ -109,8 +112,6 @@ class Pawn extends Piece {
 
   update_attacking_board() {
     this.attacking_board.set_position(this.x, this.y + 1)
-    console.log(this.y)
-    console.log(this.attacking_board.y)
     if (this.first_move) {
       this.attacking_board.add_position(this.x, this.y + 2)
       this.first_move = false
@@ -213,8 +214,7 @@ function draw_pieces() {
 function piece_selected(element, piece) {
   element.classList.add(SELECTED_CLASS)
 
-  console.log(piece.attacking_board.visual())
-  console.log(piece.attacking_board)
+  console.log(piece.position_board.visual())
 
   if (selected_element) {
     selected_element.classList.remove(SELECTED_CLASS)
@@ -236,6 +236,39 @@ function cell_selected(event) {
     selected_element = null
     selected_piece = null
   }
+}
+
+function left_shift(num, bits) {
+  return num * Math.pow(2, bits);
+}
+
+function or_64(v1, v2) {
+  var hi = 0x80000000;
+  var low = 0x7fffffff;
+  var hi1 = ~~(v1 / hi);
+  var hi2 = ~~(v2 / hi);
+  var low1 = v1 & low;
+  var low2 = v2 & low;
+  var h = hi1 | hi2;
+  var l = low1 | low2;
+  return h * hi + l;
+}
+
+function BitwiseAndLarge(val1, val2) {
+  var shift = 0,
+    result = 0;
+  var mask = ~((~0) << 30); // Gives us a bit mask like 01111..1 (30 ones)
+  var divisor = 1 << 30; // To work with the bit mask, we need to clear bits at a time
+  while ((val1 != 0) && (val2 != 0)) {
+    var rs = (mask & val1) & (mask & val2);
+    val1 = Math.floor(val1 / divisor); // val1 >>> 30
+    val2 = Math.floor(val2 / divisor); // val2 >>> 30
+    for (var i = shift++; i--;) {
+      rs *= divisor; // rs << 30
+    }
+    result += rs;
+  }
+  return result;
 }
 
 init();
