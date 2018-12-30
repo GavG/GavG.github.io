@@ -67,16 +67,7 @@ class Bitboard {
   }
 
   or_64(other_board) {
-    var hi1 = ~~(this.value / HI32);
-    var hi2 = ~~(other_board.value / HI32);
-    var low1 = this.value & LOW32;
-    var low2 = other_board.value & LOW32;
-    var h = hi1 | hi2;
-    var l = low1 | low2;
-    var value = h * HI32 + l;
-    var result_board = new Bitboard(WIDTH, HEIGHT)
-    result_board.value = value
-    return result_board
+    return or_64(this.value, other_board.value)
   }
 }
 
@@ -154,6 +145,7 @@ class Pawn extends Piece {
 
   update_attacking_board() {
     var direction = this.color ? 1 : -1
+    this.position_board.set_position(this.x, this.y + direction)
     if (this.first_move) {
       this.attacking_board.add_position(this.x, this.y + (direction * 2))
       this.first_move = false
@@ -293,7 +285,7 @@ function player_board(color) {
   pieces = color ? white_pieces : black_pieces
   var position_board = new Bitboard(WIDTH, HEIGHT)
   for (var i = 0; i < pieces.length; i++) {
-    position_board.value = or_64(position_board.value, pieces[i].position_board.value)
+    position_board = or_64(position_board.value, pieces[i].position_board.value)
   }
   return position_board
 }
@@ -302,14 +294,17 @@ function left_shift(num, bits) {
   return num * Math.pow(2, bits);
 }
 
-function or_64(v1, v2) {
-  var hi1 = ~~(v1 / HI32);
-  var hi2 = ~~(v2 / HI32);
-  var low1 = v1 & LOW32;
-  var low2 = v2 & LOW32;
+function or_64(a, b) {
+  var hi1 = ~~(a / HI32);
+  var hi2 = ~~(b / HI32);
+  var low1 = a & LOW32;
+  var low2 = b & LOW32;
   var h = hi1 | hi2;
   var l = low1 | low2;
-  return h * HI32 + l;
+  var value = h * HI32 + l;
+  var result_board = new Bitboard(WIDTH, HEIGHT)
+  result_board.value = value
+  return result_board
 }
 
 init();
