@@ -120,7 +120,7 @@ body {
   float: left;
 }
 
-#board.s .piece {
+#board.selecting .piece {
   pointer-events: none;
 }
 
@@ -132,7 +132,7 @@ body {
   z-index: 2;
 }
 
-.piece.h {
+.piece.s {
   background-color: #ff9800CC;
 }
 

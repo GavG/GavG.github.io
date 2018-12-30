@@ -4,8 +4,8 @@ const WIDTH = 8
 const HEIGHT = 8
 const WHITE = true
 const BLACK = false
-const SELECTED_CLASS = 'h'
-const SELECTING_CLASS = 's'
+const SELECTED_CLASS = 's'
+const SELECTING_CLASS = 'selecting'
 const WHITE_CLASS = 'w'
 const BLACK_CLASS = 'b'
 const ELEMENT_DIMENSION = 12
@@ -43,6 +43,10 @@ class Bitboard {
       temp_board.value = left_shift(Math.pow(2, _x), _y * this.width)
       this.or_64(temp_board, true)
     }
+  }
+
+  coordinates() {
+    // return the coords as an array [[x,y], [x,y]]
   }
 
   visual() {
@@ -260,6 +264,10 @@ function draw_cells() {
 
     HTML_BOARD.appendChild(html_row)
   }
+}
+
+function get_cell(x, y) {
+  return HTML_BOARD.querySelector("[data-x=${x}] [data-y={y}]")[0]
 }
 
 function draw_pieces() {
