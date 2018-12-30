@@ -103,6 +103,13 @@ class Piece {
     this.update_html_position()
     this.update_attacking_board()
   }
+
+  viable_positions_board() {
+
+    console.log(player_board(this.color))
+
+    return xor_64(this.attacking_board, player_board(this.color))
+  }
 }
 
 class Pawn extends Piece {
@@ -221,7 +228,7 @@ function draw_pieces() {
 function piece_selected(element, piece) {
   element.classList.add(SELECTED_CLASS)
 
-  console.log(piece.position_board.visual())
+  console.log(piece.viable_positions_board())
 
   if (selected_element) {
     selected_element.classList.remove(SELECTED_CLASS)
@@ -245,20 +252,37 @@ function cell_selected(event) {
   }
 }
 
+function player_board(color) {
+  pieces = color ? white_pieces : black_pieces
+  position_board = 0
+  for (var i = 0; i < pieces.length; i++) {
+    position_board = xor_64(position_board, pieces[i].position_board)
+  }
+  return position_board
+}
+
 function left_shift(num, bits) {
   return num * Math.pow(2, bits);
 }
 
 function or_64(v1, v2) {
-  var hi = 0x80000000;
-  var low = 0x7fffffff;
-  var hi1 = ~~(v1 / hi);
-  var hi2 = ~~(v2 / hi);
-  var low1 = v1 & low;
-  var low2 = v2 & low;
+  var hi1 = ~~(v1 / HI32);
+  var hi2 = ~~(v2 / HI32);
+  var low1 = v1 & LOW32;
+  var low2 = v2 & LOW32;
   var h = hi1 | hi2;
   var l = low1 | low2;
-  return h * hi + l;
+  return h * HI32 + l;
+}
+
+function xor_64(v1, v2) {
+  var hi1 = ~~(v1 / HI32);
+  var hi2 = ~~(v2 / HI32);
+  var low1 = v1 & LOW32;
+  var low2 = v2 & LOW32;
+  var h = hi1 ^ hi2;
+  var l = low1 ^ low2;
+  return h * HI32 + l;
 }
 
 init();
