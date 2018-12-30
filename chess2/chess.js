@@ -353,12 +353,22 @@ function or_64(a, b) {
   var aLO = a % WORD_32;
   var bLO = b % WORD_32;
 
-  var value = ((aHI | bHI) * WORD_32)
+  var poo = 0
+
+  var value = (((aHI | bHI) >>> 0) * WORD_32)
   if (!value) {
-    value = (aLO | bLO)
+    poo = 1
+    value = (aLO | bLO) >>> 0
   }
   var result_board = new Bitboard(WIDTH, HEIGHT)
   result_board.value = value
+
+  if (value < 0) {
+    console.log("FECK")
+    console.log(poo)
+    console.log(value)
+  }
+
   return result_board
 }
 
@@ -369,9 +379,9 @@ function xor_64(a, b) {
   var aLO = a % WORD_32;
   var bLO = b % WORD_32;
 
-  var value = ((aHI ^ bHI) * WORD_32)
+  var value = (((aHI ^ bHI) >>> 0) * WORD_32)
   if (!value) {
-    value = (aLO ^ bLO)
+    value = (aLO ^ bLO) >>> 0
   }
   var result_board = new Bitboard(WIDTH, HEIGHT)
   result_board.value = value
