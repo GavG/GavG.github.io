@@ -78,7 +78,7 @@ class Piece {
     this.set_x(_x)
     this.set_y(_y)
     this.color = !!color
-    this.position_board = new Bitboard(WIDTH, HEIGHT, _x, _y)
+    this.position_board = new Bitboard(WIDTH, HEIGHT, this.x, this.y)
     this.attacking_board = new Bitboard(WIDTH, HEIGHT)
     this.html_element = null
     this.update_attacking_board()
@@ -145,7 +145,7 @@ class Pawn extends Piece {
 
   update_attacking_board() {
     var direction = this.color ? 1 : -1
-    this.position_board.set_position(this.x, this.y + direction)
+    this.attacking_board.set_position(this.x, this.y + direction)
     if (this.first_move) {
       this.attacking_board.add_position(this.x, this.y + (direction * 2))
       this.first_move = false
