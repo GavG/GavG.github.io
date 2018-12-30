@@ -6,6 +6,7 @@ const WHITE = true
 const BLACK = false
 const SELECTED_CLASS = 's'
 const SELECTING_CLASS = 'selecting'
+const HIGHLIGHTED_CLASS = 'h'
 const WHITE_CLASS = 'w'
 const BLACK_CLASS = 'b'
 const ELEMENT_DIMENSION = 12
@@ -16,6 +17,7 @@ var HTML_BOARD = null
 var board = 0
 var white_pieces = []
 var black_pieces = []
+var highlighted_cells = []
 var selected_element = null
 var selected_piece = null
 var initialised = 0
@@ -46,7 +48,16 @@ class Bitboard {
   }
 
   coordinates() {
-    // return the coords as an array [[x,y], [x,y]]
+    var coordinates = []
+    var string = this.value.toString(2)
+    var len = string.length
+    for (var i = len; i >= 0; i--) {
+      var pos = len - i
+      if (string[i] > 0) {
+        coordinates.push([pos % this.width, Math.floor(pos / this.width)])
+      }
+    }
+    return coordinates
   }
 
   visual() {
@@ -99,7 +110,8 @@ class Piece {
     if (!this.html_element) {
       this.html_element = document.createElement("div")
       HTML_BOARD.appendChild(self.html_element)
-      this.html_element.addEventListener('mousedown', function() {
+      this.html_element.addEventListener('click', function(event) {
+        event.stopPropagation()
         piece_selected(this, self)
       })
     }
@@ -150,9 +162,6 @@ class Piece {
 
   viable_positions_board() {
     this.update_attacking_board()
-
-    console.log(this.attacking_board.visual())
-
     var this_player_board = player_board(this.color)
     return this.attacking_board.or_64(this_player_board).xor_64(this_player_board)
   }
@@ -266,8 +275,23 @@ function draw_cells() {
   }
 }
 
+function highlight_cells(coordinates) {
+  for (var i = 0; i < coordinates.length; i++) {
+    var cell = get_cell(coordinates[i][0], coordinates[i][1])
+    highlighted_cells.push(cell)
+    cell.classList.add(HIGHLIGHTED_CLASS)
+  }
+}
+
+function clear_highlighted_cells() {
+  for (var i = 0; i < highlighted_cells.length; i++) {
+    highlighted_cells[i].classList.remove(HIGHLIGHTED_CLASS)
+  }
+  highlighted_cells = []
+}
+
 function get_cell(x, y) {
-  return HTML_BOARD.querySelector("[data-x=${x}] [data-y={y}]")[0]
+  return HTML_BOARD.querySelector("[data-x='" + x + "'][data-y='" + y + "']")
 }
 
 function draw_pieces() {
@@ -282,9 +306,10 @@ function draw_pieces() {
 function piece_selected(element, piece) {
   element.classList.add(SELECTED_CLASS)
 
-  console.log(player_board(WHITE).visual())
-  console.log(piece.viable_positions_board().visual())
+  var viable_positions_board = piece.viable_positions_board()
+  console.log(viable_positions_board.visual())
 
+  highlight_cells(viable_positions_board.coordinates())
 
   if (selected_element) {
     selected_element.classList.remove(SELECTED_CLASS)
@@ -295,7 +320,7 @@ function piece_selected(element, piece) {
 }
 
 function cell_selected(event) {
-
+  clear_highlighted_cells()
   var cell = event.target
   if (selected_element && cell.dataset.x >= 0 && cell.dataset.y >= 0) {
 

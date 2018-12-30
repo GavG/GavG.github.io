@@ -120,6 +120,10 @@ body {
   float: left;
 }
 
+.cell.h {
+  background-color: #3DD;
+}
+
 #board.selecting .piece {
   pointer-events: none;
 }
