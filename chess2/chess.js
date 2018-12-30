@@ -10,8 +10,7 @@ const HIGHLIGHTED_CLASS = 'h'
 const WHITE_CLASS = 'w'
 const BLACK_CLASS = 'b'
 const ELEMENT_DIMENSION = 12
-const HI32 = 0x80000000
-const LOW32 = 0x7fffffff
+const WORD_32 = 4294967296; // 2^32
 
 var HTML_BOARD = null
 var board = 0
@@ -70,17 +69,13 @@ class Bitboard {
     })
   }
 
-  xor_64(other_board) {
-    var hi1 = ~~(this.value / HI32);
-    var hi2 = ~~(other_board.value / HI32);
-    var low1 = this.value & LOW32;
-    var low2 = other_board.value & LOW32;
-    var h = hi1 ^ hi2;
-    var l = low1 ^ low2;
-    var value = h * HI32 + l;
-    var result_board = new Bitboard(WIDTH, HEIGHT)
-    result_board.value = value
-    return result_board
+  xor_64(other_board, update = false) {
+    var result_board = xor_64(this.value, other_board.value)
+    if (update) {
+      this.value = result_board.value
+    } else {
+      return result_board
+    }
   }
 
   or_64(other_board, update = false) {
@@ -163,6 +158,11 @@ class Piece {
   viable_positions_board() {
     this.update_attacking_board()
     var this_player_board = player_board(this.color)
+
+    console.log(this.attacking_board.visual())
+    console.log(this_player_board.visual())
+    console.log(this.attacking_board.or_64(this_player_board).visual())
+
     return this.attacking_board.or_64(this_player_board).xor_64(this_player_board)
   }
 }
@@ -307,7 +307,6 @@ function piece_selected(element, piece) {
   element.classList.add(SELECTED_CLASS)
 
   var viable_positions_board = piece.viable_positions_board()
-  console.log(viable_positions_board.visual())
 
   highlight_cells(viable_positions_board.coordinates())
 
@@ -348,13 +347,24 @@ function left_shift(num, bits) {
 }
 
 function or_64(a, b) {
-  var hi1 = ~~(a / HI32);
-  var hi2 = ~~(b / HI32);
-  var low1 = a & LOW32;
-  var low2 = b & LOW32;
-  var h = hi1 | hi2;
-  var l = low1 | low2;
-  var value = h * HI32 + l;
+  var aHI = a / WORD_32
+  var aLO = a % WORD_32;
+  var bHI = b / WORD_32
+  var bLO = b % WORD_32;
+
+  var value = (aHI | bHI) * WORD_32 + (aLO | bLO)
+  var result_board = new Bitboard(WIDTH, HEIGHT)
+  result_board.value = value
+  return result_board
+}
+
+function xor_64(a, b) {
+  var aHI = a / WORD_32
+  var aLO = a % WORD_32;
+  var bHI = b / WORD_32
+  var bLO = b % WORD_32;
+
+  var value = (aHI ^ bHI) * WORD_32 + (aLO ^ bLO)
   var result_board = new Bitboard(WIDTH, HEIGHT)
   result_board.value = value
   return result_board
