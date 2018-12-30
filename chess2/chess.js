@@ -90,6 +90,7 @@ class Piece {
     this.position_board = new Bitboard(WIDTH, HEIGHT, _x, _y)
     this.attacking_board = new Bitboard(WIDTH, HEIGHT)
     this.html_element = null
+    this.update_attacking_board()
   }
 
   draw() {
@@ -107,7 +108,6 @@ class Piece {
     this.html_element.classList.add(self.html_class)
 
     this.update_html_position()
-    this.update_attacking_board()
   }
 
   update_html_position() {
@@ -121,7 +121,9 @@ class Piece {
     this.html_element.classList.add(this.y_class)
   }
 
-  update_attacking_board() {}
+  update_attacking_board() {
+    //overide in subclass
+  }
 
   set_x(_x) {
     this.x = parseInt(_x)
