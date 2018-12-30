@@ -31,8 +31,8 @@ class Bitboard {
 
   set_position(_x, _y) {
     if (_x <= this.width && _y <= this.height) {
-      this.x = _x
-      this.y = _y
+      this.x = parseInt(_x)
+      this.y = parseInt(_y)
       this.value = left_shift(Math.pow(2, _x), (_y * this.width))
     }
   }
@@ -84,8 +84,8 @@ class Piece {
 
   constructor(html_class, _x, _y, color) {
     this.html_class = String(html_class)
-    this.x = _x
-    this.y = _y
+    this.set_x(_x)
+    this.set_y(_y)
     this.color = !!color
     this.position_board = new Bitboard(WIDTH, HEIGHT, _x, _y)
     this.attacking_board = new Bitboard(WIDTH, HEIGHT)
@@ -123,10 +123,18 @@ class Piece {
 
   update_attacking_board() {}
 
+  set_x(_x) {
+    this.x = parseInt(_x)
+  }
+
+  set_y(_y) {
+    this.y = parseInt(_y)
+  }
+
   move_to(_x, _y) {
-    this.x = _x
-    this.y = _y
-    this.position_board.set_position(_x, _y)
+    this.set_x(_x)
+    this.set_y(_y)
+    this.position_board.set_position(this.x, this.y)
     this.update_html_position()
     this.update_attacking_board()
   }
@@ -144,7 +152,6 @@ class Pawn extends Piece {
 
   update_attacking_board() {
     var direction = this.color ? 1 : -1
-    this.attacking_board.set_position(this.x, this.y + (direction * 1))
     if (this.first_move) {
       this.attacking_board.add_position(this.x, this.y + (direction * 2))
       this.first_move = false
@@ -253,6 +260,7 @@ function draw_pieces() {
 function piece_selected(element, piece) {
   element.classList.add(SELECTED_CLASS)
 
+  console.log(player_board(WHITE).visual())
   console.log(piece.viable_positions_board().visual())
 
 
@@ -265,8 +273,6 @@ function piece_selected(element, piece) {
 }
 
 function cell_selected(event) {
-
-  console.log(player_board(WHITE).visual())
 
   var cell = event.target
   if (selected_element && cell.dataset.x >= 0 && cell.dataset.y >= 0) {
