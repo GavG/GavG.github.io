@@ -39,7 +39,9 @@ class Bitboard {
 
   add_position(_x, _y) {
     if (_x <= this.width && _y <= this.height) {
-      this.value = or_64(this.value, left_shift(Math.pow(2, _x), _y * this.width))
+      var temp_board = new Bitboard(WIDTH, HEIGHT)
+      temp_board.value = left_shift(Math.pow(2, _x), _y * this.width)
+      this.or_64(temp_board, true)
     }
   }
 
@@ -66,8 +68,13 @@ class Bitboard {
     return result_board
   }
 
-  or_64(other_board) {
-    return or_64(this.value, other_board.value)
+  or_64(other_board, update = false) {
+    var result_board = or_64(this.value, other_board.value)
+    if (update) {
+      this.value = result_board.value
+    } else {
+      return result_board
+    }
   }
 }
 
@@ -81,7 +88,6 @@ class Piece {
     this.position_board = new Bitboard(WIDTH, HEIGHT, this.x, this.y)
     this.attacking_board = new Bitboard(WIDTH, HEIGHT)
     this.html_element = null
-    this.update_attacking_board()
   }
 
   draw() {
@@ -99,6 +105,7 @@ class Piece {
     this.html_element.classList.add(self.html_class)
 
     this.update_html_position()
+    this.update_attacking_board() //call here as all pieces generated
   }
 
   update_html_position() {
@@ -116,6 +123,10 @@ class Piece {
     //overide in subclass
   }
 
+  move_to_callback() {
+    //overide in subclass
+  }
+
   set_x(_x) {
     this.x = parseInt(_x)
   }
@@ -130,10 +141,16 @@ class Piece {
     this.position_board.set_position(this.x, this.y)
     this.update_html_position()
     this.update_attacking_board()
+    this.move_to_callback()
   }
 
   viable_positions_board() {
-    return this.attacking_board.or_64(player_board(this.color))
+    this.update_attacking_board()
+
+    console.log(this.attacking_board.visual())
+
+    var this_player_board = player_board(this.color)
+    return this.attacking_board.or_64(this_player_board).xor_64(this_player_board)
   }
 }
 
@@ -148,8 +165,11 @@ class Pawn extends Piece {
     this.attacking_board.set_position(this.x, this.y + direction)
     if (this.first_move) {
       this.attacking_board.add_position(this.x, this.y + (direction * 2))
-      this.first_move = false
     }
+  }
+
+  move_to_callback() {
+    this.first_move = false
   }
 }
 
