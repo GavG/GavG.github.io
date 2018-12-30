@@ -305,7 +305,7 @@ function player_board(color) {
   pieces = color ? white_pieces : black_pieces
   var position_board = new Bitboard(WIDTH, HEIGHT)
   for (var i = 0; i < pieces.length; i++) {
-    position_board = or_64(position_board.value, pieces[i].position_board.value)
+    position_board.or_64(pieces[i].position_board, true)
   }
   return position_board
 }
