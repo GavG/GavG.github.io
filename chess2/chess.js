@@ -31,7 +31,7 @@ class Bitboard {
   }
 
   set_position(_x, _y) {
-    if (_x <= this.width && _y <= this.height) {
+    if (_x <= this.width && _x >= 0 && _y <= this.height && _y >= 0) {
       this.x = parseInt(_x)
       this.y = parseInt(_y)
       this.value = left_shift(Math.pow(2, _x), (_y * this.width))
@@ -159,8 +159,8 @@ class Piece {
     this.update_attacking_board()
     var this_player_board = player_board(this.color)
 
-    console.log(this.attacking_board.visual())
-    console.log(this_player_board.visual())
+    console.log(this.attacking_board.value)
+    console.log(this_player_board.value)
     console.log(this.attacking_board.or_64(this_player_board).visual())
 
     return this.attacking_board.or_64(this_player_board).xor_64(this_player_board)
@@ -348,11 +348,15 @@ function left_shift(num, bits) {
 
 function or_64(a, b) {
   var aHI = a / WORD_32
-  var aLO = a % WORD_32;
   var bHI = b / WORD_32
+
+  var aLO = a % WORD_32;
   var bLO = b % WORD_32;
 
-  var value = (aHI | bHI) * WORD_32 + (aLO | bLO)
+  var value = ((aHI | bHI) * WORD_32)
+  if (!value) {
+    value = (aLO | bLO)
+  }
   var result_board = new Bitboard(WIDTH, HEIGHT)
   result_board.value = value
   return result_board
@@ -360,11 +364,15 @@ function or_64(a, b) {
 
 function xor_64(a, b) {
   var aHI = a / WORD_32
-  var aLO = a % WORD_32;
   var bHI = b / WORD_32
+
+  var aLO = a % WORD_32;
   var bLO = b % WORD_32;
 
-  var value = (aHI ^ bHI) * WORD_32 + (aLO ^ bLO)
+  var value = ((aHI ^ bHI) * WORD_32)
+  if (!value) {
+    value = (aLO ^ bLO)
+  }
   var result_board = new Bitboard(WIDTH, HEIGHT)
   result_board.value = value
   return result_board
