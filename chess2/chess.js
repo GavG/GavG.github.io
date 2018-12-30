@@ -34,7 +34,6 @@ class Bitboard {
       this.x = _x
       this.y = _y
       this.value = left_shift(Math.pow(2, _x), (_y * this.width))
-      console.log(this.value)
     }
   }
 
@@ -49,7 +48,35 @@ class Bitboard {
     while (bit_string.length < this.width * this.height) {
       bit_string = "0" + bit_string
     }
-    return bit_string.replace(new RegExp("(.{" + this.width + "})", "g"), "$1\n")
+    return bit_string.replace(new RegExp("(.{" + this.width + "})", "g"), function(match) {
+      return match.split("").reverse().join("") + "\n"
+    })
+  }
+
+  xor_64(other_board) {
+    var hi1 = ~~(this.value / HI32);
+    var hi2 = ~~(other_board.value / HI32);
+    var low1 = this.value & LOW32;
+    var low2 = other_board.value & LOW32;
+    var h = hi1 ^ hi2;
+    var l = low1 ^ low2;
+    var value = h * HI32 + l;
+    var result_board = new Bitboard(WIDTH, HEIGHT)
+    result_board.value = value
+    return result_board
+  }
+
+  or_64(other_board) {
+    var hi1 = ~~(this.value / HI32);
+    var hi2 = ~~(other_board.value / HI32);
+    var low1 = this.value & LOW32;
+    var low2 = other_board.value & LOW32;
+    var h = hi1 | hi2;
+    var l = low1 | low2;
+    var value = h * HI32 + l;
+    var result_board = new Bitboard(WIDTH, HEIGHT)
+    result_board.value = value
+    return result_board
   }
 }
 
@@ -105,10 +132,7 @@ class Piece {
   }
 
   viable_positions_board() {
-
-    console.log(player_board(this.color))
-
-    return xor_64(this.attacking_board, player_board(this.color))
+    return this.attacking_board.or_64(player_board(this.color))
   }
 }
 
@@ -119,9 +143,10 @@ class Pawn extends Piece {
   }
 
   update_attacking_board() {
-    this.attacking_board.set_position(this.x, this.y + 1)
+    var direction = this.color ? 1 : -1
+    this.attacking_board.set_position(this.x, this.y + (direction * 1))
     if (this.first_move) {
-      this.attacking_board.add_position(this.x, this.y + 2)
+      this.attacking_board.add_position(this.x, this.y + (direction * 2))
       this.first_move = false
     }
   }
@@ -228,7 +253,8 @@ function draw_pieces() {
 function piece_selected(element, piece) {
   element.classList.add(SELECTED_CLASS)
 
-  console.log(piece.viable_positions_board())
+  console.log(piece.viable_positions_board().visual())
+
 
   if (selected_element) {
     selected_element.classList.remove(SELECTED_CLASS)
@@ -239,6 +265,9 @@ function piece_selected(element, piece) {
 }
 
 function cell_selected(event) {
+
+  console.log(player_board(WHITE).visual())
+
   var cell = event.target
   if (selected_element && cell.dataset.x >= 0 && cell.dataset.y >= 0) {
 
@@ -254,9 +283,9 @@ function cell_selected(event) {
 
 function player_board(color) {
   pieces = color ? white_pieces : black_pieces
-  position_board = 0
+  var position_board = new Bitboard(WIDTH, HEIGHT)
   for (var i = 0; i < pieces.length; i++) {
-    position_board = xor_64(position_board, pieces[i].position_board)
+    position_board.value = or_64(position_board.value, pieces[i].position_board.value)
   }
   return position_board
 }
@@ -272,16 +301,6 @@ function or_64(v1, v2) {
   var low2 = v2 & LOW32;
   var h = hi1 | hi2;
   var l = low1 | low2;
-  return h * HI32 + l;
-}
-
-function xor_64(v1, v2) {
-  var hi1 = ~~(v1 / HI32);
-  var hi2 = ~~(v2 / HI32);
-  var low1 = v1 & LOW32;
-  var low2 = v2 & LOW32;
-  var h = hi1 ^ hi2;
-  var l = low1 ^ low2;
   return h * HI32 + l;
 }
 
