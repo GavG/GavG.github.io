@@ -179,6 +179,7 @@ class Pawn extends Piece {
     if (this.first_move) {
       this.attacking_board.add_position(this.x, this.y + (direction * 2))
     }
+    console.log(this.attacking_board)
   }
 
   move_to_callback() {
@@ -353,21 +354,10 @@ function or_64(a, b) {
   var aLO = a % WORD_32;
   var bLO = b % WORD_32;
 
-  var poo = 0
+  var value = ((aHI | bHI) * WORD_32) + (aLO | bLO)
 
-  var value = (((aHI | bHI) >>> 0) * WORD_32)
-  if (!value) {
-    poo = 1
-    value = (aLO | bLO) >>> 0
-  }
   var result_board = new Bitboard(WIDTH, HEIGHT)
   result_board.value = value
-
-  if (value < 0) {
-    console.log("FECK")
-    console.log(poo)
-    console.log(value)
-  }
 
   return result_board
 }
@@ -379,10 +369,8 @@ function xor_64(a, b) {
   var aLO = a % WORD_32;
   var bLO = b % WORD_32;
 
-  var value = (((aHI ^ bHI) >>> 0) * WORD_32)
-  if (!value) {
-    value = (aLO ^ bLO) >>> 0
-  }
+  var value = ((aHI ^ bHI) * WORD_32) + (aLO ^ bLO)
+
   var result_board = new Bitboard(WIDTH, HEIGHT)
   result_board.value = value
   return result_board
