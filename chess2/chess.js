@@ -50,7 +50,7 @@ class Bitboard {
   coordinates() {
     var coordinates = []
     var string = this.value.toString(2)
-    var len = string.length
+    var len = string.length - 1
     for (var i = len; i >= 0; i--) {
       var pos = len - i
       if (string[i] > 0) {

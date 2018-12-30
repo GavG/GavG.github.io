@@ -105,7 +105,7 @@ body {
 }
 
 .row:nth-child(even) .cell:nth-child(odd) {
-  background: #555;
+  background-color: #555;
 }
 
 .row:nth-child(odd) .cell:nth-child(even) {
@@ -121,7 +121,7 @@ body {
 }
 
 .cell.h {
-  background-color: #3DD;
+  background-color: #3DD !important;
 }
 
 #board.selecting .piece {
