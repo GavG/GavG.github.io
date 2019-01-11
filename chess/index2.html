@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Chess</title>
+  <style>
+    html,
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    body {
+      background: #353535;
+      font: normal 9vh "Lucida Sans Unicode", "Lucida Grande", "Arial Unicode MS", sans-serif;
+    }
+
+    table {
+      margin: 1vh auto;
+      background: #DB8;
+      border-collapse: collapse;
+    }
+
+    td {
+      width: 12vh;
+      height: 12vh;
+      text-align: center;
+      font-size: 9vh;
+      padding: 0px;
+    }
+
+    table,
+    td {
+      transition: transform 1s ease-in-out;
+    }
+
+    td:after {
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      background-color: transparent;
+      position: relative;
+      transform: rotate(0deg);
+      transition: all 0.2s ease-in-out;
+    }
+
+    table.rotate {
+      transform: rotate(180deg);
+    }
+
+    table.rotate td:after {
+      transform: rotate(180deg) !important;
+    }
+
+    tr:nth-child(even) td:nth-child(odd) {
+      background: #555;
+    }
+
+    tr:nth-child(odd) td:nth-child(even) {
+      background: #555;
+    }
+
+    td.b {
+      color: #000;
+    }
+
+    td.w {
+      color: #f9f9f9;
+    }
+
+    td.c {
+      background-color: #E22 !important;
+    }
+
+    td.h:after {
+      content: '';
+      display: table-cell;
+      background-color: #33889955;
+      width: 12vh;
+      height: 12vh;
+    }
+
+    td.R:after {
+      content: '\265C';
+    }
+
+    td.N:after {
+      content: '\265E';
+    }
+
+    td.B:after {
+      content: '\265D';
+    }
+
+    td.K:after {
+      content: '\265A';
+    }
+
+    td.Q:after {
+      content: '\265B';
+    }
+
+    td.P:after {
+      content: '\265F';
+    }
+
+    td.a {
+      background-color: #ff9900 !important;
+    }
+
+    td.y-1:after {
+      top: -12vh;
+    }
+
+    td.y-2:after {
+      top: -24vh;
+    }
+
+    td.y-3:after {
+      top: -36vh;
+    }
+
+    td.y-4:after {
+      top: -48vh;
+    }
+
+    td.y-5:after {
+      top: -60vh;
+    }
+
+    td.y-6:after {
+      top: -72vh;
+    }
+
+    td.y-7:after {
+      top: -84vh;
+    }
+
+    td.y1:after {
+      top: 12vh;
+    }
+
+    td.y2:after {
+      top: 24vh;
+    }
+
+    td.y3:after {
+      top: 36vh;
+    }
+
+    td.y4:after {
+      top: 48vh;
+    }
+
+    td.y5:after {
+      top: 60vh;
+    }
+
+    td.y6:after {
+      top: 72vh;
+    }
+
+    td.y7:after {
+      top: 84vh;
+    }
+
+    td.x-1:after {
+      left: -12vh;
+    }
+
+    td.x-2:after {
+      left: -24vh;
+    }
+
+    td.x-3:after {
+      left: -36vh;
+    }
+
+    td.x-4:after {
+      left: -48vh;
+    }
+
+    td.x-5:after {
+      left: -60vh;
+    }
+
+    td.x-6:after {
+      left: -72vh;
+    }
+
+    td.x-7:after {
+      left: -84vh;
+    }
+
+    td.x1:after {
+      left: 12vh;
+    }
+
+    td.x2:after {
+      left: 24vh;
+    }
+
+    td.x3:after {
+      left: 36vh;
+    }
+
+    td.x4:after {
+      left: 48vh;
+    }
+
+    td.x5:after {
+      left: 60vh;
+    }
+
+    td.x6:after {
+      left: 72vh;
+    }
+
+    td.x7:after {
+      left: 84vh;
+    }
+  </style>
+</head>
+
+<body>
+  <table id='board'>
+    <tr>
+      <td id='1' class='b R'></td>
+      <td id='2' class='b N'></td>
+      <td id='3' class='b B'></td>
+      <td id='4' class='b Q'></td>
+      <td id='5' class='b K'></td>
+      <td id='6' class='b B'></td>
+      <td id='7' class='b N'></td>
+      <td id='8' class='b R'></td>
+    </tr>
+    <tr>
+      <td id='9' class='b P'></td>
+      <td id='A' class='b P'></td>
+      <td id='B' class='b P'></td>
+      <td id='C' class='b P'></td>
+      <td id='D' class='b P'></td>
+      <td id='E' class='b P'></td>
+      <td id='F' class='b P'></td>
+      <td id='G' class='b P'></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td id='H' class='w P'></td>
+      <td id='I' class='w P'></td>
+      <td id='J' class='w P'></td>
+      <td id='K' class='w Q'></td>
+      <td id='L' class='w P'></td>
+      <td id='M' class='w P'></td>
+      <td id='N' class='w P'></td>
+      <td id='O' class='w P'></td>
+    </tr>
+    <tr>
+      <td id='P' class='w R'></td>
+      <td id='Q' class='w N'></td>
+      <td id='R' class='w B'></td>
+      <td id='S' class='w Q'></td>
+      <td id='T' class='w K'></td>
+      <td id='U' class='w B'></td>
+      <td id='V' class='w N'></td>
+      <td id='W' class='w R'></td>
+    </tr>
+  </table>
+</body>
+
+<script type="text/javascript">
+  const white = 'w'
+  const black = 'b'
+  const class_active = 'a'
+  const class_check = 'c'
+  const highlighted_class = 'h'
+  const rook = 'R'
+  const bishop = 'B'
+  const knight = 'N'
+  const pawn = 'P'
+  const queen = 'Q'
+  const king = 'K'
+
+  var board = document.getElementById('board')
+  var active_cell = null;
+  var turn = white
+
+  board.addEventListener('click', selectCell)
+
+  function selectCell() {
+    if (active_cell) active_cell.classList.remove(class_active)
+    if (isColor(event.target, turn)) {
+      active_cell = event.target
+      active_cell.classList.toggle(class_active)
+    }
+  }
+
+  function isColor(cell, color) {
+    return cell.classList.contains(color)
+  }
+
+  function isOccupied(cell) {
+    return isColor(cell, white) || isColor(cell, black)
+  }
+</script>
+
+</html>
