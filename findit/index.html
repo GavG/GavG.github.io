@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Find It!</title>
+  <style media="screen">
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+
+    #board {
+      width: 5000px;
+      height: 5000px;
+      background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+
+    #target {
+      width: 10px;
+      height: 10px;
+      background-color: #F00;
+      display: none;
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+  <div id='board'>
+    <div id='target'>
+
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    window.addEventListener('load', init)
+
+    var board = document.getElementById('board')
+    var target = document.getElementById('target')
+
+    target.addEventListener('click', init)
+
+    function init() {
+      window.scrollTo(window.innerWidth * 2.5, window.innerHeight * 2.5)
+      target.style.top = Math.floor(Math.random() * 500) + '0px'
+      target.style.left = Math.floor(Math.random() * 500) + '0px'
+      target.style.display = 'block'
+    }
+  </script>
+</body>
+
+</html>
