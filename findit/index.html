@@ -10,6 +10,7 @@
       width: 100%;
       height: 100%;
       margin: 0;
+      font-family: arial;
     }
 
     #board {
@@ -26,6 +27,25 @@
       background-color: #F00;
       display: none;
       position: absolute;
+      z-index: 2;
+    }
+
+    #time {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 150px;
+      color: #333;
+      z-index: 1;
+    }
+
+    #count {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 150px;
+      color: #384;
+      z-index: 1;
     }
   </style>
 </head>
@@ -33,23 +53,68 @@
 <body>
   <div id='board'>
     <div id='target'>
-
     </div>
+  </div>
+  <div id='count'>
+  </div>
+  <div id='time'>
   </div>
 
   <script type="text/javascript">
     window.addEventListener('load', init)
 
-    var board = document.getElementById('board')
-    var target = document.getElementById('target')
+    var preventHistoryBack = function(e) {
+      var delta = e.deltaX || e.wheelDeltaX
+      if (!delta) return false
+      window.WebKitMediaKeyError && (delta *= -1)
+      el = document.documentElement
+      if (((el.scrollLeft + el.offsetWidth) === el.scrollWidth && delta > 0) || (el.scrollLeft === 0 && delta < 0)) {
+        e.preventDefault()
+      }
+    };
 
-    target.addEventListener('click', init)
+    window.addEventListener('mousewheel', preventHistoryBack);
+
+    const board = document.getElementById('board')
+    const target = document.getElementById('target')
+    const count_disp = document.getElementById('count')
+    const time_disp = document.getElementById('time')
+
+    var start_time
+    var count = 10
+    var interval
+
+    target.addEventListener('click', find)
 
     function init() {
-      window.scrollTo(window.innerWidth * 2.5, window.innerHeight * 2.5)
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      load_level()
+      start_time = Date.now()
+      ticker = setInterval(update_disp, 10)
+    }
+
+    function find() {
+      count -= 1
+      if (count == 0) {
+        clearInterval(ticker)
+        update_disp()
+      } else {
+        load_level()
+      }
+    }
+
+    function load_level() {
+      window.scrollTo(2000, 2000)
       target.style.top = Math.floor(Math.random() * 500) + '0px'
       target.style.left = Math.floor(Math.random() * 500) + '0px'
       target.style.display = 'block'
+    }
+
+    function update_disp() {
+      time_disp.innerText = ((Date.now() - start_time) / 100).toFixed(2)
+      count_disp.innerText = count
     }
   </script>
 </body>
