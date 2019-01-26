@@ -113,7 +113,7 @@
     }
 
     function update_disp() {
-      time_disp.innerText = ((Date.now() - start_time) / 100).toFixed(2)
+      time_disp.innerText = ((Date.now() - start_time) / 1000).toFixed(2)
       count_disp.innerText = count
     }
   </script>
