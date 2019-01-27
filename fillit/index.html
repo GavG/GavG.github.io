@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title>Fill It!</title>
+  </head>
+  <body>
+    <div id='board'>
+      <div id='player'></div>
+    </div>
+    <script type="text/javascript">
+
+      const board_elem = document.getElementById('board')
+      const player_elem = document.getElementById('player')
+
+      const levels = [
+         new Level(
+           'INTRO',
+           new Board([[1, 1, 1, 1]]),
+           new Player(0, 0)
+         )
+       ]
+
+      class Level {
+        constructor(name, board, player) {
+          this.name = name
+          this.board = board
+          this.player = player
+        }
+      }
+
+      class Board {
+        constructor(map) {
+          this.map = map
+          this.draw()
+        }
+
+        draw() {
+          //draw board
+        }
+      }
+
+      class Player {
+        constructor(x, y) {
+          this.x = x
+          this.y = y
+
+          this.draw()
+        }
+
+        draw() {
+          //draw player
+        }
+
+        move (x, y) {
+          //move player then draw
+        }
+      }
+
+      function init() {
+
+      }
+
+    </script>
+  </body>
+</html>
