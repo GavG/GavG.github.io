@@ -1,67 +1,90 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <title>Fill It!</title>
-  </head>
-  <body>
-    <div id='board'>
-      <div id='player'></div>
-    </div>
-    <script type="text/javascript">
 
-      const board_elem = document.getElementById('board')
-      const player_elem = document.getElementById('player')
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <title>Fill It!</title>
 
-      const levels = [
-         new Level(
-           'INTRO',
-           new Board([[1, 1, 1, 1]]),
-           new Player(0, 0)
-         )
-       ]
+  <style media="screen">
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
 
-      class Level {
-        constructor(name, board, player) {
-          this.name = name
-          this.board = board
-          this.player = player
-        }
+    body {
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    #board {
+      margin: auto;
+    }
+
+    #board td {
+      height: 40px;
+      width: 40px;
+    }
+
+    #board td._1 {
+      background-color: #00E;
+    }
+  </style>
+
+</head>
+
+<body>
+  <table id='board'>
+  </table>
+  <script type="text/javascript">
+    const board_elem = document.getElementById('board')
+    const player_elem = document.getElementById('player')
+
+    var level = 0
+
+    class Level {
+      constructor(name, board, player) {
+        this.name = name
+        this.board = board
+        this.player = player
+      }
+    }
+
+    class Board {
+      constructor(map, x, y) {
+        this.map = map
+        this.player_x = x
+        this.player_y = y
+        this.draw()
       }
 
-      class Board {
-        constructor(map) {
-          this.map = map
-          this.draw()
-        }
-
-        draw() {
-          //draw board
-        }
-      }
-
-      class Player {
-        constructor(x, y) {
-          this.x = x
-          this.y = y
-
-          this.draw()
-        }
-
-        draw() {
-          //draw player
-        }
-
-        move (x, y) {
-          //move player then draw
+      draw() {
+        for (var y = 0; y < this.map.length; y++) {
+          var row = board.insertRow(y)
+          for (var x = 0; x < this.map[y].length; x++) {
+            var cell = row.insertCell(x)
+            cell.classList.add('_' + this.map[y][x])
+          }
         }
       }
+    }
 
-      function init() {
+    const levels = [
+      new Level(
+        'INTRO',
+        new Board([
+          [1, 1, 1, 1]
+        ], 0, 0),
+      )
+    ]
 
-      }
+    function init() {
+      var current_level = levels[level]
+      current_level.draw()
+    }
+  </script>
+</body>
 
-    </script>
-  </body>
 </html>
