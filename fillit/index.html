@@ -39,13 +39,23 @@
     #board td._1 {
       background-color: #00E;
     }
+
+    #board td._2 {
+      background-color: #0EE;
+    }
   </style>
 
 </head>
 
 <body>
+
+  <button id='retry'>RETRY</button>
+
   <table id='board'>
+    <tbody>
+    </tbody>
   </table>
+
   <script type="text/javascript">
     const board_elem = document.getElementById('board')
     const player_elem = document.getElementById('player')
@@ -63,14 +73,20 @@
 
     class Board {
       constructor(map, x, y) {
+        this.original_map = map.map(function(arr) {
+          return arr.slice();
+        })
+        this.original_x = x
+        this.original_y = y
         this.map = map
         this.x = x
         this.y = y
       }
 
       draw() {
+        var new_tbody = document.createElement('tbody');
         for (var y = 0; y < this.map.length; y++) {
-          var row = board.insertRow(y)
+          var row = new_tbody.insertRow(y)
           for (var x = 0; x < this.map[y].length; x++) {
             var cell = row.insertCell(x)
             cell.classList.add('_' + this.map[y][x])
@@ -79,32 +95,95 @@
             }
           }
         }
+        board_elem.replaceChild(new_tbody, board_elem.tBodies[0])
+      }
+
+      sum() {
+        var sum = 0
+        for (var _y = 0; _y < this.map.length; _y++) {
+          this.map[_y]
+          for (var _x = 0; _x < this.map[_y].length; _x++) {
+            sum += this.map[_y][_x]
+          }
+        }
+        return sum
       }
 
       move(dir) {
-        var x = (dir % 2) ? dir - 2 : 0
-        var y = !(dir % 2) ? dir - 1 : 0
+        var x = this.x + ((dir % 2) ? dir - 2 : 0)
+        var y = this.y + (!(dir % 2) ? (dir - 1) * -1 : 0)
 
-        console.log(x, y)
+        if (typeof this.map[y] !== 'undefined' && this.map[y][x] > 0) {
+          this.x = x
+          this.y = y
+          this.map[y][x] -= 1
+          this.draw()
+
+          if (this.sum() == 0) {
+            load_next_stage()
+          }
+        }
       }
+
+      reset() {
+        this.map = this.original_map
+        this.x = this.original_x
+        this.y = this.original_y
+        this.draw()
+        console.log(this.map)
+      }
+    }
+
+    function load_stage(level) {
+      if (typeof stages[level] !== 'undefined') {
+        stage = stages[level]
+        stage.board.draw()
+      } else {
+        console.log('finished')
+      }
+    }
+
+    function load_next_stage() {
+      load_stage(level += 1)
     }
 
     function init() {
 
       stages = [
-        new Stage(
-          'INTRO',
+
+        new Stage('INTRO',
           new Board([
-            [0, 1, 1, 1]
-          ], 0, 0),
-        )
+            [0, 1, 1, 1],
+          ], 0, 0)),
+
+        new Stage('DOUBLE DECKER',
+          new Board([
+            [0, 1, 1, 1],
+            [1, 1, 1, 1],
+          ], 0, 0)),
+
+        new Stage('TIC-TAC-TOE',
+          new Board([
+            [0, 1, 1],
+            [1, 1, 1],
+            [1, 1, 1]
+          ], 0, 0)),
+
+        new Stage('LAYERS',
+          new Board([
+            [1, 2, 2, 2, 1],
+          ], 0, 0)),
+
       ]
 
-      var stage = stages[level]
-      stage.board.draw()
+      load_stage(level)
 
       window.addEventListener('keydown', function(e) {
         stage.board.move(e.keyCode % 4)
+      })
+
+      document.getElementById('retry').addEventListener('click', function() {
+        stage.board.reset()
       })
     }
 
