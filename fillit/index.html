@@ -21,11 +21,19 @@
 
     #board {
       margin: auto;
+      border-spacing: 4px;
     }
 
     #board td {
       height: 40px;
       width: 40px;
+    }
+
+    #board td.p {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      border: solid 5px orange;
     }
 
     #board td._1 {
@@ -42,22 +50,22 @@
     const board_elem = document.getElementById('board')
     const player_elem = document.getElementById('player')
 
+    var levels
+    var stage
     var level = 0
 
-    class Level {
-      constructor(name, board, player) {
+    class Stage {
+      constructor(name, board) {
         this.name = name
         this.board = board
-        this.player = player
       }
     }
 
     class Board {
       constructor(map, x, y) {
         this.map = map
-        this.player_x = x
-        this.player_y = y
-        this.draw()
+        this.x = x
+        this.y = y
       }
 
       draw() {
@@ -66,24 +74,41 @@
           for (var x = 0; x < this.map[y].length; x++) {
             var cell = row.insertCell(x)
             cell.classList.add('_' + this.map[y][x])
+            if (x == this.x && y == this.y) {
+              cell.classList.add('p')
+            }
           }
         }
       }
-    }
 
-    const levels = [
-      new Level(
-        'INTRO',
-        new Board([
-          [1, 1, 1, 1]
-        ], 0, 0),
-      )
-    ]
+      move(dir) {
+        var x = (dir % 2) ? dir - 2 : 0
+        var y = !(dir % 2) ? dir - 1 : 0
+
+        console.log(x, y)
+      }
+    }
 
     function init() {
-      var current_level = levels[level]
-      current_level.draw()
+
+      stages = [
+        new Stage(
+          'INTRO',
+          new Board([
+            [0, 1, 1, 1]
+          ], 0, 0),
+        )
+      ]
+
+      var stage = stages[level]
+      stage.board.draw()
+
+      window.addEventListener('keydown', function(e) {
+        stage.board.move(e.keyCode % 4)
+      })
     }
+
+    window.addEventListener('load', init)
   </script>
 </body>
 
