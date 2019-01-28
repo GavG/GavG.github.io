@@ -15,8 +15,35 @@
 
     body {
       margin: 0;
+      font-family: arial;
+    }
+
+    #bar {
+      width: 100%;
+      height: 50px;
+      background-color: #000;
+      display: flex;
+      justify-content: space-between;
+      font-size: 30px;
+    }
+
+    #bar #stage_name {
+      color: white;
+      line-height: 50px;
+      margin: 0px 5px;
+    }
+
+    #bar #retry {
+      background-color: #FF0;
+      color: #000;
+      border: none;
+      font-size: 30px;
+    }
+
+    #main {
       display: flex;
       align-items: center;
+      height: calc(100% - 50px);
     }
 
     #board {
@@ -49,16 +76,22 @@
 
 <body>
 
-  <button id='retry'>RETRY</button>
+  <div id='bar'>
+    <span id='stage_name'></span>
+    <button id='retry'>RETRY</button>
+  </div>
 
-  <table id='board'>
-    <tbody>
-    </tbody>
-  </table>
+  <div id='main'>
+    <table id='board'>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
 
   <script type="text/javascript">
     const board_elem = document.getElementById('board')
     const player_elem = document.getElementById('player')
+    const stage_name_elem = document.getElementById('stage_name')
 
     var levels
     var stage
@@ -138,6 +171,7 @@
       if (typeof stages[level] !== 'undefined') {
         stage = stages[level]
         stage.board.draw()
+        stage_name_elem.innerText = stage.name
       } else {
         console.log('finished')
       }
