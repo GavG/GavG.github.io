@@ -75,35 +75,6 @@
     #board td._3 {
       background-color: #ffeb3b;
     }
-
-    #controls {
-      display: none;
-    }
-
-    @media (pointer:coarse) {
-
-      #main {
-        height: calc(100% - 100px);
-      }
-
-      #controls {
-        background-color: #000;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        width: 100%;
-        height: 50px;
-      }
-
-      #controls button {
-        margin: auto 20px;
-        font-weight: bold;
-      }
-
-      #controls .lr {
-        background-color: #0EE;
-      }
-    }
   </style>
 
 </head>
@@ -122,19 +93,11 @@
     </table>
   </div>
 
-  <div id='controls'>
-    <button class='lr' value='37'>&larr;</button>
-    <button class='lr' value='39' style='margin-right: auto;'>&rarr;</button>
-    <button value='38'>&uarr;</button>
-    <button value='40'>&darr;</button>
-  </div>
-
   <script type="text/javascript">
     const board_elem = document.getElementById('board')
     const player_elem = document.getElementById('player')
     const stage_name_elem = document.getElementById('stage_name')
     const retry_elem = document.getElementById('retry')
-    const controls_elem = document.getElementById('controls')
 
     const up = [0, -1]
     const down = [0, 1]
@@ -200,6 +163,24 @@
           }
         }
         return sum
+      }
+
+      touch_move(elem) {
+        var y = elem.parentElement.rowIndex
+        var x = elem.cellIndex
+
+        if ((y == this.y && x <= (this.x + 1) && x >= (this.x - 1)) ||
+          (x == this.x && y <= (this.y + 1) && y >= (this.y - 1))) {
+
+          this.x = x
+          this.y = y
+          this.map[y][x] -= 1
+          this.draw()
+
+          if (this.sum() == 0) {
+            load_next_stage()
+          }
+        }
       }
 
       move(key) {
@@ -338,8 +319,8 @@
         }
       })
 
-      controls_elem.addEventListener('click', function(e) {
-        stage.board.move(e.target.value)
+      board_elem.addEventListener('click', function(e) {
+        stage.board.touch_move(e.target)
       })
 
       retry_elem.addEventListener('click', function() {
