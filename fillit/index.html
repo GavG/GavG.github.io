@@ -24,20 +24,20 @@
       background-color: #000;
       display: flex;
       justify-content: space-between;
-      font-size: 30px;
+      font-size: 25px;
     }
 
     #bar #stage_name {
       color: white;
       line-height: 50px;
-      margin: 0px 5px;
+      margin: 0px 10px;
     }
 
     #bar #retry {
       background-color: #FF0;
       color: #000;
       border: none;
-      font-size: 30px;
+      font-size: 25px;
     }
 
     #main {
@@ -82,7 +82,7 @@
 
   <div id='bar'>
     <span id='stage_name'></span>
-    <button id='retry'>RETRY (r)</button>
+    <button id='retry'>(R)ETRY</button>
   </div>
 
   <div id='main'>
@@ -219,7 +219,7 @@
         save_level()
       } else {
         setTimeout(function() {
-          alert('YOU WIN THE GAME!', 500)
+          alert('YOU WIN THE GAME! - More levels coming soon...', 500)
         })
       }
     }
@@ -256,12 +256,12 @@
 
         new Stage('LAYERS',
           new Board([
-            [1, 2, 2, 2, 1],
+            [0, 1, 2, 2, 2, 1, 0],
           ], 0, 0)),
 
         new Stage('GROOVY',
           new Board([
-            [1, 2, 2, 2, 1],
+            [0, 2, 2, 2, 1],
             [1, 2, 2, 2, 1],
           ], 0, 0)),
 
@@ -279,11 +279,22 @@
             [1, 2, 0, 2, 1],
             [0, 1, 2, 1, 0],
             [0, 0, 1, 0, 0],
-          ], 2, 2)),
+          ], 1, 2)),
 
         new Stage('MORE NOW',
           new Board([
-            [1, 2, 3, 3, 2, 1],
+            [0, 1, 2, 3, 3, 2, 1, 0],
+          ], 0, 0)),
+
+        new Stage('SQUARE',
+          new Board([
+            [0, 1, 1, 1, 1, 1, 1],
+            [1, 2, 2, 2, 2, 2, 1],
+            [1, 2, 3, 3, 3, 2, 1],
+            [1, 2, 3, 0, 3, 2, 1],
+            [1, 2, 3, 3, 3, 2, 1],
+            [1, 2, 2, 2, 2, 2, 1],
+            [1, 1, 1, 1, 1, 1, 1]
           ], 0, 0)),
 
         new Stage('SMILE',
@@ -295,7 +306,7 @@
             [1, 3, 3, 3, 3, 1],
             [0, 1, 3, 3, 1, 0],
             [0, 0, 1, 1, 0, 0]
-          ], 1, 0)),
+          ], 0, 0)),
 
       ]
 
