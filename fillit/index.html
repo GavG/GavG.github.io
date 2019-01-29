@@ -94,6 +94,15 @@
         width: 100%;
         height: 50px;
       }
+
+      #controls button {
+        margin: 20px;
+        font-weight: bold;
+      }
+
+      #controls .lr {
+        background-color: #0EE;
+      }
     }
   </style>
 
@@ -114,10 +123,10 @@
   </div>
 
   <div id='controls'>
-    <button value='37'>&larr;</button>
+    <button class='lr' value='37'>&larr;</button>
+    <button class='lr' value='39' style='margin-right: auto;'>&rarr;</button>
     <button value='38'>&uarr;</button>
     <button value='40'>&darr;</button>
-    <button value='39'>&rarr;</button>
   </div>
 
   <script type="text/javascript">
