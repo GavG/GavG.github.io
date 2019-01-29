@@ -223,17 +223,26 @@
             [1, 2, 2, 2, 1],
           ], 0, 0)),
           
-        new Stage('MULLBERRIES',
+        new Stage('C THIS',
           new Board([
-            [1, 2, 2, 2, 1],
-            [1, 2, 0, 2, 1],
+            [0, 2, 2, 2, 1],
+            [1, 2, 0, 1, 1],
             [1, 2, 2, 2, 1],
           ], 0, 0)),
+          
+        new Stage('CROSS TRAINING',
+          new Board([
+            [0, 0, 1, 0, 0],
+            [0, 1, 2, 1, 0],
+            [1, 2, 0, 2, 1],
+            [0, 1, 2, 1, 0],
+            [0, 0, 1, 0, 0],
+          ], 2, 2)),
 
       ]
       
-      var saved_level = window.localStorage.getItem('level')
-      if (parseInt(saved_level)){
+      var saved_level = parseInt(window.localStorage.getItem('level'))
+      if (saved_level){
         if (confirm("Continue from highest level achieved?")) {
           level = saved_level
         } else {
@@ -244,7 +253,12 @@
       load_stage(level)
 
       window.addEventListener('keydown', function(e) {
-        stage.board.move(e.keyCode % 4)
+        if (e.keyCode == 82) {
+          console.log('reset')
+          stage.board.reset()
+        } else {
+          stage.board.move(e.keyCode % 4)
+        }
       })
 
       document.getElementById('retry').addEventListener('click', function() {
