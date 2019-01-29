@@ -33,7 +33,8 @@
       margin: 0px 5px;
     }
 
-    #bar #retry {
+    #bar #retry,
+    #controls button {
       background-color: #FF0;
       color: #000;
       border: none;
@@ -74,6 +75,26 @@
     #board td._3 {
       background-color: #ffeb3b;
     }
+
+    #controls {
+      display: none;
+    }
+
+    @media (pointer:coarse) {
+
+      #main {
+        height: calc(100% - 100px);
+      }
+
+      #controls {
+        background-color: #000;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        height: 50px;
+      }
+    }
   </style>
 
 </head>
@@ -92,10 +113,19 @@
     </table>
   </div>
 
+  <div id='controls'>
+    <button value='37'>&larr;</button>
+    <button value='38'>&uarr;</button>
+    <button value='40'>&darr;</button>
+    <button value='39'>&rarr;</button>
+  </div>
+
   <script type="text/javascript">
     const board_elem = document.getElementById('board')
     const player_elem = document.getElementById('player')
     const stage_name_elem = document.getElementById('stage_name')
+    const retry_elem = document.getElementById('retry')
+    const controls_elem = document.getElementById('controls')
 
     const up = [0, -1]
     const down = [0, 1]
@@ -299,7 +329,11 @@
         }
       })
 
-      document.getElementById('retry').addEventListener('click', function() {
+      controls_elem.addEventListener('click', function(e) {
+        stage.board.move(e.target.value)
+      })
+
+      retry_elem.addEventListener('click', function() {
         stage.board.reset()
       })
     }
