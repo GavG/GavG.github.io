@@ -70,11 +70,10 @@
     #board td._2 {
       background-color: #0EE;
     }
-    
+
     #board td._3 {
       background-color: #ffeb3b;
     }
-    
   </style>
 
 </head>
@@ -97,6 +96,22 @@
     const board_elem = document.getElementById('board')
     const player_elem = document.getElementById('player')
     const stage_name_elem = document.getElementById('stage_name')
+
+    const up = [0, -1]
+    const down = [0, 1]
+    const left = [-1, 0]
+    const right = [1, 0]
+
+    const key_directions = {
+      38: up,
+      87: up,
+      37: left,
+      65: left,
+      39: right,
+      68: right,
+      40: down,
+      83: down,
+    }
 
     var levels
     var stage
@@ -148,9 +163,12 @@
         return sum
       }
 
-      move(dir) {
-        var x = this.x + ((dir % 2) ? dir - 2 : 0)
-        var y = this.y + (!(dir % 2) ? (dir - 1) * -1 : 0)
+      move(key) {
+
+        var [x, y] = key_directions[key] || [0, 0]
+
+        x += this.x
+        y += this.y
 
         if (typeof this.map[y] !== 'undefined' && this.map[y][x] > 0) {
           this.x = x
@@ -181,7 +199,7 @@
         stage_name_elem.innerText = level + ': ' + stage.name
         save_level()
       } else {
-        setTimeout(function(){
+        setTimeout(function() {
           alert('YOU WIN THE GAME!', 500)
         })
       }
@@ -190,7 +208,7 @@
     function load_next_stage() {
       load_stage(level += 1)
     }
-    
+
     function save_level() {
       window.localStorage.setItem('level', level)
     }
@@ -221,20 +239,20 @@
           new Board([
             [1, 2, 2, 2, 1],
           ], 0, 0)),
-          
+
         new Stage('GROOVY',
           new Board([
             [1, 2, 2, 2, 1],
             [1, 2, 2, 2, 1],
           ], 0, 0)),
-          
+
         new Stage('C THIS',
           new Board([
             [0, 2, 2, 2, 1],
             [1, 2, 0, 1, 1],
             [1, 2, 2, 2, 1],
           ], 0, 0)),
-          
+
         new Stage('CROSS TRAINING',
           new Board([
             [0, 0, 1, 0, 0],
@@ -243,16 +261,16 @@
             [0, 1, 2, 1, 0],
             [0, 0, 1, 0, 0],
           ], 2, 2)),
-          
+
         new Stage('MORE NOW',
           new Board([
             [1, 2, 3, 3, 2, 1],
           ], 0, 0)),
 
       ]
-      
+
       var saved_level = parseInt(window.localStorage.getItem('level'))
-      if (saved_level){
+      if (saved_level) {
         if (confirm("Continue from highest level achieved?")) {
           level = saved_level
         } else {
@@ -264,10 +282,9 @@
 
       window.addEventListener('keydown', function(e) {
         if (e.keyCode == 82) {
-          console.log('reset')
           stage.board.reset()
         } else {
-          stage.board.move(e.keyCode % 4)
+          stage.board.move(e.keyCode)
         }
       })
 
