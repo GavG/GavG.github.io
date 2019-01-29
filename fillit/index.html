@@ -160,7 +160,9 @@
       }
 
       reset() {
-        this.map = this.original_map
+        this.map = this.original_map.map(function(arr) {
+          return arr.slice();
+        })
         this.x = this.original_x
         this.y = this.original_y
         this.draw()
@@ -172,6 +174,7 @@
         stage = stages[level]
         stage.board.draw()
         stage_name_elem.innerText = level + ': ' + stage.name
+        save_level()
       } else {
         setTimeout(function(){
           alert('YOU WIN THE GAME!', 500)
@@ -181,7 +184,6 @@
 
     function load_next_stage() {
       load_stage(level += 1)
-      save_level()
     }
     
     function save_level() {
@@ -214,13 +216,28 @@
           new Board([
             [1, 2, 2, 2, 1],
           ], 0, 0)),
+          
+        new Stage('GROOVY',
+          new Board([
+            [1, 2, 2, 2, 1],
+            [1, 2, 2, 2, 1],
+          ], 0, 0)),
+          
+        new Stage('MULLBERRIES',
+          new Board([
+            [1, 2, 2, 2, 1],
+            [1, 2, 0, 2, 1],
+            [1, 2, 2, 2, 1],
+          ], 0, 0)),
 
       ]
       
       var saved_level = window.localStorage.getItem('level')
-      if (saved_level){
+      if (parseInt(saved_level)){
         if (confirm("Continue from highest level achieved?")) {
-          level = parseInt(saved_level)
+          level = saved_level
+        } else {
+          save_level(level)
         }
       }
 
