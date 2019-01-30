@@ -353,6 +353,10 @@
       board_elem.addEventListener('mouseover', function(e) {
         if(mousedown) stage.board.touch_move(e.target)
       })
+      
+      board_elem.addEventListener('click', function(e) {
+        stage.board.touch_move(e.target)
+      })
 
       retry_elem.addEventListener('click', function() {
         stage.board.reset()
