@@ -58,7 +58,7 @@
       width: 40px;
     }
 
-    #board td.p {
+    #board #p {
       box-sizing: border-box;
       -moz-box-sizing: border-box;
       -webkit-box-sizing: border-box;
@@ -76,7 +76,7 @@
     #board td._3 {
       background-color: #ffeb3b;
     }
-    
+
     #touch {
       width: 100%;
       height: 100%;
@@ -128,6 +128,8 @@
     var levels
     var stage
     var level = 0
+    var highest_level = 0
+    var touch_start
 
     class Stage {
       constructor(name, board) {
@@ -157,7 +159,7 @@
             var cell = row.insertCell(x)
             cell.classList.add('_' + this.map[y][x])
             if (x == this.x && y == this.y) {
-              cell.classList.add('p')
+              cell.id = 'p'
             }
           }
         }
@@ -181,9 +183,9 @@
 
         if (!(x == this.x && y == this.y) &&
           ((y == this.y && x <= (this.x + 1) && x >= (this.x - 1)) ||
-          (x == this.x && y <= (this.y + 1) && y >= (this.y - 1))) &&
+            (x == this.x && y <= (this.y + 1) && y >= (this.y - 1))) &&
           this.map[y][x] > 0
-          ) {
+        ) {
 
           this.x = x
           this.y = y
@@ -243,24 +245,31 @@
     }
 
     function save_level() {
-      window.localStorage.setItem('level', level)
+      if (level > highest_level) window.localStorage.setItem('highest_level', level)
     }
-    
+
     function touchmove(e) {
       touch_elem.style.visibility = 'hidden'
       var point = e.changedTouches[0]
-      stage.board.touch_move(document.elementFromPoint(point.clientX, point.clientY))
+      var x = player_position.left + point.clientX - touch_start.clientX
+      var y = player_position.top + point.clientY - touch_start.clientY
+      var elem = document.elementFromPoint(x, y)
+      if (elem) stage.board.touch_move(elem)
     }
-    
+
     function init_board_touch() {
       touch_elem.addEventListener('touchmove', touchmove)
-      touch_elem.addEventListener('touchend', function(){
+      touch_elem.addEventListener('touchstart', function(e) {
+        touch_start = e.changedTouches[0]
+        player_position = document.getElementById('p').getBoundingClientRect()
+      })
+      touch_elem.addEventListener('touchend', function() {
         touch_elem.style.visibility = 'visible'
       })
-      window.addEventListener('mousedown', function(){
+      window.addEventListener('mousedown', function() {
         touch_elem.style.visibility = 'hidden'
       })
-      window.addEventListener('mouseup', function(){
+      window.addEventListener('mouseup', function() {
         touch_elem.style.visibility = 'visible'
       })
     }
@@ -340,7 +349,7 @@
             [0, 1, 3, 3, 1, 0],
             [0, 0, 1, 1, 0, 0]
           ], 0, 0)),
-          
+
         new Stage('MAZEY DAY',
           new Board([
             [0, 1, 1, 1, 1, 1],
@@ -354,14 +363,9 @@
 
       ]
 
-      var saved_level = parseInt(window.localStorage.getItem('level'))
-      if (saved_level) {
-        if (confirm("Continue from highest level achieved?")) {
-          level = saved_level
-        } else {
-          save_level(level)
-        }
-      }
+      highest_level = parseInt(window.localStorage.getItem('highest_level') || 0)
+
+      if (highest_level > 0) level = highest_level
 
       load_stage(level)
 
@@ -372,11 +376,11 @@
           stage.board.move(e.keyCode)
         }
       })
-      
+
       board_elem.addEventListener('mouseup', function(e) {
         stage.board.touch_move(e.target)
       })
-      
+
       init_board_touch()
 
       retry_elem.addEventListener('click', function() {
