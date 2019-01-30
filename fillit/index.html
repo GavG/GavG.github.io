@@ -168,8 +168,9 @@
         var y = elem.parentElement.rowIndex
         var x = elem.cellIndex
 
-        if ((y == this.y && x <= (this.x + 1) && x >= (this.x - 1)) ||
-          (x == this.x && y <= (this.y + 1) && y >= (this.y - 1))) {
+        if (((y == this.y && x <= (this.x + 1) && x >= (this.x - 1)) ||
+          (x == this.x && y <= (this.y + 1) && y >= (this.y - 1))) &&
+          (x != this.x && y != this.y)) {
 
           this.x = x
           this.y = y
