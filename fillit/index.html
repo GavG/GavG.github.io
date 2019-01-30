@@ -117,6 +117,7 @@
     var levels
     var stage
     var level = 0
+    var mousedown = false
 
     class Stage {
       constructor(name, board) {
@@ -341,8 +342,16 @@
         }
       })
 
-      board_elem.addEventListener('click', function(e) {
-        stage.board.touch_move(e.target)
+      window.addEventListener('mousedown', function(){
+        mousedown = true
+      })
+      
+      window.addEventListener('mouseup', function(){
+        mousedown = false
+      })
+
+      board_elem.addEventListener('mouseover', function(e) {
+        if(mousedown) stage.board.touch_move(e.target)
       })
 
       retry_elem.addEventListener('click', function() {
