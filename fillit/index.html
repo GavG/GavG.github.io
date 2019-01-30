@@ -126,7 +126,6 @@
 
   <script type="text/javascript">
     const board_elem = document.getElementById('board')
-    const player_elem = document.getElementById('player')
     const stage_name_elem = document.getElementById('stage_name')
     const retry_elem = document.getElementById('retry')
     const touch_elem = document.getElementById('touch')
@@ -200,27 +199,6 @@
         return sum
       }
 
-      touch_move(elem) {
-        var y = elem.parentElement.rowIndex
-        var x = elem.cellIndex
-
-        if (!(x == this.x && y == this.y) &&
-          ((y == this.y && x <= (this.x + 1) && x >= (this.x - 1)) ||
-            (x == this.x && y <= (this.y + 1) && y >= (this.y - 1))) &&
-          this.map[y][x] > 0
-        ) {
-
-          this.x = x
-          this.y = y
-          this.map[y][x] -= 1
-          this.draw()
-
-          if (this.sum() == 0) {
-            load_next_stage()
-          }
-        }
-      }
-
       move(key) {
 
         var [x, y] = key_directions[key] || [0, 0]
@@ -277,17 +255,24 @@
     function touchmove(e) {
       touch_elem.style.visibility = 'hidden'
       var point = e.changedTouches[0]
-      var x = player_position.left + point.clientX - touch_start.clientX + 15
-      var y = player_position.top + point.clientY - touch_start.clientY + 15
-      var elem = document.elementFromPoint(x, y)
-      if (elem) stage.board.touch_move(elem)
+
+      var dx = point.clientX - touch_start.clientX
+      var dy = point.clientY - touch_start.clientY
+
+      if (dx > 30 || dx < -30) {
+        stage.board.move(dx < 30 ? 37 : 39)
+        touch_start = point
+      }
+      if (dy > 30 || dy < -30) {
+        stage.board.move(dy > 30 ? 40 : 38)
+        touch_start = point
+      }
     }
 
     function init_board_touch() {
       touch_elem.addEventListener('touchmove', touchmove)
       touch_elem.addEventListener('touchstart', function(e) {
         touch_start = e.changedTouches[0]
-        player_position = document.getElementById('p').getBoundingClientRect()
       })
       touch_elem.addEventListener('touchend', function() {
         touch_elem.style.visibility = 'visible'
