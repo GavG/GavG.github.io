@@ -19,26 +19,43 @@
       overscroll-behavior: contain;
     }
 
+    button {
+      border: none;
+      background: none;
+    }
+
     #bar {
       width: 100%;
       height: 50px;
       background-color: #000;
       display: flex;
       justify-content: space-between;
-      font-size: 25px;
+      font-size: 20px;
     }
 
-    #bar #stage_name {
+    #level_selector {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0px 20px;
+    }
+
+    #level_selector button {
+      color: orange;
+      font-size: 15px;
+      padding: 0px;
+    }
+
+    #stage_name {
       color: white;
       line-height: 50px;
-      margin: 0px 10px;
+      margin-right: auto;
     }
 
-    #bar #retry {
+    #retry {
       background-color: #FF0;
       color: #000;
-      border: none;
-      font-size: 25px;
+      font-size: 20px;
     }
 
     #main {
@@ -89,8 +106,12 @@
 <body>
 
   <div id='bar'>
+    <span id='level_selector'>
+      <button value='1'>&#x25B2;</button>
+      <button value='-1'>&#x25BC;</button>
+    </span>
     <span id='stage_name'></span>
-    <button id='retry'>(R)ETRY</button>
+    <button id='retry'>RESET</button>
   </div>
 
   <div id='main'>
@@ -108,6 +129,7 @@
     const stage_name_elem = document.getElementById('stage_name')
     const retry_elem = document.getElementById('retry')
     const touch_elem = document.getElementById('touch')
+    const level_selector = document.getElementById('level_selector')
 
     const up = [0, -1]
     const down = [0, 1]
@@ -245,7 +267,10 @@
     }
 
     function save_level() {
-      if (level > highest_level) window.localStorage.setItem('highest_level', level)
+      if (level > highest_level) {
+        highest_level = level
+        window.localStorage.setItem('highest_level', highest_level)
+      }
     }
 
     function touchmove(e) {
@@ -385,6 +410,13 @@
 
       retry_elem.addEventListener('click', function() {
         stage.board.reset()
+      })
+
+      level_selector.addEventListener('click', function(e) {
+        var selected_level = level + parseInt(e.target.value)
+        if (selected_level <= highest_level && selected_level >= 0) {
+          load_stage(level = selected_level)
+        }
       })
     }
 
