@@ -44,6 +44,7 @@
       display: flex;
       align-items: center;
       height: calc(100% - 50px);
+      position: relative;
     }
 
     #board {
@@ -74,6 +75,12 @@
     #board td._3 {
       background-color: #ffeb3b;
     }
+    
+    #touch {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
   </style>
 
 </head>
@@ -90,6 +97,8 @@
       <tbody>
       </tbody>
     </table>
+    <div id='touch'>
+    </div>
   </div>
 
   <script type="text/javascript">
@@ -97,6 +106,7 @@
     const player_elem = document.getElementById('player')
     const stage_name_elem = document.getElementById('stage_name')
     const retry_elem = document.getElementById('retry')
+    const touch_elem = document.getElementById('touch')
 
     const up = [0, -1]
     const down = [0, 1]
@@ -117,7 +127,6 @@
     var levels
     var stage
     var level = 0
-    var mousedown = false
 
     class Stage {
       constructor(name, board) {
@@ -169,9 +178,11 @@
         var y = elem.parentElement.rowIndex
         var x = elem.cellIndex
 
-        if (((y == this.y && x <= (this.x + 1) && x >= (this.x - 1)) ||
+        if (!(x == this.x && y == this.y) &&
+          ((y == this.y && x <= (this.x + 1) && x >= (this.x - 1)) ||
           (x == this.x && y <= (this.y + 1) && y >= (this.y - 1))) &&
-          !(x == this.x && y == this.y)) {
+          this.map[y][x] > 0
+          ) {
 
           this.x = x
           this.y = y
@@ -232,6 +243,25 @@
 
     function save_level() {
       window.localStorage.setItem('level', level)
+    }
+    
+    function touchmove(e) {
+      touch_elem.style.visibility = 'hidden'
+      var point = e.changedTouches[0]
+      stage.board.touch_move(document.elementFromPoint(point.clientX, point.clientY))
+    }
+    
+    function init_board_touch() {
+      touch_elem.addEventListener('touchmove', touchmove)
+      touch_elem.addEventListener('touchend', function(){
+        touch_elem.style.visibility = 'visible'
+      })
+      window.addEventListener('mousedown', function(){
+        touch_elem.style.visibility = 'hidden'
+      })
+      window.addEventListener('mouseup', function(){
+        touch_elem.style.visibility = 'visible'
+      })
     }
 
     function init() {
@@ -341,22 +371,12 @@
           stage.board.move(e.keyCode)
         }
       })
-
-      window.addEventListener('mousedown', function(){
-        mousedown = true
-      })
       
-      window.addEventListener('mouseup', function(){
-        mousedown = false
-      })
-
-      board_elem.addEventListener('mouseover', function(e) {
-        if(mousedown) stage.board.touch_move(e.target)
-      })
-      
-      board_elem.addEventListener('click', function(e) {
+      board_elem.addEventListener('mouseup', function(e) {
         stage.board.touch_move(e.target)
       })
+      
+      init_board_touch()
 
       retry_elem.addEventListener('click', function() {
         stage.board.reset()
