@@ -72,8 +72,8 @@
     }
 
     #board td {
-      height: 40px;
-      width: 40px;
+      height: 30px;
+      width: 30px;
     }
 
     #board #p {
@@ -277,8 +277,8 @@
     function touchmove(e) {
       touch_elem.style.visibility = 'hidden'
       var point = e.changedTouches[0]
-      var x = player_position.left + point.clientX - touch_start.clientX + 20
-      var y = player_position.top + point.clientY - touch_start.clientY + 20
+      var x = player_position.left + point.clientX - touch_start.clientX + 15
+      var y = player_position.top + point.clientY - touch_start.clientY + 15
       var elem = document.elementFromPoint(x, y)
       if (elem) stage.board.touch_move(elem)
     }
