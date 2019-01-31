@@ -94,12 +94,6 @@
     #board td._3 {
       background-color: #ffeb3b;
     }
-
-    #touch {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-    }
   </style>
 
 </head>
@@ -120,15 +114,12 @@
       <tbody>
       </tbody>
     </table>
-    <div id='touch'>
-    </div>
   </div>
 
   <script type="text/javascript">
     const board_elem = document.getElementById('board')
     const stage_name_elem = document.getElementById('stage_name')
     const retry_elem = document.getElementById('retry')
-    const touch_elem = document.getElementById('touch')
     const level_selector = document.getElementById('level_selector')
 
     const up = [0, -1]
@@ -188,6 +179,20 @@
         board_elem.replaceChild(new_tbody, board_elem.tBodies[0])
       }
 
+      redraw() {
+        for (var y = 0; y < this.map.length; y++) {
+          for (var x = 0; x < this.map[y].length; x++) {
+            var cell = board.rows[y].cells[x]
+            cell.id = null
+            cell.classList = null
+            cell.classList.add('_' + this.map[y][x])
+            if (x == this.x && y == this.y) {
+              cell.id = 'p'
+            }
+          }
+        }
+      }
+
       sum() {
         var sum = 0
         for (var _y = 0; _y < this.map.length; _y++) {
@@ -197,6 +202,12 @@
           }
         }
         return sum
+      }
+
+      check_complete() {
+        if (this.sum() == 0) {
+          load_next_stage()
+        }
       }
 
       move(key) {
@@ -210,11 +221,24 @@
           this.x = x
           this.y = y
           this.map[y][x] -= 1
-          this.draw()
+          this.redraw()
+          this.check_complete()
+        }
+      }
 
-          if (this.sum() == 0) {
-            load_next_stage()
-          }
+      move_to_cell(elem) {
+        var y = elem.parentElement.rowIndex
+        var x = elem.cellIndex
+        if (!(x == this.x && y == this.y) &&
+          ((y == this.y && x <= (this.x + 1) && x >= (this.x - 1)) ||
+            (x == this.x && y <= (this.y + 1) && y >= (this.y - 1))) &&
+          this.map[y][x] > 0
+        ) {
+          this.x = x
+          this.y = y
+          this.map[y][x] -= 1
+          this.redraw()
+          this.check_complete()
         }
       }
 
@@ -254,11 +278,8 @@
 
     function touch_move(e) {
       var point = e.changedTouches[0]
-
       var dx = point.clientX - touch_start.clientX
       var dy = point.clientY - touch_start.clientY
-
-      console.log(dx, dy)
 
       if (dx > 30 || dx < -30) {
         stage.board.move(dx < 30 ? 37 : 39)
@@ -271,19 +292,9 @@
     }
 
     function init_board_touch() {
-      touch_elem.addEventListener('touchmove', touch_move)
-      touch_elem.addEventListener('touchstart', function(e) {
+      main.addEventListener('touchmove', touch_move)
+      main.addEventListener('touchstart', function(e) {
         touch_start = e.changedTouches[0]
-        touch_elem.style.visibility = 'hidden'
-      })
-      touch_elem.addEventListener('touchend', function() {
-        touch_elem.style.visibility = 'visible'
-      })
-      window.addEventListener('mousedown', function() {
-        touch_elem.style.visibility = 'hidden'
-      })
-      window.addEventListener('mouseup', function() {
-        touch_elem.style.visibility = 'visible'
       })
     }
 
@@ -398,7 +409,9 @@
         }
       })
 
-      // board_elem.addEventListener('mouseup', function(e) { // stage.board.touch_move(e.target) // })
+      board_elem.addEventListener('click', function(e) {
+        stage.board.move_to_cell(e.target)
+      })
 
       init_board_touch()
 
