@@ -253,7 +253,6 @@
     }
 
     function touchmove(e) {
-      touch_elem.style.visibility = 'hidden'
       var point = e.changedTouches[0]
 
       var dx = point.clientX - touch_start.clientX
@@ -273,6 +272,7 @@
       touch_elem.addEventListener('touchmove', touchmove)
       touch_elem.addEventListener('touchstart', function(e) {
         touch_start = e.changedTouches[0]
+        touch_elem.style.visibility = 'hidden'
       })
       touch_elem.addEventListener('touchend', function() {
         touch_elem.style.visibility = 'visible'
