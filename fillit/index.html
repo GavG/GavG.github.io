@@ -252,11 +252,13 @@
       }
     }
 
-    function touchmove(e) {
+    function touch_move(e) {
       var point = e.changedTouches[0]
 
       var dx = point.clientX - touch_start.clientX
       var dy = point.clientY - touch_start.clientY
+
+      console.log(dx, dy)
 
       if (dx > 30 || dx < -30) {
         stage.board.move(dx < 30 ? 37 : 39)
@@ -269,7 +271,7 @@
     }
 
     function init_board_touch() {
-      touch_elem.addEventListener('touchmove', touchmove)
+      touch_elem.addEventListener('touchmove', touch_move)
       touch_elem.addEventListener('touchstart', function(e) {
         touch_start = e.changedTouches[0]
         touch_elem.style.visibility = 'hidden'
@@ -396,9 +398,7 @@
         }
       })
 
-      board_elem.addEventListener('mouseup', function(e) {
-        stage.board.touch_move(e.target)
-      })
+      // board_elem.addEventListener('mouseup', function(e) { // stage.board.touch_move(e.target) // })
 
       init_board_touch()
 
