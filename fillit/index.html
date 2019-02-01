@@ -131,6 +131,8 @@
       </tbody>
     </table>
   </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 
   <script type="text/javascript">
     const board_elem = document.getElementById('board')
@@ -159,6 +161,9 @@
     var level = 0
     var highest_level = 0
     var touch_start
+
+    var keys = [[[[0],[0]]]]
+    var current_event
 
     class Stage {
       constructor(name, board) {
@@ -221,8 +226,16 @@
       }
 
       check_complete() {
-        if (this.sum() == 0) {
-          load_next_stage()
+        var board_sum = this.sum()
+        var len = keys[level].length
+        if(current_event.timeStamp > keys[level][len - 1][1]){
+          keys[level][len] = [
+            current_event.isTrusted && (board_sum * keys[level][len - 1][0] + 1),
+            current_event.timeStamp
+          ]
+        }
+        if (board_sum == 0) {
+          load_next_stage(keys[level])
         }
       }
 
@@ -266,11 +279,30 @@
         this.draw()
       }
     }
+    
+    function unlock_stage(level, key) {
+      if(!key){
+        return stages[0]
+      }
+      
+      var secret = ''
+      
+      for (var i = 0; i < key.length; i++) {
+        secret += key[i][0]
+      }
+      
+      console.log(secret)
+      
+      var stage = eval()
+      if(stage.board){
+        save_level()
+        return stage
+      }
+    }
 
-    function load_stage(level) {
-      save_level()
+    function load_stage(level, key) {
       if (typeof stages[level] !== 'undefined') {
-        stage = stages[level]
+        stage = unlock_stage(stages[level], key)
         stage.board.draw()
         stage_name_elem.innerText = level + ': ' + stage.name
       } else {
@@ -280,8 +312,8 @@
       }
     }
 
-    function load_next_stage() {
-      load_stage(level += 1)
+    function load_next_stage(key) {
+      load_stage(level += 1, key)
     }
 
     function save_level() {
@@ -292,6 +324,7 @@
     }
 
     function touch_move(e) {
+      current_event = e
       var point = e.changedTouches[0]
       var dx = point.clientX - touch_start.clientX
       var dy = point.clientY - touch_start.clientY
@@ -322,11 +355,7 @@
             [0, 1, 1, 1]
           ], 0, 0)),
 
-        new Stage('DOUBLE DECKER',
-          new Board([
-            [0, 1, 1, 1],
-            [1, 1, 1, 1]
-          ], 0, 0)),
+        '{"name":"DOUBLE DECKER","board":{"original_map":[[0,1,1,1],[1,1,1,1]],"original_x":0,"original_y":0,"map":[[0,1,1,1],[1,1,1,1]],"x":0,"y":0,"player_elem":null}}',
 
         new Stage('TIC-TAC-TOE',
           new Board([
@@ -427,6 +456,7 @@
       load_stage(level)
 
       window.addEventListener('keydown', function(e) {
+        current_event = e
         if (e.keyCode == 82) {
           stage.board.reset()
         } else {
@@ -435,6 +465,7 @@
       })
 
       board_elem.addEventListener('click', function(e) {
+        current_event = e
         stage.board.move_to_cell(e.target)
       })
 
