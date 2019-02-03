@@ -175,11 +175,17 @@
     var levels
     var stage
     var level = 0
-    var next_level = level + 1
     var highest_level = 0
     var touch_start
     var current_event
-    var keys = []
+    var keys = [
+      [
+        [
+          [0],
+          [0]
+        ]
+      ]
+    ]
 
     class Stage {
       constructor(name, board) {
@@ -240,6 +246,10 @@
 
       check_complete() {
         var board_sum = this.sum()
+
+        var next_level = level + 1
+
+        console.log(keys)
 
         if (typeof keys[next_level] == 'undefined') keys[next_level] = [
           [
@@ -343,7 +353,6 @@
 
     function load_next_stage() {
       load_stage(level + 1)
-      next_level = level + 1
     }
 
     function save_level() {
@@ -410,7 +419,7 @@
 
       level_selector.addEventListener('click', function(e) {
         var selected_level = level + parseInt(e.target.value)
-        if (selected_level <= highest_level && selected_level >= 0) {
+        if (selected_level >= 0 && selected_level <= highest_level) {
           load_stage(selected_level)
         }
       })
