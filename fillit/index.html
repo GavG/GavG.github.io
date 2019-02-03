@@ -57,6 +57,14 @@
       padding-bottom: 5px;
     }
 
+    #level_selector.max button:first-child {
+      color: gray;
+    }
+
+    #level_selector.min button:last-child {
+      color: gray;
+    }
+
     #stage_name {
       color: white;
       line-height: 50px;
@@ -249,8 +257,6 @@
 
         var next_level = level + 1
 
-        console.log(keys)
-
         if (typeof keys[next_level] == 'undefined') keys[next_level] = [
           [
             [0],
@@ -385,6 +391,19 @@
       })
     }
 
+    function style_selector() {
+      if (level == highest_level) {
+        level_selector.classList.add('max')
+      } else {
+        level_selector.classList.remove('max')
+      }
+      if (level == 0) {
+        level_selector.classList.add('min')
+      } else {
+        level_selector.classList.remove('min')
+      }
+    }
+
     function init() {
 
       highest_level = parseInt(window.localStorage.getItem('highest_level') || 0)
@@ -396,6 +415,8 @@
       if (highest_level > 0) level = highest_level
 
       load_stage(level)
+
+      style_selector()
 
       window.addEventListener('keydown', function(e) {
         current_event = e
@@ -421,6 +442,7 @@
         var selected_level = level + parseInt(e.target.value)
         if (selected_level >= 0 && selected_level <= highest_level) {
           load_stage(selected_level)
+          style_selector()
         }
       })
     }
