@@ -57,6 +57,14 @@
       padding-bottom: 5px;
     }
 
+    #level_selector.max button:first-child {
+      color: gray;
+    }
+
+    #level_selector.min button:last-child {
+      color: gray;
+    }
+
     #stage_name {
       color: white;
       line-height: 50px;
@@ -131,7 +139,7 @@
       </tbody>
     </table>
   </div>
-  
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 
   <script type="text/javascript">
@@ -144,6 +152,22 @@
     const down = [0, 1]
     const left = [-1, 0]
     const right = [1, 0]
+
+    const stages = [
+      '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',
+    ]
 
     const key_directions = {
       38: up,
@@ -161,9 +185,15 @@
     var level = 0
     var highest_level = 0
     var touch_start
-
-    var keys = [[[[0],[0]]]]
     var current_event
+    var keys = [
+      [
+        [
+          [0],
+          [0]
+        ]
+      ]
+    ]
 
     class Stage {
       constructor(name, board) {
@@ -174,9 +204,6 @@
 
     class Board {
       constructor(map, x, y) {
-        this.original_map = map.map(function(arr) {
-          return arr.slice();
-        })
         this.original_x = x
         this.original_y = y
         this.map = map
@@ -227,15 +254,25 @@
 
       check_complete() {
         var board_sum = this.sum()
-        var len = keys[level].length
-        if(current_event.timeStamp > keys[level][len - 1][1]){
-          keys[level][len] = [
-            current_event.isTrusted && (board_sum * keys[level][len - 1][0] + 1),
+
+        var next_level = level + 1
+
+        if (typeof keys[next_level] == 'undefined') keys[next_level] = [
+          [
+            [0],
+            [0]
+          ]
+        ]
+
+        var len = keys[next_level].length
+        if (current_event.timeStamp > keys[next_level][len - 1][1]) {
+          keys[next_level][len] = [
+            current_event.isTrusted && (board_sum + parseInt(keys[next_level][len - 1][0])),
             current_event.timeStamp
           ]
         }
         if (board_sum == 0) {
-          load_next_stage(keys[level])
+          load_next_stage()
         }
       }
 
@@ -279,32 +316,40 @@
         this.draw()
       }
     }
-    
-    function unlock_stage(level, key) {
-      if(!key){
-        return stages[0]
-      }
-      
+
+    function unlock_stage(_level) {
+
       var secret = ''
-      
+      var key = keys[_level]
+
       for (var i = 0; i < key.length; i++) {
         secret += key[i][0]
+        if (i > 0 && key[i][1] < key[i - 1]) {
+          level = 0
+        }
       }
-      
-      console.log(secret)
-      
-      var stage = eval()
-      if(stage.board){
-        save_level()
-        return stage
-      }
+
+      stage = Object.assign(new Stage, JSON.parse(
+        CryptoJS.AES.decrypt(stages[_level], secret).toString(CryptoJS.enc.Utf8)
+      ))
+      stage.board = Object.assign(new Board, stage.board)
+
+      level = _level
+      save_level()
+      save_keys()
+
+      return stage
     }
 
-    function load_stage(level, key) {
-      if (typeof stages[level] !== 'undefined') {
-        stage = unlock_stage(stages[level], key)
+    function save_keys() {
+      window.localStorage.setItem('keys', JSON.stringify(keys))
+    }
+
+    function load_stage(_level) {
+      if (typeof stages[_level] !== 'undefined') {
+        stage = unlock_stage(_level)
         stage.board.draw()
-        stage_name_elem.innerText = level + ': ' + stage.name
+        stage_name_elem.innerText = _level + ': ' + stage.name
       } else {
         setTimeout(function() {
           alert('YOU WIN THE GAME! - More levels coming soon...', 500)
@@ -312,8 +357,8 @@
       }
     }
 
-    function load_next_stage(key) {
-      load_stage(level += 1, key)
+    function load_next_stage() {
+      load_stage(level + 1)
     }
 
     function save_level() {
@@ -346,114 +391,32 @@
       })
     }
 
+    function style_selector() {
+      if (level == highest_level) {
+        level_selector.classList.add('max')
+      } else {
+        level_selector.classList.remove('max')
+      }
+      if (level == 0) {
+        level_selector.classList.add('min')
+      } else {
+        level_selector.classList.remove('min')
+      }
+    }
+
     function init() {
 
-      stages = [
-
-        new Stage('INTRO',
-          new Board([
-            [0, 1, 1, 1]
-          ], 0, 0)),
-
-        '{"name":"DOUBLE DECKER","board":{"original_map":[[0,1,1,1],[1,1,1,1]],"original_x":0,"original_y":0,"map":[[0,1,1,1],[1,1,1,1]],"x":0,"y":0,"player_elem":null}}',
-
-        new Stage('TIC-TAC-TOE',
-          new Board([
-            [0, 1, 1],
-            [1, 1, 1],
-            [1, 1, 1]
-          ], 0, 0)),
-
-        new Stage('LAYERS',
-          new Board([
-            [0, 1, 2, 2, 2, 1, 0]
-          ], 0, 0)),
-
-        new Stage('GROOVY',
-          new Board([
-            [0, 2, 2, 2, 1],
-            [1, 2, 2, 2, 1]
-          ], 0, 0)),
-
-        new Stage('C THIS',
-          new Board([
-            [0, 2, 2, 2, 1],
-            [1, 2, 0, 1, 1],
-            [1, 2, 2, 2, 1]
-          ], 0, 0)),
-
-        new Stage('CROSS TRAINING',
-          new Board([
-            [0, 0, 1, 0, 0],
-            [0, 1, 2, 1, 0],
-            [1, 2, 0, 2, 1],
-            [0, 1, 2, 1, 0],
-            [0, 0, 1, 0, 0]
-          ], 1, 2)),
-
-        new Stage('MORE NOW',
-          new Board([
-            [0, 1, 2, 3, 3, 2, 1, 0]
-          ], 0, 0)),
-
-        new Stage('SQUARE',
-          new Board([
-            [0, 1, 1, 1, 1, 1, 1],
-            [1, 2, 2, 2, 2, 2, 1],
-            [1, 2, 3, 3, 3, 2, 1],
-            [1, 2, 3, 0, 3, 2, 1],
-            [1, 2, 3, 3, 3, 2, 1],
-            [1, 2, 2, 2, 2, 2, 1],
-            [1, 1, 1, 1, 1, 1, 1]
-          ], 0, 0)),
-
-        new Stage('LIFT?',
-          new Board([
-            [0, 1, 1, 0, 0, 1, 1, 0],
-            [1, 1, 1, 2, 2, 1, 1, 1],
-            [1, 1, 1, 2, 2, 1, 1, 1],
-            [0, 1, 1, 0, 0, 1, 1, 0]
-          ], 0, 0)),
-
-        new Stage('MAZEY DAY',
-          new Board([
-            [0, 1, 1, 1, 1, 1],
-            [1, 0, 2, 1, 0, 1],
-            [2, 0, 2, 0, 0, 1],
-            [2, 1, 2, 1, 1, 2],
-            [1, 0, 0, 0, 0, 2],
-            [1, 3, 2, 2, 2, 3],
-            [0, 2, 0, 0, 0, 1]
-          ], 0, 0)),
-
-        new Stage('SMILE',
-          new Board([
-            [0, 1, 1, 1, 1, 0],
-            [1, 1, 1, 1, 1, 1],
-            [1, 2, 1, 1, 2, 1],
-            [1, 1, 1, 1, 1, 1],
-            [1, 3, 3, 3, 3, 1],
-            [0, 1, 3, 3, 1, 0],
-            [0, 0, 1, 1, 0, 0]
-          ], 0, 0)),
-
-        new Stage('BATTENBERGS',
-          new Board([
-            [0, 0],
-            [1, 2, 1, 2, 1],
-            [3, 4, 3, 4, 3],
-            [4, 3, 4, 3, 4],
-            [3, 4, 3, 4, 3],
-            [1, 2, 1, 2, 1]
-          ], 1, 0)),
-
-      ]
-
       highest_level = parseInt(window.localStorage.getItem('highest_level') || 0)
+
+      saved_keys = window.localStorage.getItem('keys')
+
+      if (saved_keys) keys = JSON.parse(saved_keys)
 
       if (highest_level > 0) level = highest_level
 
       load_stage(level)
+
+      style_selector()
 
       window.addEventListener('keydown', function(e) {
         current_event = e
@@ -477,8 +440,9 @@
 
       level_selector.addEventListener('click', function(e) {
         var selected_level = level + parseInt(e.target.value)
-        if (selected_level <= highest_level && selected_level >= 0) {
-          load_stage(level = selected_level)
+        if (selected_level >= 0 && selected_level <= highest_level) {
+          load_stage(selected_level)
+          style_selector()
         }
       })
     }
