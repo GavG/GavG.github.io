@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>CheckIt</title>
+
+  <style media="screen">
+    html,
+    body,
+    .sum,
+    .operand {
+      width: 100%;
+    }
+
+    .sum {
+      counter-reset: sum;
+    }
+
+    .num {
+      counter-reset: num;
+      padding: 5px;
+    }
+
+    ._1:checked {
+      counter-increment: num sum 1;
+    }
+
+    ._2:checked {
+      counter-increment: num sum 2;
+    }
+
+    ._4:checked {
+      counter-increment: num sum 4;
+    }
+
+    ._8:checked {
+      counter-increment: num sum 8;
+    }
+
+    ._16:checked {
+      counter-increment: num sum 16;
+    }
+
+    ._32:checked {
+      counter-increment: num sum 32;
+    }
+
+    ._64:checked {
+      counter-increment: num sum 64;
+    }
+
+    .operand:checked+.num ._1:checked {
+      counter-increment: num sum -1;
+    }
+
+    .operand:checked+.num ._2:checked {
+      counter-increment: num sum -2;
+    }
+
+    .operand:checked+.num ._2:checked {
+      counter-increment: num sum -2;
+    }
+
+    .operand:checked+.num ._4:checked {
+      counter-increment: num sum -4;
+    }
+
+    .operand:checked+.num ._8:checked {
+      counter-increment: num sum -8;
+    }
+
+    .operand:checked+.num ._16:checked {
+      counter-increment: num sum -16;
+    }
+
+    .operand:checked+.num ._32:checked {
+      counter-increment: num sum -32;
+    }
+
+    .operand:checked+.num ._64:checked {
+      counter-increment: num sum -64;
+    }
+
+    .num+.val::after {
+      content: counter(num);
+    }
+
+    .sum+.val::after {
+      content: counter(sum);
+    }
+
+    .sum+.val {
+      border-top: solid 1px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class='sum'>
+
+    <div class="num">
+
+      <label>64
+        <input class="_64" type="checkbox">
+      </label>
+
+      <label>32
+        <input class="_32" type="checkbox">
+      </label>
+
+      <label>16
+        <input class="_16" type="checkbox">
+      </label>
+
+      <label>8
+        <input class="_8" type="checkbox">
+      </label>
+
+      <label>4
+        <input class="_4" type="checkbox">
+      </label>
+
+      <label>2
+        <input class="_2" type="checkbox">
+      </label>
+
+      <label>1
+        <input class="_1" type="checkbox">
+      </label>
+
+    </div>
+
+    <span class='val'></span>
+
+    <input type="checkbox" class="operand">
+
+    <div class="num">
+
+      <label>64
+        <input class="_64" type="checkbox">
+      </label>
+
+      <label>32
+        <input class="_32" type="checkbox">
+      </label>
+
+      <label>16
+        <input class="_16" type="checkbox">
+      </label>
+
+      <label>8
+        <input class="_8" type="checkbox">
+      </label>
+
+      <label>4
+        <input class="_4" type="checkbox">
+      </label>
+
+      <label>2
+        <input class="_2" type="checkbox">
+      </label>
+
+      <label>1
+        <input class="_1" type="checkbox">
+      </label>
+
+    </div>
+
+    <span class='val'></span>
+
+  </div>
+  <span class='val'></span>
+
+</body>
+
+</html>
