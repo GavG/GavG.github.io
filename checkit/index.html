@@ -13,7 +13,7 @@
     #info {
       width: 100%;
     }
-    
+
     html,
     body,
     .bg {
@@ -24,19 +24,29 @@
       margin: 0px;
     }
 
+    body {
+      font-family: monospace;
+    }
+
+    h2 {
+      margin-top: 0px;
+    }
+
     #calc {
       width: 500px;
       margin: auto;
       padding: 10px;
+      margin-top: 40px;
       border-radius: 30px;
       background-color: #a7a7a7;
     }
-    
+
     #ans {
       margin-top: 10px;
     }
-    
-    .sum, .num {
+
+    .sum,
+    .num {
       margin: auto;
     }
 
@@ -47,66 +57,69 @@
     .num {
       counter-reset: num;
       padding: 5px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+
+    .num input[type='checkbox'] {
+      position: absolute;
     }
 
     ._1:checked {
-      counter-increment: num sum 1;
+      counter-increment: num 1 sum 1;
     }
 
     ._2:checked {
-      counter-increment: num sum 2;
+      counter-increment: num 2 sum 2;
     }
 
     ._4:checked {
-      counter-increment: num sum 4;
+      counter-increment: num 4 sum 4;
     }
 
     ._8:checked {
-      counter-increment: num sum 8;
+      counter-increment: num 8 sum 8;
     }
 
     ._16:checked {
-      counter-increment: num sum 16;
+      counter-increment: num 16 sum 16;
     }
 
     ._32:checked {
-      counter-increment: num sum 32;
+      counter-increment: num 32 sum 32;
     }
 
     ._64:checked {
-      counter-increment: num sum 64;
+      counter-increment: num 64 sum 64;
     }
 
     .operand:checked+.num ._1:checked {
-      counter-increment: num sum -1;
+      counter-increment: num -1 sum -1;
     }
 
     .operand:checked+.num ._2:checked {
-      counter-increment: num sum -2;
-    }
-
-    .operand:checked+.num ._2:checked {
-      counter-increment: num sum -2;
+      counter-increment: num -2 sum -2;
     }
 
     .operand:checked+.num ._4:checked {
-      counter-increment: num sum -4;
+      counter-increment: num -4 sum -4;
     }
 
     .operand:checked+.num ._8:checked {
-      counter-increment: num sum -8;
+      counter-increment: num -8 sum -8;
     }
 
     .operand:checked+.num ._16:checked {
-      counter-increment: num sum -16;
+      counter-increment: num -16 sum -16;
     }
 
     .operand:checked+.num ._32:checked {
-      counter-increment: num sum -32;
+      counter-increment: num -32 sum -32;
     }
 
     .operand:checked+.num ._64:checked {
-      counter-increment: num sum -64;
+      counter-increment: num -64 sum -64;
     }
 
     .num+.val::after {
@@ -120,39 +133,46 @@
     .sum+.val {
       border-top: solid 1px;
     }
-    
+
     #info {
       position: absolute;
       top: 0px;
       left: 0px;
     }
-    
+
     #x {
       position: absolute;
       top: 20px;
       right: 20px;
       content: 'x';
-      color: red;
+      color: #FFF;
       z-index: 2;
+      background: #999;
+      border-radius: 5px;
+      font-size: 15px;
+      width: 15px;
+      height: 15px;
+      text-align: center;
+      line-height: 14px;
     }
-    
-    #close, #close:checked + .bg {
+
+    #close,
+    #close:checked+.bg {
       display: none;
     }
-    
+
     .bg {
       background: #9999;
       position: absolute;
     }
-    
+
     .inner {
       border-radius: 5px;
       margin: 10px;
-      margin-top: 30%;
+      margin-top: 30vh;
       background-color: #FFF;
       padding: 10px;
     }
-    
   </style>
 
 </head>
@@ -233,17 +253,17 @@
       <span class="val"></span>
 
     </div>
-    
+
     <span id="ans" class="val"></span>
-    
+
   </div>
-  
+
   <div id="info">
     <input type="checkbox" id="close">
     <div class="bg">
       <label id="x" for="close">x</label>
       <div class="inner">
-      <h2>CSS Calculator</h2>
+        <h2>CSS Calculator</h2>
         <p>Welcome to the CSS Calculator</p>
         <label class="dismiss" for="close">Dismiss</label>
       </div>
