@@ -257,6 +257,12 @@
       cursor: pointer;
     }
 
+    #x:hover,
+    #dismiss:hover,
+    label:hover {
+      color: #77F;
+    }
+
     #dismiss {
       color: #22F;
       text-align: center;
@@ -271,13 +277,17 @@
     }
 
     .inner {
-      border-radius: 5px;
-      margin: 10px;
       margin: auto;
       margin-top: 30vh;
+      max-width: 800px;
+    }
+
+    .text {
+      text-align: center;
+      margin: 10px;
+      border-radius: 5px;
       background-color: #FFF;
       padding: 10px;
-      max-width: 800px;
     }
   </style>
 
@@ -372,10 +382,12 @@
     <div class="bg">
       <label id="x" for="close">x</label>
       <div class="inner">
-        <h2>CSS Calculator</h2>
-        <p>Welcome to the CSS Calculator!</p>
-        <p>This binary to decimal converter / adder / subtractor is made using HTML and CSS only! As is the entire webpage including this dismissable dialogue box.</p>
-        <label id="dismiss" for="close">Dismiss</label>
+        <div class='text'>
+          <h2>CSS Calculator</h2>
+          <p>This is a demo of the CSS Calculator adder and subtractor!</p>
+          <p>This binary to decimal converter / adder / subtractor is made using HTML and CSS only! As is the entire webpage including this dismissable dialogue box!</p>
+          <label id="dismiss" for="close">Dismiss</label>
+        </div>
       </div>
     </div>
   </div>
