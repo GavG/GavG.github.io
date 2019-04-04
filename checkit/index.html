@@ -32,6 +32,11 @@
       margin-top: 0px;
     }
 
+    #calc h2 {
+      text-align: center;
+      font-size: 30px;
+    }
+
     #calc {
       width: 500px;
       margin: auto;
@@ -92,12 +97,48 @@
       content: '1';
     }
 
+    #operand {
+      opacity: 0;
+      text-align: center;
+      display: block;
+    }
+
+    #operand+label {
+      display: block;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    #operand+label::after,
+    #operand+label::before {
+      display: inline-block;
+      width: 50px;
+      height: 25px;
+      text-align: center;
+      margin: 5px;
+      line-height: 24px;
+    }
+
     #operand+label::after {
       content: '+';
+      background-color: #2B3;
+      color: #FFF;
+    }
+
+    #operand+label::before {
+      content: '-';
+      background-color: #999;
+      color: #333;
     }
 
     #operand:checked+label::before {
-      content: '-';
+      background-color: #2B3;
+      color: #FFF;
+    }
+
+    #operand:checked+label::after {
+      background-color: #999;
+      color: #333;
     }
 
     ._1:checked {
@@ -222,6 +263,9 @@
 <body>
 
   <div id="calc">
+
+    <h2>BINARY CALC - 254</h2>
+
     <div class='sum'>
 
       <div class="num">
