@@ -92,6 +92,14 @@
       content: '1';
     }
 
+    .operand {
+      content: '+';
+    }
+
+    .operand:checked {
+      content: '-';
+    }
+
     .val {
       margin-left: 40px;
     }
@@ -125,31 +133,31 @@
     }
 
     .operand:checked+.num ._1:checked {
-      counter-increment: num -1 sum -1;
+      counter-increment: num 1 sum -1;
     }
 
     .operand:checked+.num ._2:checked {
-      counter-increment: num -2 sum -2;
+      counter-increment: num 2 sum -2;
     }
 
     .operand:checked+.num ._4:checked {
-      counter-increment: num -4 sum -4;
+      counter-increment: num 4 sum -4;
     }
 
     .operand:checked+.num ._8:checked {
-      counter-increment: num -8 sum -8;
+      counter-increment: num 8 sum -8;
     }
 
     .operand:checked+.num ._16:checked {
-      counter-increment: num -16 sum -16;
+      counter-increment: num 16 sum -16;
     }
 
     .operand:checked+.num ._32:checked {
-      counter-increment: num -32 sum -32;
+      counter-increment: num 32 sum -32;
     }
 
     .operand:checked+.num ._64:checked {
-      counter-increment: num -64 sum -64;
+      counter-increment: num 64 sum -64;
     }
 
     .num+.val::after {
