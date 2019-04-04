@@ -9,8 +9,18 @@
     html,
     body,
     .sum,
-    .operand {
+    .operand,
+    .bg,
+    #info {
       width: 100%;
+    }
+    
+    html,
+    body,
+    .bg,
+    #info {
+      height: 100%;
+      padding: 0px;
     }
 
     .sum {
@@ -93,6 +103,39 @@
     .sum+.val {
       border-top: solid 1px;
     }
+    
+    #info {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+    }
+    
+    #x {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      content: 'x';
+      color: red;
+      z-index: 2;
+    }
+    
+    #close, #close:checked + .bg {
+      display: none;
+    }
+    
+    .bg {
+      background: #9999;
+      position: absolute;
+    }
+    
+    .inner {
+      border-radius: 5px;
+      margin: 10px;
+      margin-top: 30%;
+      background-color: #FFF;
+      padding: 10px;
+    }
+    
   </style>
 
 </head>
@@ -133,7 +176,7 @@
 
     </div>
 
-    <span class='val'></span>
+    <span class="val"></span>
 
     <input type="checkbox" class="operand">
 
@@ -169,10 +212,22 @@
 
     </div>
 
-    <span class='val'></span>
+    <span class="val"></span>
 
   </div>
-  <span class='val'></span>
+  <span class="val"></span>
+  
+  <div id="info">
+    <input type="checkbox" id="close">
+    <div class="bg">
+      <label id="x" for="close">x</label>
+      <div class="inner">
+      <h2>CSS Calculator</h2>
+        <p>Welcome to the CSS Calculator</p>
+        <label class="dismiss" for="close">Dismiss</label>
+      </div>
+    </div>
+  </div>
 
 </body>
 
