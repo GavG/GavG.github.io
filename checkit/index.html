@@ -100,10 +100,6 @@
       content: '-';
     }
 
-    .val {
-      margin-left: 40px;
-    }
-
     ._1:checked {
       counter-increment: num 1 sum 1;
     }
@@ -160,8 +156,16 @@
       counter-increment: num 64 sum -64;
     }
 
+    .sum {
+      display: block;
+    }
+
     .num+.val::after {
       content: counter(num);
+      display: block;
+      background: #FFF;
+      margin: 30px 30px;
+      padding: 3px;
     }
 
     .sum+.val::after {
