@@ -8,7 +8,6 @@
   <style media="screen">
     html,
     body,
-    .sum,
     .operand,
     .bg,
     #info {
@@ -17,10 +16,28 @@
     
     html,
     body,
-    .bg,
-    #info {
-      height: 100%;
+    .bg {
+      height: 100vh;
+      width: 100vw;
+      position: absolute;
       padding: 0px;
+      margin: 0px;
+    }
+
+    #calc {
+      width: 500px;
+      margin: auto;
+      padding: 10px;
+      border-radius: 30px;
+      background-color: #a7a7a7;
+    }
+    
+    #ans {
+      margin-top: 10px;
+    }
+    
+    .sum, .num {
+      margin: auto;
     }
 
     .sum {
@@ -142,80 +159,84 @@
 
 <body>
 
-  <div class='sum'>
+  <div id="calc">
+    <div class='sum'>
 
-    <div class="num">
+      <div class="num">
 
-      <label>64
-        <input class="_64" type="checkbox">
-      </label>
+        <label>64
+          <input class="_64" type="checkbox">
+        </label>
 
-      <label>32
-        <input class="_32" type="checkbox">
-      </label>
+        <label>32
+          <input class="_32" type="checkbox">
+        </label>
 
-      <label>16
-        <input class="_16" type="checkbox">
-      </label>
+        <label>16
+          <input class="_16" type="checkbox">
+        </label>
 
-      <label>8
-        <input class="_8" type="checkbox">
-      </label>
+        <label>8
+          <input class="_8" type="checkbox">
+        </label>
 
-      <label>4
-        <input class="_4" type="checkbox">
-      </label>
+        <label>4
+          <input class="_4" type="checkbox">
+        </label>
 
-      <label>2
-        <input class="_2" type="checkbox">
-      </label>
+        <label>2
+          <input class="_2" type="checkbox">
+        </label>
 
-      <label>1
-        <input class="_1" type="checkbox">
-      </label>
+        <label>1
+          <input class="_1" type="checkbox">
+        </label>
+
+      </div>
+
+      <span class="val"></span>
+
+      <input type="checkbox" class="operand">
+
+      <div class="num">
+
+        <label>64
+          <input class="_64" type="checkbox">
+        </label>
+
+        <label>32
+          <input class="_32" type="checkbox">
+        </label>
+
+        <label>16
+          <input class="_16" type="checkbox">
+        </label>
+
+        <label>8
+          <input class="_8" type="checkbox">
+        </label>
+
+        <label>4
+          <input class="_4" type="checkbox">
+        </label>
+
+        <label>2
+          <input class="_2" type="checkbox">
+        </label>
+
+        <label>1
+          <input class="_1" type="checkbox">
+        </label>
+
+      </div>
+
+      <span class="val"></span>
 
     </div>
-
-    <span class="val"></span>
-
-    <input type="checkbox" class="operand">
-
-    <div class="num">
-
-      <label>64
-        <input class="_64" type="checkbox">
-      </label>
-
-      <label>32
-        <input class="_32" type="checkbox">
-      </label>
-
-      <label>16
-        <input class="_16" type="checkbox">
-      </label>
-
-      <label>8
-        <input class="_8" type="checkbox">
-      </label>
-
-      <label>4
-        <input class="_4" type="checkbox">
-      </label>
-
-      <label>2
-        <input class="_2" type="checkbox">
-      </label>
-
-      <label>1
-        <input class="_1" type="checkbox">
-      </label>
-
-    </div>
-
-    <span class="val"></span>
-
+    
+    <span id="ans" class="val"></span>
+    
   </div>
-  <span class="val"></span>
   
   <div id="info">
     <input type="checkbox" id="close">
