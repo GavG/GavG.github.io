@@ -227,6 +227,7 @@
       top: 0px;
       left: 0px;
       height: 100%;
+      z-index: 0;
     }
 
     #x {
@@ -246,7 +247,7 @@
     }
 
     #close,
-    #close:checked+.bg {
+    #close:checked+#info {
       display: none;
     }
 
@@ -366,8 +367,8 @@
 
   </div>
 
+  <input type="checkbox" id="close">
   <div id="info">
-    <input type="checkbox" id="close">
     <div class="bg">
       <label id="x" for="close">x</label>
       <div class="inner">
