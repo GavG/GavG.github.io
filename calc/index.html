@@ -27,6 +27,7 @@
     body {
       font-family: monospace;
       font-size: 16px;
+      background-color: #EEE;
     }
 
     h2 {
@@ -46,7 +47,7 @@
       padding: 10px;
       margin-top: 40px;
       border-radius: 5px;
-      background-color: #a7a7a7;
+      background-color: #DDD;
     }
 
     #ans {
@@ -54,7 +55,7 @@
       margin: 30px;
       margin-top: 50px;
       border-top: solid 2px;
-      padding-top: 2px;
+      padding-top: 5px;
     }
 
     .sum,
@@ -78,11 +79,11 @@
     .num label {
       display: block;
       background: #ffeb3b;
-      color: #333;
+      color: #555;
       border-radius: 2px;
       width: 22px;
       height: 22px;
-      line-height: 18px;
+      line-height: 20px;
       text-align: center;
     }
 
@@ -96,7 +97,7 @@
     .num input[type='checkbox']+span::after {
       display: block;
       line-height: 20px;
-      color: #FFF;
+      color: #555;
       position: relative;
       content: '0';
       text-align: center;
@@ -104,6 +105,7 @@
 
     .num input[type='checkbox']:checked+span::after {
       content: '1';
+      color: #111;
     }
 
     #operand {
@@ -133,12 +135,14 @@
       content: '+';
       background-color: #2B3;
       color: #FFF;
+      border-radius: 2px;
     }
 
     #operand+label::after {
       content: '-';
       background-color: #999;
       color: #333;
+      border-radius: 2px;
     }
 
     #operand:checked+label::after {
@@ -374,7 +378,7 @@
 
     </div>
 
-    <span id="ans" class="val">=</span>
+    <span id="ans" class="val">= </span>
 
   </div>
 
