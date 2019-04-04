@@ -92,11 +92,11 @@
       content: '1';
     }
 
-    .operand {
+    #operand+label::after {
       content: '+';
     }
 
-    .operand:checked {
+    #operand:checked+label::before {
       content: '-';
     }
 
@@ -128,31 +128,31 @@
       counter-increment: num 64 sum 64;
     }
 
-    .operand:checked+.num ._1:checked {
+    #operand:checked~.num ._1:checked {
       counter-increment: num 1 sum -1;
     }
 
-    .operand:checked+.num ._2:checked {
+    #operand:checked~.num ._2:checked {
       counter-increment: num 2 sum -2;
     }
 
-    .operand:checked+.num ._4:checked {
+    #operand:checked~.num ._4:checked {
       counter-increment: num 4 sum -4;
     }
 
-    .operand:checked+.num ._8:checked {
+    #operand:checked~.num ._8:checked {
       counter-increment: num 8 sum -8;
     }
 
-    .operand:checked+.num ._16:checked {
+    #operand:checked~.num ._16:checked {
       counter-increment: num 16 sum -16;
     }
 
-    .operand:checked+.num ._32:checked {
+    #operand:checked~.num ._32:checked {
       counter-increment: num 32 sum -32;
     }
 
-    .operand:checked+.num ._64:checked {
+    #operand:checked~.num ._64:checked {
       counter-increment: num 64 sum -64;
     }
 
@@ -258,7 +258,7 @@
 
       <span class="val"></span>
 
-      <input type="checkbox" class="operand">
+      <input type="checkbox" id="operand"><label for="operand"></label>
 
       <div class="num">
 
