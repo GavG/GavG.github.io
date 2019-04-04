@@ -26,6 +26,7 @@
 
     body {
       font-family: monospace;
+      font-size: 16px;
     }
 
     h2 {
@@ -35,6 +36,7 @@
     #calc h2 {
       text-align: center;
       font-size: 30px;
+      margin: 20px auto;
     }
 
     #calc {
@@ -42,12 +44,16 @@
       margin: auto;
       padding: 10px;
       margin-top: 40px;
-      border-radius: 30px;
+      border-radius: 5px;
       background-color: #a7a7a7;
     }
 
     #ans {
-      margin-top: 10px;
+      display: block;
+      margin: 30px;
+      margin-top: 50px;
+      border-top: solid 2px;
+      padding-top: 2px;
     }
 
     .sum,
@@ -65,7 +71,7 @@
       display: flex;
       flex-direction: row;
       justify-content: space-around;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
 
     .num label {
@@ -73,9 +79,9 @@
       background: #ffeb3b;
       color: #333;
       border-radius: 2px;
-      width: 16px;
-      height: 16px;
-      line-height: 14px;
+      width: 22px;
+      height: 22px;
+      line-height: 18px;
       text-align: center;
     }
 
@@ -87,10 +93,12 @@
     }
 
     .num input[type='checkbox']+span::after {
+      display: block;
       line-height: 20px;
       color: #FFF;
       position: relative;
       content: '0';
+      text-align: center;
     }
 
     .num input[type='checkbox']:checked+span::after {
@@ -119,24 +127,24 @@
       line-height: 24px;
     }
 
-    #operand+label::after {
+    #operand+label::before {
       content: '+';
       background-color: #2B3;
       color: #FFF;
     }
 
-    #operand+label::before {
+    #operand+label::after {
       content: '-';
       background-color: #999;
       color: #333;
     }
 
-    #operand:checked+label::before {
+    #operand:checked+label::after {
       background-color: #2B3;
       color: #FFF;
     }
 
-    #operand:checked+label::after {
+    #operand:checked+label::before {
       background-color: #999;
       color: #333;
     }
@@ -205,16 +213,12 @@
       content: counter(num);
       display: block;
       background: #FFF;
-      margin: 30px 30px;
+      margin: 30px;
       padding: 3px;
     }
 
     .sum+.val::after {
       content: counter(sum);
-    }
-
-    .sum+.val {
-      border-top: solid 1px;
     }
 
     #info {
@@ -264,7 +268,7 @@
 
   <div id="calc">
 
-    <h2>BINARY CALC - 254</h2>
+    <h2>CSS BINARY CALC - V254</h2>
 
     <div class='sum'>
 
@@ -340,7 +344,7 @@
 
     </div>
 
-    <span id="ans" class="val"></span>
+    <span id="ans" class="val">=</span>
 
   </div>
 
