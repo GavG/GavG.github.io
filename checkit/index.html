@@ -60,10 +60,40 @@
       display: flex;
       flex-direction: row;
       justify-content: space-around;
+      margin-bottom: 30px;
+    }
+
+    .num label {
+      display: block;
+      background: #ffeb3b;
+      color: #333;
+      border-radius: 2px;
+      width: 16px;
+      height: 16px;
+      line-height: 14px;
+      text-align: center;
     }
 
     .num input[type='checkbox'] {
-      position: absolute;
+      height: 0px;
+      padding: 0px;
+      margin: 0px;
+      opacity: 0;
+    }
+
+    .num input[type='checkbox']+span::after {
+      line-height: 20px;
+      color: #FFF;
+      position: relative;
+      content: '0';
+    }
+
+    .num input[type='checkbox']:checked+span::after {
+      content: '1';
+    }
+
+    .val {
+      margin-left: 40px;
     }
 
     ._1:checked {
@@ -185,31 +215,31 @@
       <div class="num">
 
         <label>64
-          <input class="_64" type="checkbox">
+          <input class="_64" type="checkbox"><span></span>
         </label>
 
         <label>32
-          <input class="_32" type="checkbox">
+          <input class="_32" type="checkbox"><span></span>
         </label>
 
         <label>16
-          <input class="_16" type="checkbox">
+          <input class="_16" type="checkbox"><span></span>
         </label>
 
         <label>8
-          <input class="_8" type="checkbox">
+          <input class="_8" type="checkbox"><span></span>
         </label>
 
         <label>4
-          <input class="_4" type="checkbox">
+          <input class="_4" type="checkbox"><span></span>
         </label>
 
         <label>2
-          <input class="_2" type="checkbox">
+          <input class="_2" type="checkbox"><span></span>
         </label>
 
         <label>1
-          <input class="_1" type="checkbox">
+          <input class="_1" type="checkbox"><span></span>
         </label>
 
       </div>
@@ -221,31 +251,31 @@
       <div class="num">
 
         <label>64
-          <input class="_64" type="checkbox">
+          <input class="_64" type="checkbox"><span></span>
         </label>
 
         <label>32
-          <input class="_32" type="checkbox">
+          <input class="_32" type="checkbox"><span></span>
         </label>
 
         <label>16
-          <input class="_16" type="checkbox">
+          <input class="_16" type="checkbox"><span></span>
         </label>
 
         <label>8
-          <input class="_8" type="checkbox">
+          <input class="_8" type="checkbox"><span></span>
         </label>
 
         <label>4
-          <input class="_4" type="checkbox">
+          <input class="_4" type="checkbox"><span></span>
         </label>
 
         <label>2
-          <input class="_2" type="checkbox">
+          <input class="_2" type="checkbox"><span></span>
         </label>
 
         <label>1
-          <input class="_1" type="checkbox">
+          <input class="_1" type="checkbox"><span></span>
         </label>
 
       </div>
@@ -258,7 +288,7 @@
 
   </div>
 
-  <div id="info">
+  <!-- <div id="info">
     <input type="checkbox" id="close">
     <div class="bg">
       <label id="x" for="close">x</label>
@@ -268,7 +298,7 @@
         <label class="dismiss" for="close">Dismiss</label>
       </div>
     </div>
-  </div>
+  </div> -->
 
 </body>
 
