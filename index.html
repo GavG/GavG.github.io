@@ -3,6 +3,8 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Style</title>
 
   <style media="screen">
@@ -19,6 +21,8 @@
     .box {
       width: 100%;
       height: 25vh;
+      display: flex;
+      align-items: center;
     }
 
     .box.half {
@@ -63,10 +67,29 @@
     }
 
     h1 {
-      font-size: 18vh;
+      font-size: 50px;
       margin: 0px;
+      margin-top: -22px;
       text-align: center;
       width: 100%;
+    }
+
+    @media only screen and (min-width: 450px) {
+      h1 {
+        font-size: 70px;
+      }
+    }
+
+    @media only screen and (min-width: 700px) {
+      h1 {
+        font-size: 100px;
+      }
+    }
+
+    @media only screen and (min-width: 1000px) {
+      h1 {
+        font-size: 18vh;
+      }
     }
 
     .hidden {
