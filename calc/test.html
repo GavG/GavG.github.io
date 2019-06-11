@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style media="screen">
+    #val[value='0']+span::after {
+      content: '0';
+      background-color: red;
+    }
+
+    #val[value='1']+span::after {
+      content: '1';
+      background-color: green;
+    }
+  </style>
+</head>
+
+<body>
+  <input id='val' type="number" autofocus>
+  <span></span>
+</body>
+
+</html>
