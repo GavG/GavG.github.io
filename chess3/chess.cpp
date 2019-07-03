@@ -2,43 +2,56 @@
 #include <cstdint>
 #include <vector>
 
-#define WHITE 'w';
-#define BLACK 'b';
+const char * WHITE = "w";
+const char * BLACK = "b";
 
-#define PAWN 'P';
+class Piece {
 
-class Piece
-{
   private :
-    char type;
-    char color;
-    uint64_t bitboard;
+
+    const char *color;
+    std::uint64_t bitboard;
 
   public :
-    Piece(char _type, char _color, uint64_t _bitboard)
+
+    explicit Piece(const char* _color, std::uint64_t _bitboard)
     {
-      type = _type;
       color = _color;
       bitboard = _bitboard;
     }
 
-    uint64_t attacking_bitboard()
+    static const char *type;
+
+    virtual std::uint64_t attacking_bitboard();
+
+    std::string label()
     {
-      switch(type) {
-        case 'p' :
-          return bitboard;
-      }
+      return std::string(type).append(color);
+    }
+
+};
+
+class Pawn : public Piece {
+
+  using Piece::Piece;
+
+  private :
+
+    const char *color;
+    std::uint64_t bitboard;
+
+  public:
+
+    static const char type = 'p';
+
+    std::uint64_t attacking_bitboard()
+    {
       return bitboard;
     }
 
-    string label()
-    {
-      
-    }
 };
 
-void setup(int width, int height)
-{
+void setup(int width, int height) {
 
   int total = width * height;
 
@@ -47,14 +60,17 @@ void setup(int width, int height)
 
   for (int i = 0; i < width; i++) {
 
-    Piece blacks[i] = new Piece(PAWN, BLACK, 1ULL << i + width);
-    Piece whites[i] = new Piece(PAWN, WHITE, 1ULL << i + total - width);
+    Piece blacks[i] = new Pawn(BLACK, 1ULL << (i + width));
+    Piece whites[i] = new Pawn(WHITE, 1ULL << (i + total - width));
+
+
+    std::cout << blacks[i].label();
 
   }
 }
 
-int main()
-{
+int main() {
+
   std::cout << "main";
 
   setup(8, 8);
