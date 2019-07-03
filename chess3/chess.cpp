@@ -20,13 +20,13 @@ class Piece {
       bitboard = _bitboard;
     }
 
-    static const char *type;
+    virtual std::string type(void) = 0;
 
-    virtual std::uint64_t attacking_bitboard();
+    virtual std::uint64_t attacking_bitboard(void) = 0;
 
     std::string label()
     {
-      return std::string(type).append(color);
+      return type().append(color);
     }
 
 };
@@ -42,7 +42,10 @@ class Pawn : public Piece {
 
   public:
 
-    static const char type = 'p';
+    std::string type()
+    {
+      return "p";
+    }
 
     std::uint64_t attacking_bitboard()
     {
@@ -55,16 +58,16 @@ void setup(int width, int height) {
 
   int total = width * height;
 
-  std::vector< Piece > blacks;
-  std::vector< Piece > whites;
+  std::vector<Piece*> blacks;
+  std::vector<Piece*> whites;
 
   for (int i = 0; i < width; i++) {
 
-    Piece blacks[i] = new Pawn(BLACK, 1ULL << (i + width));
-    Piece whites[i] = new Pawn(WHITE, 1ULL << (i + total - width));
+    blacks.push_back(new Pawn(BLACK, 1ULL << (i + width)));
+    whites.push_back(new Pawn(WHITE, 1ULL << (i + total - width)));
 
 
-    std::cout << blacks[i].label();
+    std::cout << blacks[i]->label();
 
   }
 }
