@@ -37,7 +37,7 @@ class Bitboard {
   }
 
   add_position(_x, _y) {
-    if (_x <= this.width && _y <= this.height) {
+    if (_x <= this.width && _y <= this.height && _x >= 0 && _y >= 0) {
       var temp_board = new Bitboard(WIDTH, HEIGHT)
       temp_board.value = left_shift(Math.pow(2, _x), _y * this.width)
       this.or(temp_board, true)
@@ -88,11 +88,11 @@ class Bitboard {
 
 class Piece {
 
-  constructor(html_class, _x, _y, color) {
-    this.html_class = String(html_class)
+  constructor(_x, _y, color) {
     this.set_x(_x)
     this.set_y(_y)
     this.color = !!color
+    this.direction = this.color ? 1 : -1
     this.position_board = new Bitboard(WIDTH, HEIGHT, this.x, this.y)
     this.attacking_board = new Bitboard(WIDTH, HEIGHT)
     this.html_element = null
@@ -166,16 +166,13 @@ class Piece {
 }
 
 class Pawn extends Piece {
-  constructor(x, y, color) {
-    super('P', x, y, color)
-    this.first_move = true
-  }
+  first_move = true
+  html_class = 'P'
 
   update_attacking_board() {
-    var direction = this.color ? 1 : -1
-    this.attacking_board.set_position(this.x, this.y + direction)
+    this.attacking_board.set_position(this.x, this.y + this.direction)
     if (this.first_move) {
-      this.attacking_board.add_position(this.x, this.y + (direction * 2))
+      this.attacking_board.add_position(this.x, this.y + (this.direction * 2))
     }
     console.log(this.attacking_board)
   }
@@ -186,32 +183,33 @@ class Pawn extends Piece {
 }
 
 class Rook extends Piece {
-  constructor(x, y, color) {
-    super('R', x, y, color)
-  }
+  html_class = 'R'
 }
 
 class Knight extends Piece {
-  constructor(x, y, color) {
-    super('N', x, y, color)
-  }
+  html_class = 'N'
 }
 
 class Bishop extends Piece {
-  constructor(x, y, color) {
-    super('B', x, y, color)
-  }
+  html_class = 'B'
 }
 
 class King extends Piece {
-  constructor(x, y, color) {
-    super('K', x, y, color)
-  }
+  html_class = 'K'
 }
 
 class Queen extends Piece {
-  constructor(x, y, color) {
-    super('Q', x, y, color)
+  html_class = 'Q'
+
+  update_attacking_board() {
+
+    for (var i = 0; i < WIDTH; i++) {
+      this.attacking_board.add_position(this.x, this.y + i)
+      this.attacking_board.add_position(this.x, this.y + (i * -1))
+      this.attacking_board.add_position(this.x + i, this.y)
+      this.attacking_board.add_position(this.x + (i * -1), this.y)
+    }
+    console.log(this.attacking_board)
   }
 }
 
