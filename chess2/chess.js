@@ -18,6 +18,11 @@ var highlighted_cells = []
 var selected_element = null
 var selected_piece = null
 var initialised = 0
+var cached_player_boards = {
+  'w': null,
+  'b': null
+}
+var moved = false
 
 class Bitboard {
 
@@ -30,8 +35,6 @@ class Bitboard {
 
   set_position(_x, _y) {
     if (_x <= this.width && _x >= 0 && _y <= this.height && _y >= 0) {
-      this.x = parseInt(_x)
-      this.y = parseInt(_y)
       this.value = left_shift(Math.pow(2, _x), (_y * this.width))
     }
   }
@@ -41,6 +44,14 @@ class Bitboard {
       var temp_board = new Bitboard(WIDTH, HEIGHT)
       temp_board.value = left_shift(Math.pow(2, _x), _y * this.width)
       this.or(temp_board, true)
+    }
+  }
+
+  check_position(_x, _y) {
+    if (_x <= this.width && _y <= this.height && _x >= 0 && _y >= 0) {
+      var temp_board = new Bitboard(WIDTH, HEIGHT)
+      temp_board.value = left_shift(Math.pow(2, _x), _y * this.width)
+      return this.and(temp_board, false)
     }
   }
 
@@ -78,6 +89,15 @@ class Bitboard {
 
   or(other_board, update = false) {
     var result_board = or_64(this.value, other_board.value)
+    if (update) {
+      this.value = result_board.value
+    } else {
+      return result_board
+    }
+  }
+
+  and(other_board, update = false) {
+    var result_board = and_64(this.value, other_board.value)
     if (update) {
       this.value = result_board.value
     } else {
@@ -150,6 +170,7 @@ class Piece {
     this.position_board.set_position(this.x, this.y)
     this.update_html_position()
     this.update_attacking_board()
+    moved = true
     this.move_to_callback()
   }
 
@@ -162,6 +183,22 @@ class Piece {
     console.log(this.attacking_board.or(this_player_board).visual())
 
     return this.attacking_board.or(this_player_board).xor(this_player_board)
+  }
+
+  check_position_add(dir, x, y) {
+    let enemy_board = player_board(!this.color)
+    let this_board = player_board(this.color)
+
+    if (dir && x < WIDTH && y <= HEIGHT) {
+      if (this_board.check_position(x, y)) {
+        return false
+      }
+      if (enemy_board.check_position(x, y)) {
+        this.attacking_board.add_position(x, y)
+        return true
+      }
+    }
+    return false
   }
 }
 
@@ -202,12 +239,28 @@ class Queen extends Piece {
   html_class = 'Q'
 
   update_attacking_board() {
+    let u = true,
+      d = true,
+      l = true,
+      r = true,
+      ul = true,
+      ur = true,
+      dl = true,
+      dr = true
 
-    for (var i = 0; i < WIDTH; i++) {
-      this.attacking_board.add_position(this.x, this.y + i)
-      this.attacking_board.add_position(this.x, this.y + (i * -1))
-      this.attacking_board.add_position(this.x + i, this.y)
-      this.attacking_board.add_position(this.x + (i * -1), this.y)
+    for (let i = 1; i <= WIDTH; i++) {
+
+      console.log(i)
+
+      u = this.check_position_add(u, this.x, this.y + i)
+      d = this.check_position_add(d, this.x, this.y - i)
+      l = this.check_position_add(l, this.x - i, this.y)
+      r = this.check_position_add(r, this.x + i, this.y)
+      ul = this.check_position_add(ul, this.x - i, this.y + i)
+      ur = this.check_position_add(ur, this.x + i, this.y + i)
+      dl = this.check_position_add(dl, this.x - i, this.y - i)
+      dr = this.check_position_add(dr, this.x + i, this.y - i)
+
     }
     console.log(this.attacking_board)
   }
@@ -317,7 +370,7 @@ function piece_selected(element, piece) {
 
 function cell_selected(event) {
   clear_highlighted_cells()
-  var cell = event.target
+  let cell = event.target
   if (selected_element && cell.dataset.x >= 0 && cell.dataset.y >= 0) {
 
     selected_piece.move_to(cell.dataset.x, cell.dataset.y)
@@ -331,11 +384,21 @@ function cell_selected(event) {
 }
 
 function player_board(color) {
+
+  let col_index = color ? 'w' : 'b'
+
+  if (!moved && cached_player_boards[col_index]) {
+    return cached_player_boards[col_index]
+  }
+
   pieces = color ? white_pieces : black_pieces
-  var position_board = new Bitboard(WIDTH, HEIGHT)
-  for (var i = 0; i < pieces.length; i++) {
+
+  let position_board = new Bitboard(WIDTH, HEIGHT)
+  for (let i = 0; i < pieces.length; i++) {
     position_board.or(pieces[i].position_board, true)
   }
+  moved = false
+  cached_player_boards[col_index] = position_board
   return position_board
 }
 
@@ -352,6 +415,12 @@ function or_64(a, b) {
 function xor_64(a, b) {
   var result_board = new Bitboard(WIDTH, HEIGHT)
   result_board.value = BigInt(a) ^ BigInt(b)
+  return result_board
+}
+
+function and_64(a, b) {
+  var result_board = new Bitboard(WIDTH, HEIGHT)
+  result_board.value = BigInt(a) & BigInt(b)
   return result_board
 }
 
