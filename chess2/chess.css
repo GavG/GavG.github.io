@@ -124,7 +124,7 @@ body {
   background-color: #3DD !important;
 }
 
-#board.selecting .piece {
+#board.x .piece {
   pointer-events: none;
 }
 

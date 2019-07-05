@@ -5,12 +5,10 @@ const HEIGHT = 8
 const WHITE = true
 const BLACK = false
 const SELECTED_CLASS = 's'
-const SELECTING_CLASS = 'selecting'
+const SELECTING_CLASS = 'x'
 const HIGHLIGHTED_CLASS = 'h'
 const WHITE_CLASS = 'w'
 const BLACK_CLASS = 'b'
-const ELEMENT_DIMENSION = 12
-const WORD_32 = 4294967296; // 2^32
 
 var HTML_BOARD = null
 var board = 0
@@ -42,7 +40,7 @@ class Bitboard {
     if (_x <= this.width && _y <= this.height) {
       var temp_board = new Bitboard(WIDTH, HEIGHT)
       temp_board.value = left_shift(Math.pow(2, _x), _y * this.width)
-      this.or_64(temp_board, true)
+      this.or(temp_board, true)
     }
   }
 
@@ -69,7 +67,7 @@ class Bitboard {
     })
   }
 
-  xor_64(other_board, update = false) {
+  xor(other_board, update = false) {
     var result_board = xor_64(this.value, other_board.value)
     if (update) {
       this.value = result_board.value
@@ -78,7 +76,7 @@ class Bitboard {
     }
   }
 
-  or_64(other_board, update = false) {
+  or(other_board, update = false) {
     var result_board = or_64(this.value, other_board.value)
     if (update) {
       this.value = result_board.value
@@ -161,9 +159,9 @@ class Piece {
 
     console.log(this.attacking_board.value)
     console.log(this_player_board.value)
-    console.log(this.attacking_board.or_64(this_player_board).visual())
+    console.log(this.attacking_board.or(this_player_board).visual())
 
-    return this.attacking_board.or_64(this_player_board).xor_64(this_player_board)
+    return this.attacking_board.or(this_player_board).xor(this_player_board)
   }
 }
 
@@ -338,7 +336,7 @@ function player_board(color) {
   pieces = color ? white_pieces : black_pieces
   var position_board = new Bitboard(WIDTH, HEIGHT)
   for (var i = 0; i < pieces.length; i++) {
-    position_board.or_64(pieces[i].position_board, true)
+    position_board.or(pieces[i].position_board, true)
   }
   return position_board
 }
@@ -348,31 +346,14 @@ function left_shift(num, bits) {
 }
 
 function or_64(a, b) {
-  var aHI = a / WORD_32
-  var bHI = b / WORD_32
-
-  var aLO = a % WORD_32;
-  var bLO = b % WORD_32;
-
-  var value = ((aHI | bHI) * WORD_32) + (aLO | bLO)
-
   var result_board = new Bitboard(WIDTH, HEIGHT)
-  result_board.value = value
-
+  result_board.value = BigInt(a) | BigInt(b)
   return result_board
 }
 
 function xor_64(a, b) {
-  var aHI = a / WORD_32
-  var bHI = b / WORD_32
-
-  var aLO = a % WORD_32;
-  var bLO = b % WORD_32;
-
-  var value = ((aHI ^ bHI) * WORD_32) + (aLO ^ bLO)
-
   var result_board = new Bitboard(WIDTH, HEIGHT)
-  result_board.value = value
+  result_board.value = BigInt(a) ^ BigInt(b)
   return result_board
 }
 
