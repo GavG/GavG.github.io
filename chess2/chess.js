@@ -55,13 +55,13 @@ class Bitboard {
 
   set_position(_x, _y) {
     if (_x <= this.width && _x >= 0 && _y <= this.height && _y >= 0)
-      this.set_value(left_shift(Math.pow(2, _x), (_y * this.width)))
+      this.set_value(shift(Math.pow(2, _x), (_y * this.width)))
   }
 
   add_position(_x, _y) {
     if (_x <= this.width && _y <= this.height && _x >= 0 && _y >= 0) {
       var temp_board = new Bitboard(WIDTH, HEIGHT)
-      temp_board.set_value(left_shift(Math.pow(2, _x), _y * this.width))
+      temp_board.set_value(shift(Math.pow(2, _x), _y * this.width))
       this.or(temp_board, true)
     }
   }
@@ -70,7 +70,7 @@ class Bitboard {
     //TODO prevent King capturing, best to just do an AND with the opponents King position board
     let temp_board = new Bitboard(WIDTH, HEIGHT)
     if (_x <= this.width && _y <= this.height && _x >= 0 && _y >= 0) {
-      temp_board.set_value(left_shift(Math.pow(2, _x), _y * this.width))
+      temp_board.set_value(shift(Math.pow(2, _x), _y * this.width))
       return this.and(temp_board, false)
     }
     return temp_board
@@ -469,7 +469,7 @@ function player_board(color) {
   return position_board
 }
 
-function left_shift(num, bits) {
+function shift(num, bits) {
   return num * Math.pow(2, bits);
 }
 
