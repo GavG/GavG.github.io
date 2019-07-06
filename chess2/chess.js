@@ -236,6 +236,22 @@ class Knight extends Piece {
 
 class Bishop extends Piece {
   html_class = 'B'
+
+  _update_attacking_board() {
+    let ul = true,
+      ur = true,
+      dl = true,
+      dr = true
+
+    for (let i = 1; i < WIDTH; i++) {
+      ul = this.check_position_add(ul, this.x - i, this.y + i)
+      ur = this.check_position_add(ur, this.x + i, this.y + i)
+      dl = this.check_position_add(dl, this.x - i, this.y - i)
+      dr = this.check_position_add(dr, this.x + i, this.y - i)
+    }
+
+    return this.attacking_board
+  }
 }
 
 class King extends Piece {
@@ -278,7 +294,7 @@ class Queen extends Piece {
       dl = this.check_position_add(dl, this.x - i, this.y - i)
       dr = this.check_position_add(dr, this.x + i, this.y - i)
     }
-    console.log(this.attacking_board.visual())
+
     return this.attacking_board
   }
 }
