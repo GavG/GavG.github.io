@@ -136,6 +136,18 @@ body {
   z-index: 2;
 }
 
+.piece:after {
+  transition: opacity 0.2s ease-out 0.4s;
+}
+
+.piece.dead {
+  z-index: -1;
+}
+
+.piece.dead:after {
+  opacity: 0;
+}
+
 .piece.s {
   background-color: #ff9800CC;
 }

@@ -9,6 +9,8 @@ const SELECTING_CLASS = 'x'
 const HIGHLIGHTED_CLASS = 'h'
 const WHITE_CLASS = 'w'
 const BLACK_CLASS = 'b'
+const PIECE_CLASS = 'piece'
+const DEAD_CLASS = 'dead'
 
 var HTML_BOARD = null
 var board = 0
@@ -126,11 +128,10 @@ class Piece {
       HTML_BOARD.appendChild(self.html_element)
       this.html_element.addEventListener('click', function(event) {
         event.stopPropagation()
-        piece_selected(this, self)
+        if (!this.classList.contains(DEAD_CLASS)) piece_selected(this, self)
       })
     }
-    this.html_element.classList = []
-    this.html_element.classList.add('piece')
+    this.html_element.className = PIECE_CLASS
     this.html_element.classList.add(self.color ? WHITE_CLASS : BLACK_CLASS)
     this.html_element.classList.add(self.html_class)
 
@@ -165,13 +166,15 @@ class Piece {
     this.y = parseInt(_y)
   }
 
-  move_to(_x, _y) {
-    this.set_x(_x)
-    this.set_y(_y)
+  move_to(cell) {
+    let piece = HTML_BOARD.querySelector('.' + PIECE_CLASS + '.x' + cell.dataset.x + '.y' + cell.dataset.y)
+    this.set_x(cell.dataset.x)
+    this.set_y(cell.dataset.y)
     this.position_board.set_position(this.x, this.y)
     this.update_html_position()
     this.update_attacking_board()
     moved = true
+    if (piece) piece.classList.add(DEAD_CLASS)
     this.move_to_callback()
   }
 
@@ -350,6 +353,7 @@ function piece_selected(element, piece) {
   if (selected_element) {
     selected_element.classList.remove(SELECTED_CLASS)
   }
+
   selected_element = element
   selected_piece = piece
   HTML_BOARD.classList.add(SELECTING_CLASS)
@@ -359,10 +363,8 @@ function cell_selected(event) {
   let cell = event.target
   if (selected_element && cell.classList.contains(HIGHLIGHTED_CLASS)) {
     clear_highlighted_cells()
-    selected_piece.move_to(cell.dataset.x, cell.dataset.y)
-    //move if viable
+    selected_piece.move_to(cell)
     selected_element.classList.remove(SELECTED_CLASS)
-    //check if we hit an eneym TODO
     HTML_BOARD.classList.remove(SELECTING_CLASS)
     selected_element = null
     selected_piece = null
