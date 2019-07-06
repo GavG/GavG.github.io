@@ -94,15 +94,6 @@ class Bitboard {
     })
   }
 
-  xor(other_board, update = false) {
-    var result_board = xor_64(this.value, other_board.value)
-    if (update) {
-      this.value = result_board.value
-    } else {
-      return result_board
-    }
-  }
-
   or(other_board, update = false) {
     var result_board = or_64(this.value, other_board.value)
     if (update) {
@@ -502,12 +493,6 @@ function left_shift(num, bits) {
 function or_64(a, b) {
   var result_board = new Bitboard(WIDTH, HEIGHT)
   result_board.value = BigInt(a) | BigInt(b)
-  return result_board
-}
-
-function xor_64(a, b) {
-  var result_board = new Bitboard(WIDTH, HEIGHT)
-  result_board.value = BigInt(a) ^ BigInt(b)
   return result_board
 }
 
