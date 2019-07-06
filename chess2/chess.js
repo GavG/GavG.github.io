@@ -281,6 +281,19 @@ class Rook extends Piece {
 
 class Knight extends Piece {
   html_class = 'N'
+
+  _update_attacking_board() {
+    this.check_position_add(true, this.x - 1, this.y + 2)
+    this.check_position_add(true, this.x - 1, this.y - 2)
+    this.check_position_add(true, this.x + 1, this.y + 2)
+    this.check_position_add(true, this.x + 1, this.y - 2)
+    this.check_position_add(true, this.x - 2, this.y + 1)
+    this.check_position_add(true, this.x - 2, this.y - 1)
+    this.check_position_add(true, this.x + 2, this.y - 1)
+    this.check_position_add(true, this.x + 2, this.y + 1)
+
+    return this.attacking_board
+  }
 }
 
 class Bishop extends Piece {
