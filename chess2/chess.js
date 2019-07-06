@@ -38,48 +38,51 @@ var moved = {
 
 class Bitboard {
 
-  constructor(h, w, _x = null, _y = null) {
+  constructor(h, w, _x = null, _y = null, value = 0) {
     this.height = h
     this.width = w
-    this.value = 0
-    if (_x !== null && _y !== null) this.set_position(_x, _y)
+    this.value = value
+    if (_x !== null && _y !== null) {
+      this.set_position(_x, _y)
+    } else {
+      this.set_value(value)
+    }
+  }
+
+  set_value(value) {
+    this.value = typeof value === 'bigint' ? value : BigInt(value)
   }
 
   set_position(_x, _y) {
-    if (_x <= this.width && _x >= 0 && _y <= this.height && _y >= 0) {
-      this.value = left_shift(Math.pow(2, _x), (_y * this.width))
-    }
+    if (_x <= this.width && _x >= 0 && _y <= this.height && _y >= 0)
+      this.set_value(left_shift(Math.pow(2, _x), (_y * this.width)))
   }
 
   add_position(_x, _y) {
     if (_x <= this.width && _y <= this.height && _x >= 0 && _y >= 0) {
       var temp_board = new Bitboard(WIDTH, HEIGHT)
-      temp_board.value = left_shift(Math.pow(2, _x), _y * this.width)
+      temp_board.set_value(left_shift(Math.pow(2, _x), _y * this.width))
       this.or(temp_board, true)
     }
   }
 
   check_position(_x, _y) {
-
     //TODO prevent King capturing, best to just do an AND with the opponents King position board
-
-    var temp_board = new Bitboard(WIDTH, HEIGHT)
+    let temp_board = new Bitboard(WIDTH, HEIGHT)
     if (_x <= this.width && _y <= this.height && _x >= 0 && _y >= 0) {
-      temp_board.value = left_shift(Math.pow(2, _x), _y * this.width)
+      temp_board.set_value(left_shift(Math.pow(2, _x), _y * this.width))
       return this.and(temp_board, false)
     }
     return temp_board
   }
 
   coordinates() {
-    var coordinates = []
-    var string = this.value.toString(2)
-    var len = string.length - 1
-    for (var i = len; i >= 0; i--) {
-      var pos = len - i
-      if (string[i] > 0) {
-        coordinates.push([pos % this.width, Math.floor(pos / this.width)])
-      }
+    let coordinates = []
+    let string = this.value.toString(2)
+    let len = string.length - 1
+    for (let i = len; i >= 0; i--) {
+      let pos = len - i
+      if (string[i] > 0) coordinates.push([pos % this.width, Math.floor(pos / this.width)])
     }
     return coordinates
   }
@@ -89,27 +92,21 @@ class Bitboard {
     while (bit_string.length < this.width * this.height) {
       bit_string = "0" + bit_string
     }
-    return bit_string.replace(new RegExp("(.{" + this.width + "})", "g"), function(match) {
+    return bit_string.replace(new RegExp("(.{" + this.width + "})", "g"), (match) => {
       return match.split("").reverse().join("") + "\n"
     })
   }
 
   or(other_board, update = false) {
-    var result_board = or_64(this.value, other_board.value)
-    if (update) {
-      this.value = result_board.value
-    } else {
-      return result_board
-    }
+    let result_board = new Bitboard(WIDTH, HEIGHT, null, null, this.value | other_board.value)
+    if (update) this.value = result_board.value
+    return result_board
   }
 
   and(other_board, update = false) {
-    var result_board = and_64(this.value, other_board.value)
-    if (update) {
-      this.value = result_board.value
-    } else {
-      return result_board
-    }
+    let result_board = new Bitboard(WIDTH, HEIGHT, null, null, this.value & other_board.value)
+    if (update) this.value = result_board.value
+    return result_board
   }
 }
 
@@ -154,7 +151,7 @@ class Piece {
     if (!moved[WHITE_CLASS] && !moved[BLACK_CLASS] && this.attacking_board.value) {
       return this.attacking_board
     }
-    this.attacking_board.value = 0
+    this.attacking_board.set_value(0)
     return this._update_attacking_board()
   }
 
@@ -241,8 +238,7 @@ class Pawn extends Piece {
 
   move_to_callback() {
     this.first_move = false
-
-    //check if queening
+    //check if queening TODO
   }
 }
 
@@ -416,9 +412,7 @@ function highlight_cells(coordinates) {
 }
 
 function clear_highlighted_cells() {
-  for (var i = 0; i < highlighted_cells.length; i++) {
-    highlighted_cells[i].classList.remove(HIGHLIGHTED_CLASS)
-  }
+  for (var i = 0; i < highlighted_cells.length; i++) highlighted_cells[i].classList.remove(HIGHLIGHTED_CLASS)
   highlighted_cells = []
 }
 
@@ -428,27 +422,17 @@ function get_cell(x, y) {
 
 function draw_pieces() {
   // we can cache these TODO
-  for (var i = 0; i < white_pieces.length; i++) {
-    white_pieces[i].draw()
-  }
-  for (var i = 0; i < black_pieces.length; i++) {
-    black_pieces[i].draw()
-  }
-  for (var i = 0; i < captured[BLACK_CLASS].length; i++) {
-    captured[BLACK_CLASS][i].draw()
-  }
-  for (var i = 0; i < captured[WHITE_CLASS].length; i++) {
-    captured[WHITE_CLASS][i].draw()
-  }
+  for (var i = 0; i < white_pieces.length; i++) white_pieces[i].draw()
+  for (var i = 0; i < black_pieces.length; i++) black_pieces[i].draw()
+  for (var i = 0; i < captured[BLACK_CLASS].length; i++) captured[BLACK_CLASS][i].draw()
+  for (var i = 0; i < captured[WHITE_CLASS].length; i++) captured[WHITE_CLASS][i].draw()
 }
 
 function piece_selected(element, piece) {
   element.classList.add(SELECTED_CLASS)
   highlight_cells(piece.update_attacking_board().coordinates())
 
-  if (selected_element) {
-    selected_element.classList.remove(SELECTED_CLASS)
-  }
+  if (selected_element) selected_element.classList.remove(SELECTED_CLASS)
 
   selected_element = element
   selected_piece = piece
@@ -468,7 +452,6 @@ function cell_selected(event) {
 }
 
 function player_board(color) {
-
   let col_index = color ? 'w' : 'b'
 
   if (!moved[col_index] && cached_player_boards[col_index]) {
@@ -488,18 +471,6 @@ function player_board(color) {
 
 function left_shift(num, bits) {
   return num * Math.pow(2, bits);
-}
-
-function or_64(a, b) {
-  var result_board = new Bitboard(WIDTH, HEIGHT)
-  result_board.value = BigInt(a) | BigInt(b)
-  return result_board
-}
-
-function and_64(a, b) {
-  var result_board = new Bitboard(WIDTH, HEIGHT)
-  result_board.value = BigInt(a) & BigInt(b)
-  return result_board
 }
 
 init();
