@@ -8,14 +8,14 @@ html, body {
 body {
   display: flex;
   background: #353535;
-  font: normal 9vh "Lucida Sans Unicode", "Lucida Grande", "Arial Unicode MS", sans-serif;
-  --unit: 12vh;
+  font: normal 7vh "Lucida Sans Unicode", "Lucida Grande", "Arial Unicode MS", sans-serif;
+  --unit: 8vh;
 }
 
 @media screen and (orientation:portrait) {
   body {
-    font-size: 9vw;
-    --unit: 12vw;
+    font-size: 7vw;
+    --unit: 8vw;
   }
 }
 
@@ -84,19 +84,19 @@ body {
 }
 
 #board {
-  width: 96vh;
-  height: 96vh;
-  max-width: 96vw;
-  max-height: 96vw;
+  width: 64vh;
+  height: 64vh;
+  max-width: 64vw;
+  max-height: 64vw;
   margin: auto;
   position: relative;
 }
 
 .cell, .piece {
-  width: 12vh;
-  height: 12vh;
-  max-width: 12vw;
-  max-height: 12vw;
+  width: 8vh;
+  height: 8vh;
+  max-width: 8vw;
+  max-height: 8vw;
 }
 
 #board.rotate {
@@ -133,19 +133,24 @@ body {
   transition: left 0.5s ease-in-out, bottom 0.5s ease-in-out;
   text-align: center;
   position: absolute;
+  line-height: 100%;
   z-index: 2;
 }
 
-.piece:after {
-  transition: opacity 0.2s ease-out 0.4s;
+.piece.dead.b.P {
+  bottom: -8vh;
 }
 
-.piece.dead {
-  z-index: -1;
+.piece.dead.b {
+  bottom: -16vh;
 }
 
-.piece.dead:after {
-  opacity: 0;
+.piece.dead.w {
+  top: -16vh;
+}
+
+.piece.dead.w.P {
+  top: -8vh;
 }
 
 .piece.s {

@@ -20,13 +20,20 @@ var highlighted_cells = []
 var selected_element = null
 var selected_piece = null
 var initialised = 0
-var cached_player_boards = {
-  WHITE_CLASS: null,
-  BLACK_CLASS: null
+
+var captured = {
+  [WHITE_CLASS]: [],
+  [BLACK_CLASS]: []
 }
+
+var cached_player_boards = {
+  [WHITE_CLASS]: null,
+  [BLACK_CLASS]: null
+}
+
 var moved = {
-  WHITE_CLASS: false,
-  BLACK_CLASS: false
+  [WHITE_CLASS]: false,
+  [BLACK_CLASS]: false
 }
 
 class Bitboard {
@@ -53,6 +60,9 @@ class Bitboard {
   }
 
   check_position(_x, _y) {
+
+    //TODO prevent King capturing, best to just do an AND with the opponents King position board
+
     var temp_board = new Bitboard(WIDTH, HEIGHT)
     if (_x <= this.width && _y <= this.height && _x >= 0 && _y >= 0) {
       temp_board.value = left_shift(Math.pow(2, _x), _y * this.width)
@@ -115,6 +125,8 @@ class Bitboard {
 class Piece {
 
   constructor(_x, _y, color) {
+    this.original_x = _x
+    this.original_y = _y
     this.set_x(_x)
     this.set_y(_y)
     this.color = !!color
@@ -124,19 +136,17 @@ class Piece {
     this.html_element = null
   }
 
-  draw() {
+  draw(extra_classes = []) {
     var self = this
     if (!this.html_element) {
       this.html_element = document.createElement("div")
       HTML_BOARD.appendChild(self.html_element)
       this.html_element.addEventListener('click', function(event) {
         event.stopPropagation()
-        if (!this.classList.contains(DEAD_CLASS)) piece_selected(this, self)
+        piece_selected(this, self)
       })
     }
-    this.html_element.className = PIECE_CLASS
-    this.html_element.classList.add(self.color ? WHITE_CLASS : BLACK_CLASS)
-    this.html_element.classList.add(self.html_class)
+    this.html_element.classList.add(PIECE_CLASS, self.html_class, self.color ? WHITE_CLASS : BLACK_CLASS, ...extra_classes)
 
     this.update_html_position()
     this.update_attacking_board() //call here as all pieces generated
@@ -181,11 +191,34 @@ class Piece {
     this.update_html_position()
     this.update_attacking_board()
     moved[this.color ? WHITE_CLASS : BLACK_CLASS] = true
-    if (piece) piece.classList.add(DEAD_CLASS)
+
+    if (piece) {
+      let enemies = this.get_enemies()
+      for (var i = 0; i < enemies.length; i++) {
+        if (enemies[i].x == cell.dataset.x && enemies[i].y == cell.dataset.y) {
+          enemies[i].capture()
+          captured[this.color ? BLACK_CLASS : WHITE_CLASS].push(enemies.splice(i, 1))
+          moved[this.color ? BLACK_CLASS : WHITE_CLASS] = true
+          break
+        }
+      }
+    }
+
     this.move_to_callback()
   }
 
+  get_enemies() {
+    return this.color ? black_pieces : white_pieces
+  }
+
+  capture() {
+    this.set_x(this.original_x)
+    this.set_y(this.original_y)
+    this.draw([DEAD_CLASS])
+  }
+
   check_position_add(dir, x, y, capture_only = false, no_capture = false) {
+
     let enemy_board = player_board(!this.color)
     let this_board = player_board(this.color)
 
@@ -394,11 +427,18 @@ function get_cell(x, y) {
 }
 
 function draw_pieces() {
+  // we can cache these TODO
   for (var i = 0; i < white_pieces.length; i++) {
     white_pieces[i].draw()
   }
   for (var i = 0; i < black_pieces.length; i++) {
     black_pieces[i].draw()
+  }
+  for (var i = 0; i < captured[BLACK_CLASS].length; i++) {
+    captured[BLACK_CLASS][i].draw()
+  }
+  for (var i = 0; i < captured[WHITE_CLASS].length; i++) {
+    captured[WHITE_CLASS][i].draw()
   }
 }
 
