@@ -1,4 +1,4 @@
-html, body {
+html, body, .wrapper {
   margin: 0px;
   padding: 0px;
   width: 100%;
@@ -6,16 +6,18 @@ html, body {
 }
 
 body {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   background: #353535;
-  font: normal 7vh "Lucida Sans Unicode", "Lucida Grande", "Arial Unicode MS", sans-serif;
-  --unit: 8vh;
+  font: normal 9vh "Lucida Sans Unicode", "Lucida Grande", "Arial Unicode MS", sans-serif;
+  --unit: 12vh;
 }
 
 @media screen and (orientation:portrait) {
   body {
-    font-size: 7vw;
-    --unit: 8vw;
+    font-size: 9vw;
+    --unit: 12vw;
   }
 }
 
@@ -55,48 +57,52 @@ body {
   bottom: 0;
 }
 
-.piece.y1 {
+.piece.y1, .piece.dead.x1 {
   bottom: var(--unit);
 }
 
-.piece.y2 {
+.piece.y2, .piece.dead.x2 {
   bottom: calc(2 * var(--unit));
 }
 
-.piece.y3 {
+.piece.y3, .piece.dead.x3 {
   bottom: calc(3 * var(--unit));
 }
 
-.piece.y4 {
+.piece.y4, .piece.dead.x4 {
   bottom: calc(4 * var(--unit));
 }
 
-.piece.y5 {
+.piece.y5, .piece.dead.x5 {
   bottom: calc(5 * var(--unit));
 }
 
-.piece.y6 {
+.piece.y6, .piece.dead.x6 {
   bottom: calc(6 * var(--unit));
 }
 
-.piece.y7 {
+.piece.y7, .piece.dead.x7 {
   bottom: calc(7 * var(--unit));
 }
 
-#board {
-  width: 64vh;
-  height: 64vh;
-  max-width: 64vw;
-  max-height: 64vw;
+.wrapper {
   margin: auto;
+}
+
+#board {
+  width: 96vh;
+  height: 96vh;
+  max-width: 96vw;
+  max-height: 96vw;
+  margin: 2vh auto;
   position: relative;
 }
 
 .cell, .piece {
-  width: 8vh;
-  height: 8vh;
-  max-width: 8vw;
-  max-height: 8vw;
+  width: 12vh;
+  height: 12vh;
+  max-width: 12vw;
+  max-height: 12vw;
 }
 
 #board.rotate {
@@ -137,20 +143,44 @@ body {
   z-index: 2;
 }
 
-.piece.dead.b.P {
-  bottom: -8vh;
+@media (orientation: portrait) {
+  #board {
+    margin-top: calc(2 * var(--unit));
+    margin-bottom: calc(2 * var(--unit));
+  }
+  .piece.dead.b.P {
+    bottom: calc(-1 * var(--unit));
+  }
+  .piece.dead.b {
+    bottom: calc(-2 * var(--unit));
+  }
+  .piece.dead.w.P {
+    top: calc(-1 * var(--unit));
+  }
+  .piece.dead.w {
+    top: calc(-2 * var(--unit));
+  }
 }
 
-.piece.dead.b {
-  bottom: -16vh;
-}
-
-.piece.dead.w {
-  top: -16vh;
-}
-
-.piece.dead.w.P {
-  top: -8vh;
+@media (orientation: landscape) {
+  @media screen and (max-width: 930px) {
+    #board {
+      margin-left: calc(2 * var(--unit));
+      margin-right: calc(2 * var(--unit));
+    }
+  }
+  .piece.dead.b.P {
+    left: calc(8 * var(--unit));
+  }
+  .piece.dead.b {
+    left: calc(9 * var(--unit));
+  }
+  .piece.dead.w.P {
+    left: calc(-1 * var(--unit));
+  }
+  .piece.dead.w {
+    left: calc(-2 * var(--unit));
+  }
 }
 
 .piece.s {
