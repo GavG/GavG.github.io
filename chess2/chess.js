@@ -21,10 +21,13 @@ var selected_element = null
 var selected_piece = null
 var initialised = 0
 var cached_player_boards = {
-  'w': null,
-  'b': null
+  WHITE_CLASS: null,
+  BLACK_CLASS: null
 }
-var moved = false
+var moved = {
+  WHITE_CLASS: false,
+  BLACK_CLASS: false
+}
 
 class Bitboard {
 
@@ -151,7 +154,7 @@ class Piece {
   }
 
   update_attacking_board() {
-    if (!moved && this.attacking_board.value) {
+    if (!moved[WHITE_CLASS] && !moved[BLACK_CLASS] && this.attacking_board.value) {
       return this.attacking_board
     }
     this.attacking_board.value = 0
@@ -177,12 +180,12 @@ class Piece {
     this.position_board.set_position(this.x, this.y)
     this.update_html_position()
     this.update_attacking_board()
-    moved = true
+    moved[this.color ? WHITE_CLASS : BLACK_CLASS] = true
     if (piece) piece.classList.add(DEAD_CLASS)
     this.move_to_callback()
   }
 
-  check_position_add(dir, x, y) {
+  check_position_add(dir, x, y, capture_only = false, no_capture = false) {
     let enemy_board = player_board(!this.color)
     let this_board = player_board(this.color)
 
@@ -191,11 +194,13 @@ class Piece {
         return false
       }
       if (enemy_board.check_position(x, y).value) {
-        this.attacking_board.add_position(x, y)
+        if (!no_capture) this.attacking_board.add_position(x, y)
         return false
       }
-      this.attacking_board.add_position(x, y)
-      return true
+      if (!capture_only) {
+        this.attacking_board.add_position(x, y)
+        return true
+      }
     }
     return false
   }
@@ -206,15 +211,18 @@ class Pawn extends Piece {
   html_class = 'P'
 
   _update_attacking_board() {
-    this.attacking_board.set_position(this.x, this.y + this.direction)
-    if (this.first_move) {
-      this.attacking_board.add_position(this.x, this.y + (this.direction * 2))
-    }
+    this.check_position_add(true, this.x, this.y + this.direction, false, true)
+    this.check_position_add(true, this.x + 1, this.y + this.direction, true)
+    this.check_position_add(true, this.x - 1, this.y + this.direction, true)
+
+    if (this.first_move) this.check_position_add(true, this.x, this.y + this.direction * 2, false, true)
     return this.attacking_board
   }
 
   move_to_callback() {
     this.first_move = false
+
+    //check if queening
   }
 }
 
@@ -312,7 +320,7 @@ function create_pieces() {
   ]
 
   for (var i = 0; i < WIDTH; i++) {
-    //white_pieces.push(new Pawn(i, 1, WHITE))
+    white_pieces.push(new Pawn(i, 1, WHITE))
     black_pieces.push(new Pawn(i, HEIGHT - 2, BLACK))
   }
 }
@@ -391,7 +399,7 @@ function player_board(color) {
 
   let col_index = color ? 'w' : 'b'
 
-  if (!moved && cached_player_boards[col_index]) {
+  if (!moved[col_index] && cached_player_boards[col_index]) {
     return cached_player_boards[col_index]
   }
 
@@ -401,7 +409,7 @@ function player_board(color) {
   for (let i = 0; i < pieces.length; i++) {
     position_board.or(pieces[i].position_board, true)
   }
-  moved = false
+  moved[col_index] = false
   cached_player_boards[col_index] = position_board
   return position_board
 }
