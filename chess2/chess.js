@@ -151,12 +151,16 @@ class Piece {
   }
 
   update_attacking_board() {
-    //overide in subclass
+    if (!moved && this.attacking_board.value) {
+      return this.attacking_board
+    }
+    this.attacking_board.value = 0
+    return this._update_attacking_board()
   }
 
-  move_to_callback() {
-    //overide in subclass
-  }
+  _update_attacking_board() {}
+
+  move_to_callback() {}
 
   set_x(_x) {
     this.x = parseInt(_x)
@@ -201,7 +205,7 @@ class Pawn extends Piece {
   first_move = true
   html_class = 'P'
 
-  update_attacking_board() {
+  _update_attacking_board() {
     this.attacking_board.set_position(this.x, this.y + this.direction)
     if (this.first_move) {
       this.attacking_board.add_position(this.x, this.y + (this.direction * 2))
@@ -228,13 +232,25 @@ class Bishop extends Piece {
 
 class King extends Piece {
   html_class = 'K'
+
+  _update_attacking_board() {
+    this.check_position_add(true, this.x, this.y + 1)
+    this.check_position_add(true, this.x, this.y - 1)
+    this.check_position_add(true, this.x - 1, this.y)
+    this.check_position_add(true, this.x + 1, this.y)
+    this.check_position_add(true, this.x - 1, this.y + 1)
+    this.check_position_add(true, this.x + 1, this.y + 1)
+    this.check_position_add(true, this.x - 1, this.y - 1)
+    this.check_position_add(true, this.x + 1, this.y - 1)
+
+    return this.attacking_board
+  }
 }
 
 class Queen extends Piece {
   html_class = 'Q'
 
-  update_attacking_board() {
-    this.attacking_board.value = 0
+  _update_attacking_board() {
     let u = true,
       d = true,
       l = true,
@@ -362,13 +378,13 @@ function piece_selected(element, piece) {
 function cell_selected(event) {
   let cell = event.target
   if (selected_element && cell.classList.contains(HIGHLIGHTED_CLASS)) {
-    clear_highlighted_cells()
     selected_piece.move_to(cell)
-    selected_element.classList.remove(SELECTED_CLASS)
-    HTML_BOARD.classList.remove(SELECTING_CLASS)
-    selected_element = null
-    selected_piece = null
   }
+  clear_highlighted_cells()
+  selected_element.classList.remove(SELECTED_CLASS)
+  HTML_BOARD.classList.remove(SELECTING_CLASS)
+  selected_element = null
+  selected_piece = null
 }
 
 function player_board(color) {
