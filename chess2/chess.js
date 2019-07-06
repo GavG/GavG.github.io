@@ -228,6 +228,22 @@ class Pawn extends Piece {
 
 class Rook extends Piece {
   html_class = 'R'
+
+  _update_attacking_board() {
+    let u = true,
+      d = true,
+      l = true,
+      r = true
+
+    for (let i = 1; i < WIDTH; i++) {
+      u = this.check_position_add(u, this.x, this.y + i)
+      d = this.check_position_add(d, this.x, this.y - i)
+      l = this.check_position_add(l, this.x - i, this.y)
+      r = this.check_position_add(r, this.x + i, this.y)
+    }
+
+    return this.attacking_board
+  }
 }
 
 class Knight extends Piece {
