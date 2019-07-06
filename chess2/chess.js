@@ -445,11 +445,9 @@ function piece_selected(element, piece) {
 
 function cell_selected(event) {
   let cell = event.target
-  if (selected_element && cell.classList.contains(HIGHLIGHTED_CLASS)) {
-    selected_piece.move_to(cell)
-  }
+  if (selected_element && cell.classList.contains(HIGHLIGHTED_CLASS)) selected_piece.move_to(cell)
   clear_highlighted_cells()
-  selected_element.classList.remove(SELECTED_CLASS)
+  if (selected_element) selected_element.classList.remove(SELECTED_CLASS)
   HTML_BOARD.classList.remove(SELECTING_CLASS)
   selected_element = null
   selected_piece = null
