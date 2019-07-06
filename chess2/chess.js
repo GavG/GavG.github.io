@@ -185,7 +185,6 @@ class Piece {
       }
       if (enemy_board.check_position(x, y).value) {
         this.attacking_board.add_position(x, y)
-        console.log(x, y)
         return false
       }
       this.attacking_board.add_position(x, y)
@@ -357,14 +356,13 @@ function piece_selected(element, piece) {
 }
 
 function cell_selected(event) {
-  clear_highlighted_cells()
   let cell = event.target
-  if (selected_element && cell.dataset.x >= 0 && cell.dataset.y >= 0) {
-
+  if (selected_element && cell.classList.contains(HIGHLIGHTED_CLASS)) {
+    clear_highlighted_cells()
     selected_piece.move_to(cell.dataset.x, cell.dataset.y)
-
     //move if viable
     selected_element.classList.remove(SELECTED_CLASS)
+    //check if we hit an eneym TODO
     HTML_BOARD.classList.remove(SELECTING_CLASS)
     selected_element = null
     selected_piece = null
