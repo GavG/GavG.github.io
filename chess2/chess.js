@@ -48,11 +48,12 @@ class Bitboard {
   }
 
   check_position(_x, _y) {
+    var temp_board = new Bitboard(WIDTH, HEIGHT)
     if (_x <= this.width && _y <= this.height && _x >= 0 && _y >= 0) {
-      var temp_board = new Bitboard(WIDTH, HEIGHT)
       temp_board.value = left_shift(Math.pow(2, _x), _y * this.width)
       return this.and(temp_board, false)
     }
+    return temp_board
   }
 
   coordinates() {
@@ -174,29 +175,21 @@ class Piece {
     this.move_to_callback()
   }
 
-  viable_positions_board() {
-    this.update_attacking_board()
-    var this_player_board = player_board(this.color)
-
-    console.log(this.attacking_board.value)
-    console.log(this_player_board.value)
-    console.log(this.attacking_board.or(this_player_board).visual())
-
-    return this.attacking_board.or(this_player_board).xor(this_player_board)
-  }
-
   check_position_add(dir, x, y) {
     let enemy_board = player_board(!this.color)
     let this_board = player_board(this.color)
 
-    if (dir && x < WIDTH && y <= HEIGHT) {
-      if (this_board.check_position(x, y)) {
+    if (dir && x < WIDTH && x >= 0 && y < HEIGHT && y >= 0) {
+      if (this_board.check_position(x, y).value) {
         return false
       }
-      if (enemy_board.check_position(x, y)) {
+      if (enemy_board.check_position(x, y).value) {
         this.attacking_board.add_position(x, y)
-        return true
+        console.log(x, y)
+        return false
       }
+      this.attacking_board.add_position(x, y)
+      return true
     }
     return false
   }
@@ -211,7 +204,7 @@ class Pawn extends Piece {
     if (this.first_move) {
       this.attacking_board.add_position(this.x, this.y + (this.direction * 2))
     }
-    console.log(this.attacking_board)
+    return this.attacking_board
   }
 
   move_to_callback() {
@@ -239,6 +232,7 @@ class Queen extends Piece {
   html_class = 'Q'
 
   update_attacking_board() {
+    this.attacking_board.value = 0
     let u = true,
       d = true,
       l = true,
@@ -248,10 +242,7 @@ class Queen extends Piece {
       dl = true,
       dr = true
 
-    for (let i = 1; i <= WIDTH; i++) {
-
-      console.log(i)
-
+    for (let i = 1; i < WIDTH; i++) {
       u = this.check_position_add(u, this.x, this.y + i)
       d = this.check_position_add(d, this.x, this.y - i)
       l = this.check_position_add(l, this.x - i, this.y)
@@ -260,9 +251,9 @@ class Queen extends Piece {
       ur = this.check_position_add(ur, this.x + i, this.y + i)
       dl = this.check_position_add(dl, this.x - i, this.y - i)
       dr = this.check_position_add(dr, this.x + i, this.y - i)
-
     }
-    console.log(this.attacking_board)
+    console.log(this.attacking_board.visual())
+    return this.attacking_board
   }
 }
 
@@ -303,7 +294,7 @@ function create_pieces() {
   ]
 
   for (var i = 0; i < WIDTH; i++) {
-    white_pieces.push(new Pawn(i, 1, WHITE))
+    //white_pieces.push(new Pawn(i, 1, WHITE))
     black_pieces.push(new Pawn(i, HEIGHT - 2, BLACK))
   }
 }
@@ -355,10 +346,7 @@ function draw_pieces() {
 
 function piece_selected(element, piece) {
   element.classList.add(SELECTED_CLASS)
-
-  var viable_positions_board = piece.viable_positions_board()
-
-  highlight_cells(viable_positions_board.coordinates())
+  highlight_cells(piece.update_attacking_board().coordinates())
 
   if (selected_element) {
     selected_element.classList.remove(SELECTED_CLASS)
