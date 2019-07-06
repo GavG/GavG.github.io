@@ -14,6 +14,7 @@ const DEAD_CLASS = 'dead'
 
 var HTML_BOARD = null
 var board = 0
+let turn = WHITE
 var white_pieces = []
 var black_pieces = []
 var highlighted_cells = []
@@ -175,6 +176,7 @@ class Piece {
     this.update_html_position()
     this.update_attacking_board()
     moved[this.color ? WHITE_CLASS : BLACK_CLASS] = true
+    turn = !this.color
 
     if (piece) {
       let enemies = this.get_enemies()
@@ -429,14 +431,16 @@ function draw_pieces() {
 }
 
 function piece_selected(element, piece) {
-  element.classList.add(SELECTED_CLASS)
-  highlight_cells(piece.update_attacking_board().coordinates())
+  if (piece.color == turn) {
+    element.classList.add(SELECTED_CLASS)
+    highlight_cells(piece.update_attacking_board().coordinates())
 
-  if (selected_element) selected_element.classList.remove(SELECTED_CLASS)
+    if (selected_element) selected_element.classList.remove(SELECTED_CLASS)
 
-  selected_element = element
-  selected_piece = piece
-  HTML_BOARD.classList.add(SELECTING_CLASS)
+    selected_element = element
+    selected_piece = piece
+    HTML_BOARD.classList.add(SELECTING_CLASS)
+  }
 }
 
 function cell_selected(event) {
