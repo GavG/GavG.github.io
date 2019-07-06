@@ -9,6 +9,8 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  justify-content: center;
+  align-items: center;
   background: #353535;
   font: normal 9vh "Lucida Sans Unicode", "Lucida Grande", "Arial Unicode MS", sans-serif;
   --unit: 12vh;
@@ -83,12 +85,6 @@ body {
 
 .piece.y7, .piece.dead.x7 {
   bottom: calc(7 * var(--unit));
-}
-
-.wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 #board {
