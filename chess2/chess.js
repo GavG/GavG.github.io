@@ -147,20 +147,16 @@ class Piece {
       })
     }
     this.html_element.classList.add(PIECE_CLASS, self.html_class, self.color ? WHITE_CLASS : BLACK_CLASS, ...extra_classes)
-
     this.update_html_position()
-    this.update_attacking_board() //call here as all pieces generated
   }
 
   update_html_position() {
     if (this.x_class || this.y_class) {
-      this.html_element.classList.remove(this.x_class)
-      this.html_element.classList.remove(this.y_class)
+      this.html_element.classList.remove(this.x_class, this.y_class)
     }
     this.x_class = 'x' + this.x
     this.y_class = 'y' + this.y
-    this.html_element.classList.add(this.x_class)
-    this.html_element.classList.add(this.y_class)
+    this.html_element.classList.add(this.x_class, this.y_class)
   }
 
   update_attacking_board() {
