@@ -10,7 +10,7 @@ const HIGHLIGHTED_CLASS = 'h'
 const WHITE_CLASS = 'w'
 const BLACK_CLASS = 'b'
 const PIECE_CLASS = 'piece'
-const DEAD_CLASS = 'dead'
+const CAPTURED_CLASS = 'captured'
 
 var HTML_BOARD = null
 var board = 0
@@ -68,7 +68,6 @@ class Bitboard {
   }
 
   check_position(_x, _y) {
-    //TODO prevent King capturing, best to just do an AND with the opponents King position board
     let temp_board = new Bitboard(WIDTH, HEIGHT)
     if (_x <= this.width && _y <= this.height && _x >= 0 && _y >= 0) {
       temp_board.set_value(shift(Math.pow(2, _x), _y * this.width))
@@ -123,6 +122,7 @@ class Piece {
     this.position_board = new Bitboard(WIDTH, HEIGHT, this.x, this.y)
     this.attacking_board = new Bitboard(WIDTH, HEIGHT)
     this.html_element = null
+    this.captured = false
   }
 
   draw(extra_classes = []) {
@@ -149,9 +149,6 @@ class Piece {
   }
 
   update_attacking_board() {
-    if (!moved[WHITE_CLASS] && !moved[BLACK_CLASS] && this.attacking_board.value) {
-      return this.attacking_board
-    }
     this.attacking_board.set_value(0)
     return this._update_attacking_board()
   }
@@ -170,6 +167,9 @@ class Piece {
 
   move_to(cell) {
     let piece = HTML_BOARD.querySelector('.' + PIECE_CLASS + '.x' + cell.dataset.x + '.y' + cell.dataset.y)
+
+    if (piece == this) return false
+
     this.set_x(cell.dataset.x)
     this.set_y(cell.dataset.y)
     this.position_board.set_position(this.x, this.y)
@@ -198,9 +198,10 @@ class Piece {
   }
 
   capture() {
+    this.captured = true
     this.set_x(this.original_x)
     this.set_y(this.original_y)
-    this.draw([DEAD_CLASS])
+    this.draw([CAPTURED_CLASS])
   }
 
   check_position_add(dir, x, y, capture_only = false, no_capture = false) {

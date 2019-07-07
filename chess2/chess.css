@@ -59,31 +59,31 @@ body {
   bottom: 0;
 }
 
-.piece.y1, .piece.dead.x1 {
+.piece.y1, .piece.captured.x1 {
   bottom: var(--unit);
 }
 
-.piece.y2, .piece.dead.x2 {
+.piece.y2, .piece.captured.x2 {
   bottom: calc(2 * var(--unit));
 }
 
-.piece.y3, .piece.dead.x3 {
+.piece.y3, .piece.captured.x3 {
   bottom: calc(3 * var(--unit));
 }
 
-.piece.y4, .piece.dead.x4 {
+.piece.y4, .piece.captured.x4 {
   bottom: calc(4 * var(--unit));
 }
 
-.piece.y5, .piece.dead.x5 {
+.piece.y5, .piece.captured.x5 {
   bottom: calc(5 * var(--unit));
 }
 
-.piece.y6, .piece.dead.x6 {
+.piece.y6, .piece.captured.x6 {
   bottom: calc(6 * var(--unit));
 }
 
-.piece.y7, .piece.dead.x7 {
+.piece.y7, .piece.captured.x7 {
   bottom: calc(7 * var(--unit));
 }
 
@@ -146,16 +146,16 @@ body {
     margin-top: calc(2 * var(--unit));
     margin-bottom: calc(2 * var(--unit));
   }
-  .piece.dead.b.P {
+  .piece.captured.b.P {
     bottom: calc(-1 * var(--unit));
   }
-  .piece.dead.b {
+  .piece.captured.b {
     bottom: calc(-2 * var(--unit));
   }
-  .piece.dead.w.P {
+  .piece.captured.w.P {
     top: calc(-1 * var(--unit));
   }
-  .piece.dead.w {
+  .piece.captured.w {
     top: calc(-2 * var(--unit));
   }
 }
@@ -167,16 +167,16 @@ body {
       margin-right: calc(2 * var(--unit));
     }
   }
-  .piece.dead.b.P {
+  .piece.captured.b.P {
     left: calc(8 * var(--unit));
   }
-  .piece.dead.b {
+  .piece.captured.b {
     left: calc(9 * var(--unit));
   }
-  .piece.dead.w.P {
+  .piece.captured.w.P {
     left: calc(-1 * var(--unit));
   }
-  .piece.dead.w {
+  .piece.captured.w {
     left: calc(-2 * var(--unit));
   }
 }
