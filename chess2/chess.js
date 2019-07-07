@@ -37,6 +37,9 @@ var moved = {
   [BLACK_CLASS]: false
 }
 
+var white_king = null
+var black_king = null
+
 class Bitboard {
 
   constructor(h, w, _x = null, _y = null, value = 0) {
@@ -117,7 +120,11 @@ class Piece {
     this.original_y = _y
     this.set_x(_x)
     this.set_y(_y)
-    this.color = !!color
+    this.color = color
+    this.enemy_king = color ? black_king : white_king
+
+    console.log(this, this.enemy_king)
+
     this.direction = this.color ? 1 : -1
     this.position_board = new Bitboard(WIDTH, HEIGHT, this.x, this.y)
     this.attacking_board = new Bitboard(WIDTH, HEIGHT)
@@ -208,6 +215,8 @@ class Piece {
 
     let enemy_board = player_board(!this.color)
     let this_board = player_board(this.color)
+
+    if (x == this.enemy_king.x && y == this.enemy_king.y) return false
 
     if (dir && x < WIDTH && x >= 0 && y < HEIGHT && y >= 0) {
       if (this_board.check_position(x, y).value) {
@@ -361,12 +370,16 @@ function init() {
 
 function create_pieces() {
 
+  white_king = new King(4, 0, WHITE)
+  black_king = new King(4, HEIGHT - 1, BLACK)
+  white_king.enemy_king = black_king
+
   white_pieces = [
     new Rook(0, 0, WHITE),
     new Knight(1, 0, WHITE),
     new Bishop(2, 0, WHITE),
     new Queen(3, 0, WHITE),
-    new King(4, 0, WHITE),
+    white_king,
     new Bishop(5, 0, WHITE),
     new Knight(6, 0, WHITE),
     new Rook(7, 0, WHITE),
@@ -377,7 +390,7 @@ function create_pieces() {
     new Knight(1, HEIGHT - 1, BLACK),
     new Bishop(2, HEIGHT - 1, BLACK),
     new Queen(3, HEIGHT - 1, BLACK),
-    new King(4, HEIGHT - 1, BLACK),
+    black_king,
     new Bishop(5, HEIGHT - 1, BLACK),
     new Knight(6, HEIGHT - 1, BLACK),
     new Rook(7, HEIGHT - 1, BLACK),
