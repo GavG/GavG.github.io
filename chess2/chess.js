@@ -40,6 +40,8 @@ var moved = {
 var white_king = null
 var black_king = null
 
+var dragging = false
+
 class Bitboard {
 
   constructor(h, w, _x = null, _y = null, value = 0) {
@@ -122,9 +124,6 @@ class Piece {
     this.set_y(_y)
     this.color = color
     this.enemy_king = color ? black_king : white_king
-
-    console.log(this, this.enemy_king)
-
     this.direction = this.color ? 1 : -1
     this.position_board = new Bitboard(WIDTH, HEIGHT, this.x, this.y)
     this.attacking_board = new Bitboard(WIDTH, HEIGHT)
@@ -136,11 +135,28 @@ class Piece {
     var self = this
     if (!this.html_element) {
       this.html_element = document.createElement("div")
+      this.html_element.setAttribute('draggable', true)
+
       HTML_BOARD.appendChild(self.html_element)
+
       this.html_element.addEventListener('click', function(event) {
         event.stopPropagation()
         piece_selected(this, self)
       })
+
+      this.html_element.addEventListener('dragstart', function(event) {
+        dragging = true
+        //piece_selected(this, self)
+        return true
+      })
+
+      this.html_element.addEventListener('dragend', function(event) {
+        dragging = false
+        console.log(event)
+        cell_selected(event)
+      })
+
+
     }
     this.html_element.classList.add(PIECE_CLASS, self.html_class, self.color ? WHITE_CLASS : BLACK_CLASS, ...extra_classes)
     this.update_html_position()
@@ -458,13 +474,15 @@ function piece_selected(element, piece) {
 }
 
 function cell_selected(event) {
-  let cell = event.target
-  if (selected_element && cell.classList.contains(HIGHLIGHTED_CLASS)) selected_piece.move_to(cell)
-  clear_highlighted_cells()
-  if (selected_element) selected_element.classList.remove(SELECTED_CLASS)
-  HTML_BOARD.classList.remove(SELECTING_CLASS)
-  selected_element = null
-  selected_piece = null
+  if (!dragging) {
+    let cell = event.target
+    if (selected_element && cell.classList.contains(HIGHLIGHTED_CLASS)) selected_piece.move_to(cell)
+    clear_highlighted_cells()
+    if (selected_element) selected_element.classList.remove(SELECTED_CLASS)
+    HTML_BOARD.classList.remove(SELECTING_CLASS)
+    selected_element = null
+    selected_piece = null
+  }
 }
 
 function player_board(color) {
