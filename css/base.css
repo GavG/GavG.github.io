@@ -974,8 +974,8 @@ a {
   display: block;
   width: auto;
   background-color: #ddd;
-  padding: 8px 12px;
-  border-left: 4px solid #4CAF50;
+  padding: 8px 12px!important;
+  border-left: 4px solid #4CAF50!important;
   word-wrap: break-word
 }
 
