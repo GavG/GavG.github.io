@@ -1,5 +1,29 @@
 /* W3.CSS 4.10 February 2018 by Jan Egil and Borge Refsnes */
 
+.w-50 {
+  max-width: 50%;
+}
+
+.mx-auto {
+  display: block;
+  margin: auto;
+}
+
+p {
+  line-height: 2rem;
+}
+
+h4 {
+  color: #111;
+  background-color: #e2eeff;
+  padding-left: 10px;
+  border-left: 10px solid #607d8b;
+}
+
+h4 + p {
+  padding-left: 20px;
+}
+
 html {
   -webkit-box-sizing: border-box;
   box-sizing: border-box
@@ -947,8 +971,9 @@ a {
 }
 
 .w3-code {
+  display: block;
   width: auto;
-  background-color: #fff;
+  background-color: #ddd;
   padding: 8px 12px;
   border-left: 4px solid #4CAF50;
   word-wrap: break-word
@@ -1854,6 +1879,13 @@ a {
 
 #bannerImg {
   width: 100px;
+}
+
+img.large, #bannerImg.large {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 #logo {

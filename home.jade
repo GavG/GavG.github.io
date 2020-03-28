@@ -10,6 +10,14 @@ block meta
 
 block header
   +banner(baseURL+'/images/logo.png', '#4682b4')
+  script.
+    var logo = document.getElementById(baseURL+'/images/logo.png');
+    window.addEventListener('scroll', function() {
+        var offset = window.scrollY || window.pageYOffset || document.body.scrollTop + (document.documentElement && document.documentElement.scrollTop || 0);
+        logo.style.marginTop = offset +'px';
+        logo.style.transform = 'rotate(' + offset * 3 +'deg)';
+        logo.style.webkitTransform = 'rotate(' + offset * 3 +'deg)';
+    });
 
 block content
 

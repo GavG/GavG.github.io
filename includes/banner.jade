@@ -1,11 +1,3 @@
-mixin banner(src, col)
+mixin banner(src, col, class_name='')
   header(style="background-color:"+col).header
-    img(id="bannerImg" src=src).w3-image
-  script.
-    var logo = document.getElementById('bannerImg');
-    window.addEventListener('scroll', function() {
-        var offset = window.scrollY || window.pageYOffset || document.body.scrollTop + (document.documentElement && document.documentElement.scrollTop || 0);
-        logo.style.marginTop = offset +'px';
-        logo.style.transform = 'rotate(' + offset * 3 +'deg)';
-        logo.style.webkitTransform = 'rotate(' + offset * 3 +'deg)';
-    });
+    img(id="bannerImg" src=src, class="w3-image "+class_name)
