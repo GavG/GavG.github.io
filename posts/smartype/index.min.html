@@ -1,7 +1,17 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="images/logo.png?v=1" type="image/png"><link rel="icon" href="images/logo.png?v=1" type="image/png"><title>GavG</title><meta property="og:type" content="article"><meta property="og:image" content="https://gavg.github.io/images/posts/lock.png"><script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script><link rel="stylesheet" href="https://gavg.github.io/css/base.css?v=1.05"><!--Global site tag (gtag.js) - Google Analytics--><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1"></script><script>window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'UA-123089114-1');</script></head><div class="w3-top"><div class="w3-bar w3-white w3-wide w3-padding w3-card"><a href="https://gavg.github.io/home.html" class="w3-bar-item w3-button">Gav<img id="logo" src="https://gavg.github.io/images/logo.png"></a><input type="checkbox" id="menu-toggle-input"><label id="menu-toggle" for="menu-toggle-input" tabindex="1" onblur="console.log('blur')" class="w3-bar-item w3-right"><div class="bar1"></div><div class="bar2"></div><div class="bar3"></div></label><div class="w3-right"><a href="https://gavg.github.io/index.html" class="w3-bar-item w3-button">About</a><a href="https://gavg.github.io/posts/index.html" class="w3-bar-item w3-button">Posts</a><!--a(href=baseURL+"/apps/index.html").w3-bar-item.w3-button Apps--><!--a(href=baseURL+"/index.html#contact").w3-bar-item.w3-button Contact--></div></div></div><body><header style="background-color:#000" class="header"><img id="bannerImg" src="https://gavg.github.io/images/posts/smartype.png" class="w3-image large"></header><div class="progress-indicator"><svg class="progress-circle"><g><circle cx="0" cy="0" r="10" stroke="black" transform="translate(25,25) rotate(-90)" class="animated-circle"></circle></g><g><circle cx="0" cy="0" r="19" transform="translate(25,25) rotate(-90)" class="back-circle"></circle></g></svg><div class="progress-count"></div></div><script src="https://gavg.github.io/includes/scripts/progress.min.js"></script><div id="app"><article class="w3-container"><h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Smartype Keyboard "Weather Offline" Fix</h3><p>The Smartype USB keyboard was introduced by KEYVIEW in 2012. It features a built-in display capable of showing a live view of the current line when text editing or a dashboard comprising of a few applets:</p><div class="container-row"><ul class="w-50"><li>The current time</li><li>The current calendar date</li><li>The current weather conditions</li></ul><ul class="w-50"><li>The latest email and unread count from a specified mailbox</li><li>Images from a specified directory</li></ul></div><h4 class="w3-padding-16">The Backstory</h4><p>I picked up one of these keyboards from a charity shop as it looked a wee bit interesting and was relatively cheap.
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="images/logo.png?v=1" type="image/png"><link rel="icon" href="images/logo.png?v=1" type="image/png"><title>GavG</title><meta property="og:type" content="article"><meta property="og:image" content="https://gavg.github.io/images/posts/lock.png"><script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script><link rel="stylesheet" href="https://gavg.github.io/css/base.css?v=1.05"><!--Global site tag (gtag.js) - Google Analytics--><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1"></script><script>window.dataLayer = window.dataLayer || []
+function gtag(){dataLayer.push(arguments)}
+gtag('js', new Date())
+gtag('config', 'UA-123089114-1')
+
+window.addEventListener('load', function(){
+  var reveals = document.getElementsByClassName('reveals')
+  for (i = 0; i < reveals.length; i++) {
+    reveals[i].addEventListener('click', function(e){
+      e.target.scrollTop = 0
+      e.target.classList.toggle('open')
+    })
+  }
+})</script></head><div class="w3-top"><div class="w3-bar w3-white w3-wide w3-padding w3-card"><a href="https://gavg.github.io/home.html" class="w3-bar-item w3-button">Gav<img id="logo" src="https://gavg.github.io/images/logo.png"></a><input type="checkbox" id="menu-toggle-input"><label id="menu-toggle" for="menu-toggle-input" tabindex="1" onblur="console.log('blur')" class="w3-bar-item w3-right"><div class="bar1"></div><div class="bar2"></div><div class="bar3"></div></label><div class="w3-right"><a href="https://gavg.github.io/index.html" class="w3-bar-item w3-button">About</a><a href="https://gavg.github.io/posts/index.html" class="w3-bar-item w3-button">Posts</a><!--a(href=baseURL+"/apps/index.html").w3-bar-item.w3-button Apps--><!--a(href=baseURL+"/index.html#contact").w3-bar-item.w3-button Contact--></div></div></div><body><header style="background-color:#000" class="header"><img id="bannerImg" src="https://gavg.github.io/images/posts/smartype.png" class="w3-image large"></header><div class="progress-indicator"><svg class="progress-circle"><g><circle cx="0" cy="0" r="10" stroke="black" transform="translate(25,25) rotate(-90)" class="animated-circle"></circle></g><g><circle cx="0" cy="0" r="19" transform="translate(25,25) rotate(-90)" class="back-circle"></circle></g></svg><div class="progress-count"></div></div><script src="https://gavg.github.io/includes/scripts/progress.min.js"></script><div id="app"><article class="w3-container"><h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Smartype Keyboard "Weather Offline" Fix</h3><p>The Smartype USB keyboard was introduced by KEYVIEW in 2012. It features a built-in display capable of showing a live view of the current line when text editing or a dashboard comprising of a few applets:</p><div class="container-row"><ul class="w-50"><li>The current time</li><li>The current calendar date</li><li>The current weather conditions</li></ul><ul class="w-50"><li>The latest email and unread count from a specified mailbox</li><li>Images from a specified directory</li></ul></div><h4 class="w3-padding-16">The Backstory</h4><p>I picked up one of these keyboards from a charity shop as it looked a wee bit interesting and was relatively cheap.
 
 Upon plugging the it in and glancing the instructions printed in the box it became apparent that the company providing the software had long gone and the driver / software were no longer being hosted on their site.
 </p><div><img src="https://gavg.github.io/images/posts/smartype_box_inner.jpg" alt="Smartype box inside view" style="max-width: 1200px;" class="large mx-auto"></div><p>Luckily after a bit of Googling I found a link to a download page via the <a href="https://archive.org/web/" title="waybackmachine">waybackmachine</a> and was able to install the software. (I'll pop a copy of this here for reference).
@@ -16,12 +26,15 @@ Thereafter I used an app called Fiddler (link) to capture the request to the API
 </p><img src="https://gavg.github.io/images/posts/smartype_fiddler_full_response.png" alt="Smartype keyboard, Fiddler fake API response" style="max-width: 1200px;" class="large mx-auto"><p>Although at nearly 1,000 lines of XML this seemed like an awful lot of redundant data considering the only fields the keyboard seemed to need were the temperature and the weather description
 
 So after a bit of experimenting I found the minimum response needed to make it work:
-</p><img src="https://gavg.github.io/images/posts/smartype_weather_minimum_api_response.png" alt="Smartype keyboard, weather API minimum needed response" style="max-width: 1200px;" class="large mx-auto"><p>Much better &#128522 This seemed like a good start to a solution. It would have been possible to somehow remap the request to use my new API key, but the free trial would only last for a certain amount of time and I didn't fancy paying a monthly subscription as this is just for fun afterall.
+</p><img src="https://gavg.github.io/images/posts/smartype_weather_minimum_api_response.png" alt="Smartype keyboard, weather API minimum needed response" style="max-width: 1200px;" class="large mx-auto"><p>Much better &#128522 This seemed like a good start to a solution. It would have been possible to remap the request to use my new API key, but the free trial would only last for a certain amount of time and I didn't fancy paying a monthly subscription as this is just for fun afterall.
 
-Instead I had an idea to redirect the requests to a local server where I could then use an alternative free weather API <a href="https://openweathermap.org" title="Open Weather Map">openweathermap.org</a> to get the data I need and send that back instead.
+Instead I had an idea to redirect the requests to a local server where I could then use an alternative free weather API <a href="https://openweathermap.org" title="Open Weather Map">openweathermap.org</a> to get the data I need and send that back to the keyboard.
 
 The app didn't have to do anything to complicated so I figured a lightweight node JS server would suffice:
-</p><code><pre class="prettyprint lang-js w3-code">// server.js
+</p><blockquote>Note I'm still very new to Node JS Server's at this point and so this code could almost certainly be improved (feel free to make a pull request!).
+Coming from a PHP background I had to spend a bit of time figuring out how to shoehorn my synchronous ideas into the node libraries asynchronous patterns.
+As the response for the intercepted request is dependant on the response from the open weather API it would have been nice to use a synchronous flow, alas it seems everything in Node JS wants to be async, hence I ended up using a promise and awaiting its resolution which seemed to work out just fine.
+</blockquote><pre class="prettyprint lang-js w3-code reveals">// server.js
 
 const http = require('http');
 const url = require('url');
@@ -94,13 +107,42 @@ function run(api_key, port = 9999)
 
     }).listen(port);
 }
+</pre><pre class="prettyprint lang-js w3-code reveals">// weather.js
 
-</pre></code><p>In order to redirect the current weather requests to the new server, the simplest / hackiest Windows solution I could come up with was to add an entry to the hosts file redirecting traffic to www.worldweatheronline.com to a new local interface (127.0.0.2):
+let request = require('request');
+
+var res = function(data, success = true)
+{
+    return { [success ? 'success' : 'error'] : data }
+}
+
+module.exports = {
+    get_current: function(apiKey, city)
+    {
+        return new Promise((resolve, reject) => {
+
+            if(!apiKey) reject(res('Missing API Key', false))
+            if(!city) reject(res('Missing City', false))
+
+            let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
+
+            request(url, function (err, response, body) {
+                if (err) reject(res(err, false))
+                let weather = JSON.parse(body)
+                if (weather.cod == 200) resolve(res(weather))
+                reject(res(weather.message, false))
+            });
+        })
+    }
+}
+
+
+</pre><p>In order to redirect the current weather requests to the new server, the simplest / hackiest Windows solution I could come up with was to add an entry to the hosts file redirecting traffic to www.worldweatheronline.com to a new local interface (127.0.0.2):
 
 Host file entry:
-</p><code class="w3-code">127.0.0.2 www.worldweatheronline.com</code><p>Thereafter I could use netsh to redirect traffic on 127.0.0.2 to my node server which is running on localhost:</p><code class="w3-code">netsh interface portproxy add v4tov4 listenport=80 listenaddress=127.0.0.2 connectport=9999 connectaddress=127.0.0.1</code><p>I thought this was an alright solution, the only issue was that it didn't seem to work.This required a lot of head scratching and debugging.
+</p><code class="w3-code">127.0.0.2 www.worldweatheronline.com</code><p>Thereafter I could use netsh to redirect traffic on 127.0.0.2 to my node server which is running on localhost:</p><code class="w3-code">netsh interface portproxy add v4tov4 listenport=80 listenaddress=127.0.0.2 connectport=9999 connectaddress=127.0.0.1</code><h4 class="w3-padding-16">Debugging</h4><p>I thought this was an alright solution, the only issue was that it didn't seem to work. This required some head scratching.
 
-Initially I suspected that I'd missed some headers or similar so I compared the real 127.0.0.2 www.worldweatheronline.com response to mine and also to the mock response I had made in Fiddler.
+Initially I suspected that I'd missed some required headers in the response so I set about comparing the real www.worldweatheronline.com response to mine and also to the mock response I had made in Fiddler.
 
 I made sure everything was the same, alas no dice. But there was one subtle difference, the values for the temperatures! In my mock data the temp values were all integers but in the data from the openweathermap.org API we were getting figures with 2DP of precission.
 

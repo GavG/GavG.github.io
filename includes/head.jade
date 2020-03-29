@@ -9,8 +9,18 @@ head
   //Global site tag (gtag.js) - Google Analytics
   script(async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1")
   script.
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-123089114-1');
+    window.dataLayer = window.dataLayer || []
+    function gtag(){dataLayer.push(arguments)}
+    gtag('js', new Date())
+    gtag('config', 'UA-123089114-1')
+
+    window.addEventListener('load', function(){
+      var reveals = document.getElementsByClassName('reveals')
+      for (i = 0; i < reveals.length; i++) {
+        reveals[i].addEventListener('click', function(e){
+          e.target.scrollTop = 0
+          e.target.classList.toggle('open')
+        })
+      }
+    })
 

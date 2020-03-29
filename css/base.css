@@ -1,5 +1,9 @@
 /* W3.CSS 4.10 February 2018 by Jan Egil and Borge Refsnes */
 
+html {
+  scroll-behavior: smooth;
+}
+
 .w-50 {
   max-width: 50%;
 }
@@ -7,6 +11,34 @@
 .mx-auto {
   display: block;
   margin: auto;
+}
+
+.reveals {
+  transition: max-height ease-in-out 1s;
+  max-height: 150px;
+  overflow-y: hidden;
+  position: relative;
+}
+
+.reveals.open {
+  max-height: 750px;
+  overflow-y: scroll;
+}
+
+.reveals:not(.open)::after {
+  display: block;
+  position: absolute;
+  color: #333;
+  text-decoration: underline;
+  content: 'Click to Expand';
+  cursor: pointer;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  text-align: center;
+  padding-top: 60px;
+  background-image: linear-gradient(to bottom, rgba(255,0,0,0), rgba(255,255,255,0.5));
 }
 
 p {

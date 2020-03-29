@@ -74,87 +74,122 @@ block content
     img.large(src=baseURL+'/images/posts/smartype_weather_minimum_api_response.png', alt="Smartype keyboard, weather API minimum needed response", style="max-width: 1200px;").mx-auto
 
     p.
-        Much better &#128522 This seemed like a good start to a solution. It would have been possible to somehow remap the request to use my new API key, but the free trial would only last for a certain amount of time and I didn't fancy paying a monthly subscription as this is just for fun afterall.
+        Much better &#128522 This seemed like a good start to a solution. It would have been possible to remap the request to use my new API key, but the free trial would only last for a certain amount of time and I didn't fancy paying a monthly subscription as this is just for fun afterall.
 
-        Instead I had an idea to redirect the requests to a local server where I could then use an alternative free weather API #[a(href='https://openweathermap.org' title='Open Weather Map') openweathermap.org] to get the data I need and send that back instead.
+        Instead I had an idea to redirect the requests to a local server where I could then use an alternative free weather API #[a(href='https://openweathermap.org' title='Open Weather Map') openweathermap.org] to get the data I need and send that back to the keyboard.
 
         The app didn't have to do anything to complicated so I figured a lightweight node JS server would suffice:
 
-    code
-        pre.prettyprint.lang-js.w3-code.
-            // server.js
+    blockquote.
+        Note I'm still very new to Node JS Server's at this point and so this code could almost certainly be improved (feel free to make a pull request!).
+        Coming from a PHP background I had to spend a bit of time figuring out how to shoehorn my synchronous ideas into the node libraries asynchronous patterns.
+        As the response for the intercepted request is dependant on the response from the open weather API it would have been nice to use a synchronous flow, alas it seems everything in Node JS wants to be async, hence I ended up using a promise and awaiting its resolution which seemed to work out just fine.
 
-            const http = require('http');
-            const url = require('url');
-            const weather = require('./weather.js')
-            const fs = require('fs')
+    pre.prettyprint.lang-js.w3-code.reveals.
+        // server.js
 
-            fs.readFile('./config.json', (err, config) => {
-                if (err || !config) return console.log('Missing Config, see README')
-                config = JSON.parse(config)
-                if(!config.api_key) return console.log('Missing API Key, see README')
-                return run(config.api_key, config.port)
-            })
+        const http = require('http');
+        const url = require('url');
+        const weather = require('./weather.js')
+        const fs = require('fs')
 
-            const description_map = {
-                'Snow': 'Snowy',
-                'Mist': 'Fog',
-                'Clouds': 'Cloudy',
-            }
+        fs.readFile('./config.json', (err, config) => {
+            if (err || !config) return console.log('Missing Config, see README')
+            config = JSON.parse(config)
+            if(!config.api_key) return console.log('Missing API Key, see README')
+            return run(config.api_key, config.port)
+        })
 
-            function run(api_key, port = 9999)
-            {
-                const server = http.createServer()
+        const description_map = {
+            'Snow': 'Snowy',
+            'Mist': 'Fog',
+            'Clouds': 'Cloudy',
+        }
 
-                server.on('request', async (req, res)=>  {
-                    const query = url.parse(req.url, true).query;
+        function run(api_key, port = 9999)
+        {
+            const server = http.createServer()
 
-                    let reply
+            server.on('request', async (req, res)=>  {
+                const query = url.parse(req.url, true).query;
 
-                    if (query.q) {
+                let reply
 
-                        try {
-                            let result = await weather.get_current(api_key, query.q)
+                if (query.q) {
 
-                            if(result.success){
-                                let temp_c = Math.round(result.success.main.temp)
-                                let temp_f = Math.round((temp_c * 1.8) + 32)
-                                let description
+                    try {
+                        let result = await weather.get_current(api_key, query.q)
 
-                                if (result.success.weather[0]){
-                                    if(result.success.weather[0].main in description_map){
-                                        description = description_map[result.success.weather[0].main]
-                                    } else {
-                                        description = result.success.weather[0].main
-                                    }
+                        if(result.success){
+                            let temp_c = Math.round(result.success.main.temp)
+                            let temp_f = Math.round((temp_c * 1.8) + 32)
+                            let description
+
+                            if (result.success.weather[0]){
+                                if(result.success.weather[0].main in description_map){
+                                    description = description_map[result.success.weather[0].main]
+                                } else {
+                                    description = result.success.weather[0].main
                                 }
-
-                                reply = `#{'<?xml version="1.0" encoding="UTF-8"?><data><current_condition><temp_C>${temp_c}</temp_C><temp_F>${temp_f}</temp_F>'}
-                                        #{'<weatherDesc><![CDATA[${description}]]></weatherDesc></current_condition></data>'}`.replace(/\s/g, '')
-                            } else {
-                                console.log('Bad result from weather call:', result)
                             }
 
-                        } catch (err) {
-                            console.log('Error from weather call:', err)
-                        }
-
-                        if (reply) {
-                            res.writeHead(200, {
-                                'Content-Type': 'text/xml',
-                            });
-                            res.write(reply);
+                            reply = `#{'<?xml version="1.0" encoding="UTF-8"?><data><current_condition><temp_C>${temp_c}</temp_C><temp_F>${temp_f}</temp_F>'}
+                                    #{'<weatherDesc><![CDATA[${description}]]></weatherDesc></current_condition></data>'}`.replace(/\s/g, '')
                         } else {
-                            res.writeHead(500, {
-                                'Content-Type': 'text/xml'
-                            });
+                            console.log('Bad result from weather call:', result)
                         }
 
-                        res.end();
+                    } catch (err) {
+                        console.log('Error from weather call:', err)
                     }
 
-                }).listen(port);
+                    if (reply) {
+                        res.writeHead(200, {
+                            'Content-Type': 'text/xml',
+                        });
+                        res.write(reply);
+                    } else {
+                        res.writeHead(500, {
+                            'Content-Type': 'text/xml'
+                        });
+                    }
+
+                    res.end();
+                }
+
+            }).listen(port);
+        }
+
+    pre.prettyprint.lang-js.w3-code.reveals.
+        // weather.js
+
+        let request = require('request');
+
+        var res = function(data, success = true)
+        {
+            return { [success ? 'success' : 'error'] : data }
+        }
+
+        module.exports = {
+            get_current: function(apiKey, city)
+            {
+                return new Promise((resolve, reject) => {
+
+                    if(!apiKey) reject(res('Missing API Key', false))
+                    if(!city) reject(res('Missing City', false))
+
+                    let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
+
+                    request(url, function (err, response, body) {
+                        if (err) reject(res(err, false))
+                        let weather = JSON.parse(body)
+                        if (weather.cod == 200) resolve(res(weather))
+                        reject(res(weather.message, false))
+                    });
+                })
             }
+        }
+
 
 
     p.
@@ -168,10 +203,12 @@ block content
 
     code.w3-code netsh interface portproxy add v4tov4 listenport=80 listenaddress=127.0.0.2 connectport=9999 connectaddress=127.0.0.1
 
-    p.
-        I thought this was an alright solution, the only issue was that it didn't seem to work.This required a lot of head scratching and debugging.
+    h4.w3-padding-16 Debugging
 
-        Initially I suspected that I'd missed some headers or similar so I compared the real 127.0.0.2 www.worldweatheronline.com response to mine and also to the mock response I had made in Fiddler.
+    p.
+        I thought this was an alright solution, the only issue was that it didn't seem to work. This required some head scratching.
+
+        Initially I suspected that I'd missed some required headers in the response so I set about comparing the real www.worldweatheronline.com response to mine and also to the mock response I had made in Fiddler.
 
         I made sure everything was the same, alas no dice. But there was one subtle difference, the values for the temperatures! In my mock data the temp values were all integers but in the data from the openweathermap.org API we were getting figures with 2DP of precission.
 
@@ -214,5 +251,4 @@ block content
         I spent a lot of time going through historical Scottish weather data in the www.worldweatheronline.com API to see what possible values it could be (note these don't seem to be explicitly listed anywhere) and found many candidates including the likes of: 'Light snow showers' and 'Blizzard' but none seemed to work.
 
         And so I moved on to decompiling the app in a hunt for snow. I used dotPeek by JetBrains, which was very useful. Unfortunately I couldn't find what I was looking for. So I've just left that for now and will probably only revisit it again when it next starts snowing.
-
 
