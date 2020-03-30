@@ -193,7 +193,7 @@ block content
 
 
     p.
-        In order to redirect the current weather requests to the new server, the simplest / hackiest Windows solution I could come up with was to add an entry to the hosts file redirecting traffic to www.worldweatheronline.com to a new local interface (127.0.0.2):
+        In order to redirect the current weather requests to the new server, the simplest, albeit a bit hacky, Windows solution I could come up with was to add an entry to the hosts file redirecting traffic to www.worldweatheronline.com to a new local interface (127.0.0.2):
 
         Host file entry:
 
@@ -212,35 +212,34 @@ block content
 
         I made sure everything was the same, alas no dice. But there was one subtle difference, the values for the temperatures! In my mock data the temp values were all integers but in the data from the openweathermap.org API we were getting figures with 2DP of precission.
 
-        I wouldn't have imagined something like that would break it but it did. So after fettling the formatting of the tem values we were golden. Almost. The next issue was the weather icons.
+        I wouldn't have imagined something like that would break it but it did. So after fettling the formatting of the temp values we were golden. Almost. The next issue was the weather icons...
 
-        I had at first thought these may have been coming from the API, but they don't seem to be. Removing the weather icon section from the response:
+        I initially assumed that these were the icons be supplied by the API, but they weren't. Removing the weather icon section from the response:
 
 
-    code.w3-code.
+    code.w3-code.prettyprint.lang-xml.
         #{'<weatherIconUrl>'}<br>
         &nbsp#{'<![CDATA[http://cdn.worldweatheronline.net/images/wsymbols01_png_64/wsymbol_0002_sunny_intervals.png]]>'}<br>
         #{'</weatherIconUrl>'}
 
     p.
-        made no difference. Plus on further inspection the weather symbols from the API don't even match those on the device.
+        made no difference. On further inspection the weather symbols from the API don't even match those on the device.
 
-        Therefore we can deduce that the keyboard has it's own icons. After some more testing I worked out that the icons change based on the presence of certain keywords in the weatherDesc tag:
+        Therefore I deduced that the keyboard has it's own icons. After some more testing I worked out that the icons change based on the presence of certain keywords in the weatherDesc tag:
 
         e.g.
 
-    code.w3-code.
+    code.w3-code.prettyprint.lang-xml.
         #{'<weatherDesc>'}<br>
         &nbsp#{'<![CDATA[Partly cloudy]]>'}<br>
         #{'</weatherDesc>'}
 
-    p In this example the keyword 'cloudy; is all that's needed to display the cloudy icon.
+    p In this example the keyword 'cloudy' is all that's needed to display the cloudy icon.
 
-    p Luckily most of the sought keywords have matching equivelants in the openweathermap.org API! So not much work was needed there bar a couple of mappings:
+    p Luckily most of the sought keywords have matching equivalents in the openweathermap.org API! So not much work was needed there bar a couple of mappings:
 
-    code.w3-code.
+    code.w3-code.prettyprint.lang-js.
         const description_map = {<br>
-        &nbsp'Snow': '???',<br>
         &nbsp'Mist': 'Fog',<br>
         &nbsp'Clouds': 'Cloudy',<br>
         }
@@ -252,3 +251,8 @@ block content
 
         And so I moved on to decompiling the app in a hunt for snow. I used dotPeek by JetBrains, which was very useful. Unfortunately I couldn't find what I was looking for. So I've just left that for now and will probably only revisit it again when it next starts snowing.
 
+    p.
+        The weather works great now (until it snows...). To polish things off I used an npm package called #[a(href='https://www.npmjs.com/package/qckwinsvc' title='qckwinsvc') qckwinsvc] to create a windows service so I could have the server start up automatically.
+
+        If you've got one of these keyboards and would like to get the weather applet working again the installation instructions are in the repo here: #[a(href='https://github.com/GavG/smartkey' title='GavG/smartkey') GavG/smartkey].
+    br

@@ -137,7 +137,7 @@ module.exports = {
 }
 
 
-</pre><p>In order to redirect the current weather requests to the new server, the simplest / hackiest Windows solution I could come up with was to add an entry to the hosts file redirecting traffic to www.worldweatheronline.com to a new local interface (127.0.0.2):
+</pre><p>In order to redirect the current weather requests to the new server, the simplest, albeit a bit hacky, Windows solution I could come up with was to add an entry to the hosts file redirecting traffic to www.worldweatheronline.com to a new local interface (127.0.0.2):
 
 Host file entry:
 </p><code class="w3-code">127.0.0.2 www.worldweatheronline.com</code><p>Thereafter I could use netsh to redirect traffic on 127.0.0.2 to my node server which is running on localhost:</p><code class="w3-code">netsh interface portproxy add v4tov4 listenport=80 listenaddress=127.0.0.2 connectport=9999 connectaddress=127.0.0.1</code><h4 class="w3-padding-16">Debugging</h4><p>I thought this was an alright solution, the only issue was that it didn't seem to work. This required some head scratching.
@@ -146,23 +146,22 @@ Initially I suspected that I'd missed some required headers in the response so I
 
 I made sure everything was the same, alas no dice. But there was one subtle difference, the values for the temperatures! In my mock data the temp values were all integers but in the data from the openweathermap.org API we were getting figures with 2DP of precission.
 
-I wouldn't have imagined something like that would break it but it did. So after fettling the formatting of the tem values we were golden. Almost. The next issue was the weather icons.
+I wouldn't have imagined something like that would break it but it did. So after fettling the formatting of the temp values we were golden. Almost. The next issue was the weather icons...
 
-I had at first thought these may have been coming from the API, but they don't seem to be. Removing the weather icon section from the response:
+I initially assumed that these were the icons be supplied by the API, but they weren't. Removing the weather icon section from the response:
 
-</p><code class="w3-code">&lt;weatherIconUrl&gt;<br>
+</p><code class="w3-code prettyprint lang-xml">&lt;weatherIconUrl&gt;<br>
 &nbsp&lt;![CDATA[http://cdn.worldweatheronline.net/images/wsymbols01_png_64/wsymbol_0002_sunny_intervals.png]]&gt;<br>
 &lt;/weatherIconUrl&gt;
-</code><p>made no difference. Plus on further inspection the weather symbols from the API don't even match those on the device.
+</code><p>made no difference. On further inspection the weather symbols from the API don't even match those on the device.
 
-Therefore we can deduce that the keyboard has it's own icons. After some more testing I worked out that the icons change based on the presence of certain keywords in the weatherDesc tag:
+Therefore I deduced that the keyboard has it's own icons. After some more testing I worked out that the icons change based on the presence of certain keywords in the weatherDesc tag:
 
 e.g.
-</p><code class="w3-code">&lt;weatherDesc&gt;<br>
+</p><code class="w3-code prettyprint lang-xml">&lt;weatherDesc&gt;<br>
 &nbsp&lt;![CDATA[Partly cloudy]]&gt;<br>
 &lt;/weatherDesc&gt;
-</code><p>In this example the keyword 'cloudy; is all that's needed to display the cloudy icon.</p><p>Luckily most of the sought keywords have matching equivelants in the openweathermap.org API! So not much work was needed there bar a couple of mappings:</p><code class="w3-code">const description_map = {<br>
-&nbsp'Snow': '???',<br>
+</code><p>In this example the keyword 'cloudy' is all that's needed to display the cloudy icon.</p><p>Luckily most of the sought keywords have matching equivalents in the openweathermap.org API! So not much work was needed there bar a couple of mappings:</p><code class="w3-code prettyprint lang-js">const description_map = {<br>
 &nbsp'Mist': 'Fog',<br>
 &nbsp'Clouds': 'Cloudy',<br>
 }
@@ -170,4 +169,7 @@ e.g.
 
 I spent a lot of time going through historical Scottish weather data in the www.worldweatheronline.com API to see what possible values it could be (note these don't seem to be explicitly listed anywhere) and found many candidates including the likes of: 'Light snow showers' and 'Blizzard' but none seemed to work.
 
-And so I moved on to decompiling the app in a hunt for snow. I used dotPeek by JetBrains, which was very useful. Unfortunately I couldn't find what I was looking for. So I've just left that for now and will probably only revisit it again when it next starts snowing.</p></article></div><footer class="w3-center w3-black w3-padding-16"><div class="w3-row-padding"><a href="https://gavg.github.io">gavg.github.io</a><a href="https://gavg.github.io/misc/mad/">Site Policy</a></div></footer></body></html>
+And so I moved on to decompiling the app in a hunt for snow. I used dotPeek by JetBrains, which was very useful. Unfortunately I couldn't find what I was looking for. So I've just left that for now and will probably only revisit it again when it next starts snowing.
+</p><p>The weather works great now (until it snows...). To polish things off I used an npm package called <a href="https://www.npmjs.com/package/qckwinsvc" title="qckwinsvc">qckwinsvc</a> to create a windows service so I could have the server start up automatically.
+
+If you've got one of these keyboards and would like to get the weather applet working again the installation instructions are in the repo here: <a href="https://github.com/GavG/smartkey" title="GavG/smartkey">GavG/smartkey</a>.</p><br></article></div><footer class="w3-center w3-black w3-padding-16"><div class="w3-row-padding"><a href="https://gavg.github.io">gavg.github.io</a><a href="https://gavg.github.io/misc/mad/">Site Policy</a></div></footer></body></html>
