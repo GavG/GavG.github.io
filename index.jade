@@ -13,7 +13,7 @@ block header
 
 block scripts
   script.
-    var logo = document.getElementById(baseURL+'/images/logo.png');
+    var logo = document.getElementById('bannerImg');
     window.addEventListener('scroll', function() {
         var offset = window.scrollY || window.pageYOffset || document.body.scrollTop + (document.documentElement && document.documentElement.scrollTop || 0);
         logo.style.marginTop = offset +'px';
