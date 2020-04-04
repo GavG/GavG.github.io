@@ -1,267 +1,107 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Style</title>
-
-  <style media="screen">
-    html,
-    body,
-    .p-abs {
-      width: 100%;
-      height: 100%;
-      margin: 0px;
-      padding: 0px;
-      font-family: verdana;
-    }
-
-    .box {
-      width: 100%;
-      height: 25vh;
-      display: flex;
-      align-items: center;
-    }
-
-    .box.half {
-      height: 12.5%;
-    }
-
-    .bar {
-      width: 100%;
-      height: 25%;
-    }
-
-    .bg-green {
-      background-color: green;
-    }
-
-    .bg-blue {
-      background-color: blue;
-    }
-
-    .bg-red {
-      background-color: red;
-    }
-
-    .bg-yellow {
-      background-color: yellow;
-    }
-
-    .bg-white {
-      background-color: white;
-    }
-
-    .fade-50 {
-      opacity: 0.5;
-    }
-
-    .fade-80 {
-      opacity: 0.8;
-    }
-
-    .white {
-      color: white;
-    }
-
-    h1 {
-      font-size: 50px;
-      margin: 0px;
-      margin-top: -22px;
-      text-align: center;
-      width: 100%;
-    }
-
-    @media only screen and (min-width: 450px) {
-      h1 {
-        font-size: 70px;
-      }
-    }
-
-    @media only screen and (min-width: 700px) {
-      h1 {
-        font-size: 100px;
-      }
-    }
-
-    @media only screen and (min-width: 1000px) {
-      h1 {
-        font-size: 18vh;
-      }
-    }
-
-    .hidden {
-      opacity 0;
-      display: none;
-    }
-
-    .section-top {
-      top: 0;
-    }
-
-    .section-middle {
-      top: calc(50vh - 11vh);
-    }
-
-    .section-bottom {
-      bottom: 0;
-    }
-
-    .fixed {
-      position: fixed;
-    }
-
-    .top-0 {
-      top: 0;
-    }
-
-    .top-1 {
-      top: 25%;
-    }
-
-    .top-2 {
-      top: 50%;
-    }
-
-    .top-3 {
-      top: 75%;
-    }
-
-    .z-1 {
-      z-index: 1;
-    }
-
-    .z-2 {
-      z-index: 2;
-    }
-
-    .p-abs {
-      position: absolute;
-    }
-  </style>
-
-</head>
-
-<body>
-  <div class="box fixed section-top">
-    <h1 id="text-1" class="white">WEB</h1>
-    <h1 id="text-4" class="white hidden">HTML</h1>
-  </div>
-  <div class="box fixed z-1 section-middle">
-    <h1 id="text-2" class="white">GAV G</h1>
-    <h1 id="text-6" class="white hidden">JAVASCRIPT</h1>
-  </div>
-  <div class="box fixed section-bottom">
-    <h1 id="text-3" class="white">STUFF</h1>
-    <h1 id="text-5" class="white hidden">CSS</h1>
-  </div>
-
-  <div class="bar bg-yellow fade-50 fixed"></div>
-  <div class="bar bg-red fade-50 top-1 fixed"></div>
-  <div class="bar bg-blue fade-50 top-2 fixed"></div>
-  <div class="bar bg-green fade-50 top-3 fixed"></div>
-
-  <div class="box"></div>
-  <div class="box half"></div>
-  <div class="box bg-blue"></div>
-  <div class="box"></div>
-  <div class="box half"></div>
-  <div class="box bg-red"></div>
-  <div class="box"></div>
-  <div class="box bg-yellow"></div>
-  <div class="box"></div>
-  <div class="box bg-green"></div>
-
-  <div class="z-2 p-abs top-0">
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box bg-blue fade-50"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box bg-red fade-50"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box half"></div>
-    <div class="box">
-      <h1 class="white fade-80">RANDOM</h1>
-    </div>
-    <div class="box"></div>
-    <div class="box">
-      <h1 class="white fade-80">IDEAS</h1>
-    </div>
-    <div class="box"></div>
-    <div class="box">
-      <h1 class="white fade-80">AND STUFF</h1>
-    </div>
-    <div class="box half"></div>
-    <div class="box">
-      <h1 class="white">
-        <a href="/home">ENTER</a>
-      </h1>
-    </div>
-    <div class="box half"></div>
-    <div class="box half">
-      <h1 class="white">OR</h1>
-    </div>
-    <div class="box half"></div>
-    <div class="box">
-      <h1 class="white">
-        <a href="/index2">INDEX2</a>
-      </h1>
-    </div>
-
-    <img src="">
-  </div>
-
-  <script type="text/javascript">
-    window.addEventListener('load', function() {
-      fade_element_at_scroll(document.getElementById('text-1'), 0.13, 0, true)
-      fade_element_at_scroll(document.getElementById('text-2'), 0.13, 0.13, true)
-      fade_element_at_scroll(document.getElementById('text-3'), 0.13, 0, true)
-      fade_element_at_scroll(document.getElementById('text-4'), 0.13, 0, false)
-      fade_element_at_scroll(document.getElementById('text-4'), 0.28, 0, true)
-      fade_element_at_scroll(document.getElementById('text-5'), 0.13, 0, false)
-      fade_element_at_scroll(document.getElementById('text-5'), 0.23, 0, true)
-      fade_element_at_scroll(document.getElementById('text-6'), 0.25, 0.2, false)
-      fade_element_at_scroll(document.getElementById('text-6'), 0.45, 0.1, true)
-    })
-
-    window.addEventListener('beforeunload', function() {
-      document.body.style.display = "none"
-      window.scrollTo(0, 0)
-    })
-
-    function fade_element_at_scroll(elem, cutoff, dist, direction, trim = 0.1) {
-      var perc = 0
-      var final = cutoff + dist
-      var min = cutoff - trim
-      var max = final + trim
-      window.document.addEventListener('scroll', function() {
-        perc = document.documentElement.scrollTop / document.documentElement.scrollHeight
-        if (perc < max && perc > min) {
-          if (perc > final) {
-            elem.style.display = direction ? 'none' : 'block'
-          } else if (perc > cutoff) {
-            elem.style.display = 'block'
-            elem.style.opacity = direction ? (1 - ((perc - cutoff) / dist)) : ((perc - cutoff) / dist)
-          } else {
-            elem.style.display = direction ? 'block' : 'none'
-          }
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/logo.png?v=1" type="image/png">
+    <link rel="icon" href="images/logo.png?v=1" type="image/png">
+    <title>GavG</title>
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://gavg.github.io/images/logo.png">
+    <link rel="stylesheet" href="https://gavg.github.io/css/base.css?v=1.06">
+    <!--Global site tag (gtag.js) - Google Analytics-->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag(){dataLayer.push(arguments)}
+      gtag('js', new Date())
+      gtag('config', 'UA-123089114-1')
+      
+      window.addEventListener('load', function(){
+        var reveals = document.getElementsByClassName('reveals')
+        for (i = 0; i < reveals.length; i++) {
+          reveals[i].addEventListener('click', function(e){
+            e.target.scrollTop = 0
+            e.target.classList.toggle('open')
+          })
         }
       })
-    }
-
-    document.body.addEventListener('click', function() {
-      window.location = "/home"
-    })
-  </script>
-
-</body>
-
+    </script>
+  </head>
+  <div class="w3-top">
+    <div class="w3-bar w3-white w3-wide w3-padding w3-card"><a href="https://gavg.github.io" class="w3-bar-item w3-button">Gav<img id="logo" src="https://gavg.github.io/images/logo.png"></a>
+      <input type="checkbox" id="menu-toggle-input">
+      <label id="menu-toggle" for="menu-toggle-input" tabindex="1" onblur="console.log('blur')" class="w3-bar-item w3-right">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+      <div class="w3-right"><a href="https://gavg.github.io/index.html" class="w3-bar-item w3-button">About</a><a href="https://gavg.github.io/posts/index.html" class="w3-bar-item w3-button">Posts</a>
+        <!--a(href=baseURL+"/apps/index.html").w3-bar-item.w3-button Apps-->
+        <!--a(href=baseURL+"/index.html#contact").w3-bar-item.w3-button Contact-->
+      </div>
+    </div>
+  </div>
+  <body>
+      <header style="background-color:#4682b4" class="header"><img id="bannerImg" src="https://gavg.github.io/images/logo.png" class="w3-image "></header>
+    <script>
+      var logo = document.getElementById(baseURL+'/images/logo.png');
+      window.addEventListener('scroll', function() {
+          var offset = window.scrollY || window.pageYOffset || document.body.scrollTop + (document.documentElement && document.documentElement.scrollTop || 0);
+          logo.style.marginTop = offset +'px';
+          logo.style.transform = 'rotate(' + offset * 3 +'deg)';
+          logo.style.webkitTransform = 'rotate(' + offset * 3 +'deg)';
+      });
+      
+    </script>
+    <div id="app" class="w-100">
+      <div id="about" class="w3-container">
+        <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">About</h3>
+        <p>Welcome to a collection of software odds and ends. These are a bunch of my experiments, feel free to have a mooch around.</p>
+        <div id="posts" class="w3-container w3-padding-32">
+          <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Recent Posts</h3>
+          <div class="container-row">
+            <div class="post-link"><a href="https://gavg.github.io/posts/randomtimer" class="w3-row-padding">
+                <div class="w3-col l3 m6 w3-margin-bottom">
+                  <div class="w3-display-container">
+                    <div class="w3-display-bottomleft w3-black br-2 w3-padding">Random Timer</div><img src="https://gavg.github.io/misc/randomtimer/icon.png" class="app_image w3-margin-bottom"/>
+                  </div>
+                </div></a></div>
+            <div class="post-link"><a href="https://gavg.github.io/posts/ctf" class="w3-row-padding">
+                <div class="w3-col l3 m6 w3-margin-bottom">
+                  <div class="w3-display-container">
+                    <div class="w3-display-bottomleft w3-black br-2 w3-padding">CTF Puzzle</div><img src="https://gavg.github.io/images/posts/lock.png" class="app_image w3-margin-bottom"/>
+                  </div>
+                </div></a></div>
+            <div class="post-link"><a href="https://gavg.github.io/posts/rmab" class="w3-row-padding">
+                <div class="w3-col l3 m6 w3-margin-bottom">
+                  <div class="w3-display-container">
+                    <div class="w3-display-bottomleft w3-black br-2 w3-padding">Rapid Mobile App Bodging</div><img src="https://gavg.github.io/images/posts/rmab.png" class="app_image w3-margin-bottom"/>
+                  </div>
+                </div></a></div>
+          </div>
+        </div>
+        <div id="apps" class="w3-container w3-padding-32">
+          <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Popular Apps</h3>
+          <div class="container-row">
+            <div class="post-link"><a href="https://play.google.com/store/apps/details?id=com.gavg.obsrt" class="w3-row-padding">
+                <div class="w3-col l3 m6 w3-margin-bottom">
+                  <div class="w3-display-container">
+                    <div class="w3-display-bottomleft w3-black br-2 w3-padding">OBS Remote Tally Light</div><img src="https://gavg.github.io/images/apps/obsrt.png" class="app_image w3-margin-bottom"/>
+                  </div>
+                </div></a></div>
+            <div class="post-link"><a href="https://gavg.github.io/calc/index.html" class="w3-row-padding">
+                <div class="w3-col l3 m6 w3-margin-bottom">
+                  <div class="w3-display-container">
+                    <div class="w3-display-bottomleft w3-black br-2 w3-padding">CSS Calc</div><img src="https://gavg.github.io/images/apps/calc.png" class="app_image w3-margin-bottom"/>
+                  </div>
+                </div></a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="w3-center w3-black w3-padding-16">
+      <div class="w3-row-padding"><a href="https://gavg.github.io">gavg.github.io</a><a href="https://gavg.github.io/misc/mad/">Site Policy</a></div>
+    </footer>
+  </body>
 </html>

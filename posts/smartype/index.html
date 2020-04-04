@@ -30,7 +30,7 @@
     </script>
   </head>
   <div class="w3-top">
-    <div class="w3-bar w3-white w3-wide w3-padding w3-card"><a href="https://gavg.github.io/home.html" class="w3-bar-item w3-button">Gav<img id="logo" src="https://gavg.github.io/images/logo.png"></a>
+    <div class="w3-bar w3-white w3-wide w3-padding w3-card"><a href="https://gavg.github.io" class="w3-bar-item w3-button">Gav<img id="logo" src="https://gavg.github.io/images/logo.png"></a>
       <input type="checkbox" id="menu-toggle-input">
       <label id="menu-toggle" for="menu-toggle-input" tabindex="1" onblur="console.log('blur')" class="w3-bar-item w3-right">
         <div class="bar1"></div>
@@ -283,7 +283,7 @@ module.exports = {
           
           I spent a lot of time going through historical Scottish weather data in the www.worldweatheronline.com API to see what possible values it could be (note these don't seem to be explicitly listed anywhere) and found many candidates including the likes of: 'Light snow showers' and 'Blizzard' but none seemed to work.
           
-          And so I moved on to decompiling the app in a hunt for snow. I used dotPeek by JetBrains, which was very useful. Unfortunately I couldn't find what I was looking for. So I've just left that for now and will probably only revisit it again when it next starts snowing.
+          And so I moved on to de-compiling the app in a hunt for snow. I used dotPeek by JetBrains, which was very useful. Unfortunately I couldn't find what I was looking for. So I've just left that for now and will probably only revisit it again when it next starts snowing.
           
         </p>
         <p>The weather works great now (until it snows...). To polish things off I used an npm package called <a href="https://www.npmjs.com/package/qckwinsvc" title="qckwinsvc">qckwinsvc</a> to create a windows service so I could have the server start up automatically.
