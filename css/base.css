@@ -88,6 +88,7 @@ body {
 
 .img-wrapper {
   max-width: 1200px;
+  margin: auto;
 }
 
 article, aside, details, figcaption, figure, footer, header, main, menu, nav, section, summary {
