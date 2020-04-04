@@ -7,11 +7,16 @@ block meta
   meta(name="description" content="Smartype Keyboard 'Weather Offline' Fix")
   meta(name="keywords" content="Smartype,Keyview,weather,fix")
   meta(name="author" content="GavG")
+
+block scripts
   script(src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js" defer)
 
 block header
   +banner(baseURL+'/images/posts/smartype.png', '#000', 'large')
   include ../../includes/progressIndicator
+
+block scripts
+  script(src=baseURL+'/includes/scripts/progress.min.js' defer)
 
 block content
 

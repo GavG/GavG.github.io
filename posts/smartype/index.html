@@ -11,26 +11,7 @@
     <meta name="description" content="Smartype Keyboard 'Weather Offline' Fix">
     <meta name="keywords" content="Smartype,Keyview,weather,fix">
     <meta name="author" content="GavG">
-    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js" defer></script>
     <link rel="stylesheet" href="https://gavg.github.io/css/base.css?v=1.06">
-    <!--Global site tag (gtag.js) - Google Analytics-->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || []
-      function gtag(){dataLayer.push(arguments)}
-      gtag('js', new Date())
-      gtag('config', 'UA-123089114-1')
-      
-      window.addEventListener('load', function(){
-        var reveals = document.getElementsByClassName('reveals')
-        for (i = 0; i < reveals.length; i++) {
-          reveals[i].addEventListener('click', function(e){
-            e.target.scrollTop = 0
-            e.target.classList.toggle('open')
-          })
-        }
-      })
-    </script>
   </head>
   <div class="w3-top">
     <div class="w3-bar w3-white w3-wide w3-padding w3-card"><a href="https://gavg.github.io" class="w3-bar-item w3-button">Gav<img id="logo" src="https://gavg.github.io/images/logo.png" alt="GavG Logo"></a>
@@ -56,7 +37,6 @@
       </svg>
       <div class="progress-count"></div>
     </div>
-    <script src="https://gavg.github.io/includes/scripts/progress.min.js" defer></script>
     <div id="app" class="w-100">
       <article class="w3-container">
         <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Smartype Keyboard "Weather Offline" Fix</h3>
@@ -302,5 +282,23 @@ module.exports = {
     <footer class="w3-center w3-black w3-padding-16">
       <div class="w3-row-padding"><a href="https://gavg.github.io">gavg.github.io</a><a href="https://gavg.github.io/misc/mad/">Site Policy</a></div>
     </footer>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag(){dataLayer.push(arguments)}
+      gtag('js', new Date())
+      gtag('config', 'UA-123089114-1')
+      
+      window.addEventListener('load', function(){
+        var reveals = document.getElementsByClassName('reveals')
+        for (i = 0; i < reveals.length; i++) {
+          reveals[i].addEventListener('click', function(e){
+            e.target.scrollTop = 0
+            e.target.classList.toggle('open')
+          })
+        }
+      })
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js" defer></script>
   </body>
 </html>
