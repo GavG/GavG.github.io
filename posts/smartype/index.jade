@@ -36,7 +36,7 @@ block content
         img.large(src=baseURL+'/images/posts/smartype_box_inner.jpg', alt="Smartype box inside view").mx-auto
 
     p.
-        Luckily after a bit of Googling I found a link to a download page via the #[a( href='https://archive.org/web/' title='waybackmachine') waybackmachine] and was able to install the software. (I'll pop a copy of this here for reference).
+        Luckily after a bit of Googling I found a link to a download page via the #[a( href='http://web.archive.org/web/20130305192833/http://www.keyviewtech.com/files/KVSetup_x86_x64.exe' title='waybackmachine - KVSetup_x86_x64') waybackmachine] and was able to install the software. (I'll pop a copy of this #[a(href='https://github.com/GavG/smartype/blob/master/smartkey-master.zip' title='KVSetup_x86_x64') here] for safe keeping).
 
         After configuring the email and gallery features successfully realized that the live weather feature was a not functioning &#128532
 
@@ -259,4 +259,9 @@ block content
         The weather works great now (until it snows...). To polish things off I used an npm package called #[a(href='https://www.npmjs.com/package/qckwinsvc' title='qckwinsvc') qckwinsvc] to create a windows service so I could have the server start up automatically.
 
         If you've got one of these keyboards and would like to get the weather applet working again the installation instructions are in the repo here: #[a(href='https://github.com/GavG/smartype' title='GavG/smartype') GavG/smartkey].
+
+    p.
+        As an experiment I did have a go at bundling the app into an executable (.exe) using a library called #[a(href='https://www.npmjs.com/package/pkg' title='pkg') pkg] however I struggled to get it to include node in the output (this would have been wastefully large anyway).
+
+        Plus if I were to make it an executable I'd expect it to be able to update the hosts file, add the netsh entry and register the service all by itself. This isn't something I really fancied doing as I'd had enough of Windows by this point. If someone fancies doing something like this however I'd be very interested to see the solution.
     br
