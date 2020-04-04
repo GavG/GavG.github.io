@@ -4,8 +4,12 @@ html {
   scroll-behavior: smooth;
 }
 
-.w-50 {
+.mw-50 {
   max-width: 50%;
+}
+
+.w-100 {
+  width: 100%;
 }
 
 .mx-auto {
@@ -13,22 +17,26 @@ html {
   margin: auto;
 }
 
+.prettyprint {
+  overflow: auto;
+}
+
 .reveals {
   transition: max-height ease-in-out 1s;
   max-height: 150px;
-  overflow-y: hidden;
+  overflow: hidden;
   position: relative;
 }
 
 .reveals.open {
   max-height: 750px;
-  overflow-y: scroll;
+  overflow: auto;
 }
 
 .reveals:not(.open)::after {
   display: block;
   position: absolute;
-  color: #333;
+  color: #338;;
   text-decoration: underline;
   content: 'Click to Expand';
   cursor: pointer;
@@ -37,8 +45,9 @@ html {
   right: 0px;
   bottom: 0px;
   text-align: center;
-  padding-top: 60px;
-  background-image: linear-gradient(to bottom, rgba(255,0,0,0), rgba(255,255,255,0.5));
+  padding-top: 122px;
+  font-weight: bold;
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(255,255,255,0.8));
 }
 
 p {
@@ -75,6 +84,10 @@ html {
 
 body {
   margin: 0
+}
+
+.img-wrapper {
+  max-width: 1200px;
 }
 
 article, aside, details, figcaption, figure, footer, header, main, menu, nav, section, summary {

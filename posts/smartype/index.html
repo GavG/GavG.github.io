@@ -57,17 +57,17 @@
       <div class="progress-count"></div>
     </div>
     <script src="https://gavg.github.io/includes/scripts/progress.min.js"></script>
-    <div id="app">
+    <div id="app" class="w-100">
       <article class="w3-container">
         <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Smartype Keyboard "Weather Offline" Fix</h3>
         <p>The Smartype USB keyboard was introduced by KEYVIEW in 2012. It features a built-in display capable of showing a live view of the current line when text editing or a dashboard comprising of a few applets:</p>
         <div class="container-row">
-          <ul class="w-50">
+          <ul class="mw-50">
             <li>The current time</li>
             <li>The current calendar date</li>
             <li>The current weather conditions</li>
           </ul>
-          <ul class="w-50">
+          <ul class="mw-50">
             <li>The latest email and unread count from a specified mailbox</li>
             <li>Images from a specified directory</li>
           </ul>
@@ -79,18 +79,19 @@
           Upon plugging the it in and glancing the instructions printed in the box it became apparent that the company providing the software had long gone and the driver / software were no longer being hosted on their site.
           
         </p>
-        <div><img src="https://gavg.github.io/images/posts/smartype_box_inner.jpg" alt="Smartype box inside view" style="max-width: 1200px;" class="large mx-auto"></div>
+        <div class="img-wrapper"><img src="https://gavg.github.io/images/posts/smartype_box_inner.jpg" alt="Smartype box inside view" class="large mx-auto"></div>
         <p>Luckily after a bit of Googling I found a link to a download page via the <a href="https://archive.org/web/" title="waybackmachine">waybackmachine</a> and was able to install the software. (I'll pop a copy of this here for reference).
           
           After configuring the email and gallery features successfully realized that the live weather feature was a not functioning &#128532
           
         </p>
-        <div><img src="https://gavg.github.io/images/posts/smartype_weather_offline.jpg" alt="Smartype keyboard, non-functional weather applet" style="max-width: 1200px;" class="large mx-auto"></div>
+        <div class="img-wrapper"><img src="https://gavg.github.io/images/posts/smartype_weather_offline.jpg" alt="Smartype keyboard, non-functional weather applet" class="large mx-auto"></div>
         <h4 class="w3-padding-16">The Fix</h4>
         <p>
           I fired up Wireshark to see what was going on. It turns out that the software was trying to get weather data from a weather webservice API called 'worldweatheronline' using a premium account.
           
-        </p><img src="https://gavg.github.io/images/posts/smartype_wireshark_weather_api_access_denied.png" alt="Smartype keyboard, weather API access denied" style="max-width: 1200px;" class="large mx-auto">
+        </p>
+        <div class="img-wrapper"><img src="https://gavg.github.io/images/posts/smartype_wireshark_weather_api_access_denied.png" alt="Smartype keyboard, weather API access denied" class="large mx-auto"></div>
         <p>
           I could see the 401 status code and error message in the response frame and opeining it up in the browser confirmed that the API account's key had expired, probably because KEYVIEW stopped paying the bill which is fair enough.
           
@@ -98,19 +99,22 @@
         <p>
           Not to worry though, I signed up for a free trial of the API and had a look at the data that was being returned.
           
-        </p><img src="https://gavg.github.io/images/posts/smartype_weather_api_response.png" alt="Smartype keyboard, weather API success response" style="max-width: 1200px;" class="large mx-auto">
+        </p>
+        <div class="img-wrapper"><img src="https://gavg.github.io/images/posts/smartype_weather_api_response.png" alt="Smartype keyboard, weather API success response" class="large mx-auto"></div>
         <p>
           From the original request query params (viewed in wireshark) I could see that the software was requesting XML so I made sure to only look at the XML variant of the API response (it can also provide JSON).
           
           Thereafter I used an app called Fiddler (link) to capture the request to the API and spoof the response with the XML I'd got manually. To my surprise it worked.
           
-        </p><img src="https://gavg.github.io/images/posts/smartype_fiddler_full_response.png" alt="Smartype keyboard, Fiddler fake API response" style="max-width: 1200px;" class="large mx-auto">
+        </p>
+        <div class="img-wrapper"><img src="https://gavg.github.io/images/posts/smartype_fiddler_full_response.png" alt="Smartype keyboard, Fiddler fake API response" class="large mx-auto"></div>
         <p>
           Although at nearly 1,000 lines of XML this seemed like an awful lot of redundant data considering the only fields the keyboard seemed to need were the temperature and the weather description
           
           So after a bit of experimenting I found the minimum response needed to make it work:
           
-        </p><img src="https://gavg.github.io/images/posts/smartype_weather_minimum_api_response.png" alt="Smartype keyboard, weather API minimum needed response" style="max-width: 1200px;" class="large mx-auto">
+        </p>
+        <div class="img-wrapper"><img src="https://gavg.github.io/images/posts/smartype_weather_minimum_api_response.png" alt="Smartype keyboard, weather API minimum needed response" class="large mx-auto"></div>
         <p>
           Much better &#128522 This seemed like a good start to a solution. It would have been possible to remap the request to use my new API key, but the free trial would only last for a certain amount of time and I didn't fancy paying a monthly subscription as this is just for fun afterall.
           
@@ -284,7 +288,7 @@ module.exports = {
         </p>
         <p>The weather works great now (until it snows...). To polish things off I used an npm package called <a href="https://www.npmjs.com/package/qckwinsvc" title="qckwinsvc">qckwinsvc</a> to create a windows service so I could have the server start up automatically.
           
-          If you've got one of these keyboards and would like to get the weather applet working again the installation instructions are in the repo here: <a href="https://github.com/GavG/smartkey" title="GavG/smartkey">GavG/smartkey</a>.
+          If you've got one of these keyboards and would like to get the weather applet working again the installation instructions are in the repo here: <a href="https://github.com/GavG/smartype" title="GavG/smartkey">GavG/smartkey</a>.
         </p><br>
       </article>
     </div>
