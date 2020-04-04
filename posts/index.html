@@ -1,10 +1,80 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="images/logo.png?v=1" type="image/png"><link rel="icon" href="images/logo.png?v=1" type="image/png"><title>GavG</title><link rel="stylesheet" href="https://gavg.github.io/css/base.css?v=1.05"><!--Global site tag (gtag.js) - Google Analytics--><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1"></script><script>window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'UA-123089114-1');</script></head><div class="w3-top"><div class="w3-bar w3-white w3-wide w3-padding w3-card"><a href="https://gavg.github.io/home.html" class="w3-bar-item w3-button">Gav<img id="logo" src="https://gavg.github.io/images/logo.png"></a><input type="checkbox" id="menu-toggle-input"><label id="menu-toggle" for="menu-toggle-input" tabindex="1" onblur="console.log('blur')" class="w3-bar-item w3-right"><div class="bar1"></div><div class="bar2"></div><div class="bar3"></div></label><div class="w3-right"><a href="https://gavg.github.io/index.html" class="w3-bar-item w3-button">About</a><a href="https://gavg.github.io/posts/index.html" class="w3-bar-item w3-button">Posts</a><!--a(href=baseURL+"/apps/index.html").w3-bar-item.w3-button Apps--><!--a(href=baseURL+"/index.html#contact").w3-bar-item.w3-button Contact--></div></div></div><body><header style="background-color:#ffdab9" class="header"><img id="bannerImg" src="https://gavg.github.io/images/logo.png" class="w3-image"></header><script>var logo = document.getElementById('bannerImg');
-window.addEventListener('scroll', function() {
-    var offset = window.scrollY || window.pageYOffset || document.body.scrollTop + (document.documentElement && document.documentElement.scrollTop || 0);
-    logo.style.marginTop = offset +'px';
-    logo.style.transform = 'rotate(' + offset * 3 +'deg)';
-    logo.style.webkitTransform = 'rotate(' + offset * 3 +'deg)';
-});</script><div id="app"><div id="posts" class="w3-container w3-padding-32"><h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Recent Posts</h3><div class="container-row"><div class="post-link"><a href="https://gavg.github.io/posts/rmab" class="w3-row-padding"><div class="w3-col l3 m6 w3-margin-bottom"><div class="w3-display-container"><div class="w3-display-bottomleft w3-black br-2 w3-padding">Rapid Mobile App Bodging</div><img src="https://gavg.github.io/images/posts/rmab.png" class="app_image w3-margin-bottom"/></div></div></a></div><div class="post-link"><a href="https://gavg.github.io/posts/ctf" class="w3-row-padding"><div class="w3-col l3 m6 w3-margin-bottom"><div class="w3-display-container"><div class="w3-display-bottomleft w3-black br-2 w3-padding">CTF Puzzle</div><img src="https://gavg.github.io/images/posts/lock.png" class="app_image w3-margin-bottom"/></div></div></a></div><div class="post-link"><a href="https://gavg.github.io/posts/randomtimer" class="w3-row-padding"><div class="w3-col l3 m6 w3-margin-bottom"><div class="w3-display-container"><div class="w3-display-bottomleft w3-black br-2 w3-padding">Random Timer</div><img src="https://gavg.github.io/misc/randomtimer/icon.png" class="app_image w3-margin-bottom"/></div></div></a></div></div></div></div><footer class="w3-center w3-black w3-padding-16"><div class="w3-row-padding"><a href="https://gavg.github.io">gavg.github.io</a><a href="https://gavg.github.io/misc/mad/">Site Policy</a></div></footer></body></html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/logo.png?v=1" type="image/png">
+    <link rel="icon" href="images/logo.png?v=1" type="image/png">
+    <title>GavG</title>
+    <link rel="stylesheet" href="https://gavg.github.io/css/base.css?v=1.05">
+    <!--Global site tag (gtag.js) - Google Analytics-->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag(){dataLayer.push(arguments)}
+      gtag('js', new Date())
+      gtag('config', 'UA-123089114-1')
+      
+      window.addEventListener('load', function(){
+        var reveals = document.getElementsByClassName('reveals')
+        for (i = 0; i < reveals.length; i++) {
+          reveals[i].addEventListener('click', function(e){
+            e.target.scrollTop = 0
+            e.target.classList.toggle('open')
+          })
+        }
+      })
+    </script>
+  </head>
+  <div class="w3-top">
+    <div class="w3-bar w3-white w3-wide w3-padding w3-card"><a href="https://gavg.github.io/home.html" class="w3-bar-item w3-button">Gav<img id="logo" src="https://gavg.github.io/images/logo.png"></a>
+      <input type="checkbox" id="menu-toggle-input">
+      <label id="menu-toggle" for="menu-toggle-input" tabindex="1" onblur="console.log('blur')" class="w3-bar-item w3-right">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+      <div class="w3-right"><a href="https://gavg.github.io/index.html" class="w3-bar-item w3-button">About</a><a href="https://gavg.github.io/posts/index.html" class="w3-bar-item w3-button">Posts</a>
+        <!--a(href=baseURL+"/apps/index.html").w3-bar-item.w3-button Apps-->
+        <!--a(href=baseURL+"/index.html#contact").w3-bar-item.w3-button Contact-->
+      </div>
+    </div>
+  </div>
+  <body>
+      <header style="background-color:#ffdab9" class="header"><img id="bannerImg" src="https://gavg.github.io/images/logo.png" class="w3-image "></header>
+    <div id="app" class="w-100">
+      <div id="posts" class="w3-container w3-padding-32">
+        <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Recent Posts</h3>
+        <div class="container-row">
+          <div class="post-link"><a href="https://gavg.github.io/posts/smartype" class="w3-row-padding">
+              <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-display-container">
+                  <div class="w3-display-bottomleft w3-black br-2 w3-padding">Smartype Keyboard Weather Adapter</div><img src="https://gavg.github.io/images/posts/keyview_software_icon.jpg" class="app_image w3-margin-bottom"/>
+                </div>
+              </div></a></div>
+          <div class="post-link"><a href="https://gavg.github.io/posts/rmab" class="w3-row-padding">
+              <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-display-container">
+                  <div class="w3-display-bottomleft w3-black br-2 w3-padding">Rapid Mobile App Bodging</div><img src="https://gavg.github.io/images/posts/rmab.png" class="app_image w3-margin-bottom"/>
+                </div>
+              </div></a></div>
+          <div class="post-link"><a href="https://gavg.github.io/posts/ctf" class="w3-row-padding">
+              <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-display-container">
+                  <div class="w3-display-bottomleft w3-black br-2 w3-padding">CTF Puzzle</div><img src="https://gavg.github.io/images/posts/lock.png" class="app_image w3-margin-bottom"/>
+                </div>
+              </div></a></div>
+          <div class="post-link"><a href="https://gavg.github.io/posts/randomtimer" class="w3-row-padding">
+              <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-display-container">
+                  <div class="w3-display-bottomleft w3-black br-2 w3-padding">Random Timer</div><img src="https://gavg.github.io/misc/randomtimer/icon.png" class="app_image w3-margin-bottom"/>
+                </div>
+              </div></a></div>
+        </div>
+      </div>
+    </div>
+    <footer class="w3-center w3-black w3-padding-16">
+      <div class="w3-row-padding"><a href="https://gavg.github.io">gavg.github.io</a><a href="https://gavg.github.io/misc/mad/">Site Policy</a></div>
+    </footer>
+  </body>
+</html>
