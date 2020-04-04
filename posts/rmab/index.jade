@@ -16,26 +16,26 @@ block content
 
   article.w3-container
     h3.w3-border-bottom.w3-border-light-grey.w3-padding-16 Rapid Mobile App Bodging
-    
+
     p Often there are times when you need to create a solution to a problem but don't have the necessary time to do a proper job from scratch or simply can't be bothered either because it's boring and laborious or you've simply got better things to do. Hence the concept of the 'bodge' came into being.
-    
+
     +definition('bodge', '<em>verb BRITISH informal</em><p>make or repair (something) badly or clumsily.</p><em>"the door was bodged together from old planks"</em>')
 
     p I've been 'bodging' computers to do things for ages and have gotten pretty good at it (IMO). While the bodges may not be bad per say, they are certainly a bit clumsy and not as elegant as a some of the projects I dedicate more time and effort to.
-    
+
     p However, the beauty of the bodge comes in the speed of development, the benefits of being able to knock something out that can solve the same problem in a fraction of the time are many. First, it gives you more time for writing blog posts. Second, it can make you the hero of a time critical scenario. And thirdly, perhaps most importantly, it allows you to flex a way of thinking that is often discouraged but actually very useful and probably very healthy. Although it can be, foreseeably, dangerous if abused.
-    
+
     p The kind of bodging I'm on about generally involves taking whole or parts of various programs and mashing them together with the aim of generating something that is greater than the sum of its parts, but that you didn't have to spend ages writing. It probably won't be as efficient as if you had done but more often than not you'll end up with a Frankenstein's monster app that works just as well. Also, with the ever increasing power of computers the differences in real world performance between a bodged app and a proper job can be practically imperceptible.
-    
+
     p One of my favourite example of such a bodge is a tally light app that I wrote for OBS Studio Remote.
 
     +definition('OBS Studio', 'OBS Studio is an open source video streaming and recording program, often used as a video mixer. OBS Studio Remote is a plugin for OBS Studio that allows you to control it remotely.')
 
     +definition('Tally Light', 'In a television studio, a <b>tally light</b> is a small signal-<b>lamp</b> on a professional video camera or monitor. ... <b>Tally</b> (also known as the \'on-air\' indication) <b>lights</b> are typically red, although some cameras and video switchers accept a preview <b>tally</b> signal, which is typically green. - Wikipedia')
-    
+
     p So the brief was, we need a smartphone app to pop next to a camera to use as a tally light and the camera operator shouldn't be able to control OBS studio through it. First thing I did was to have a Google around to see if any such app already existed. I found an OBS remote UI web app that was optimised for mobile devices that was free to use (MIT Liscence).
     a(href="https://github.com/t2t2/obs-tablet-remote") OBS Tablet Remote
-    p Top start, I was able to quickly transform the UI into a tally light system. The only massive tweak I needed to make was to add a state for the 'IN PREVIEW' status as this wasn't natively supported. Luckily, beacuse the app was well written and I have some previous experience using Vue and it's variable 'Store' management, I was able to add the extra state, getters and setters with little effort. 
+    p Top start, I was able to quickly transform the UI into a tally light system. The only massive tweak I needed to make was to add a state for the 'IN PREVIEW' status as this wasn't natively supported. Luckily, beacuse the app was well written and I have some previous experience using Vue and it's variable 'Store' management, I was able to add the extra state, getters and setters with little effort.
     p The last part was to package the web app into a mobile app. For this I used Apache Cordova which is like Ionic / Phonegap - same same. I simply plonked the exported web app into a new Cordova project as the index script, set the config details and added a Cordova extension called 'Insomnia' to prevent the device from sleeping while the app is in use. And that's it! Within about 2 hours cummulative work I had a functioning cross-platform mobile app that met the requirements.
 
     +appLink('https://play.google.com/store/apps/details?id=com.gavg.obsrt', 'OBS Remote Tally Light', baseURL+'/images/apps/obsrt.png')

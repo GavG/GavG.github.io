@@ -8,14 +8,24 @@
     <title>GavG</title>
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://gavg.github.io/images/logo.png">
-    <link rel="stylesheet" href="https://gavg.github.io/css/base.css?v=1.05">
+    <link rel="stylesheet" href="https://gavg.github.io/css/base.css?v=1.06">
     <!--Global site tag (gtag.js) - Google Analytics-->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-123089114-1');
+      window.dataLayer = window.dataLayer || []
+      function gtag(){dataLayer.push(arguments)}
+      gtag('js', new Date())
+      gtag('config', 'UA-123089114-1')
+      
+      window.addEventListener('load', function(){
+        var reveals = document.getElementsByClassName('reveals')
+        for (i = 0; i < reveals.length; i++) {
+          reveals[i].addEventListener('click', function(e){
+            e.target.scrollTop = 0
+            e.target.classList.toggle('open')
+          })
+        }
+      })
     </script>
   </head>
   <div class="w3-top">
@@ -44,7 +54,7 @@
       });
       
     </script>
-    <div id="app">
+    <div id="app" class="w-100">
       <div id="about" class="w3-container">
         <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">About</h3>
         <p>Welcome to a collection of software odds and ends. These are a bunch of my experiments, feel free to have a mooch around.</p>
