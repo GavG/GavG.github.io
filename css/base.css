@@ -1927,7 +1927,7 @@ a {
 }
 
 #bannerImg {
-    width: 100px;
+    width: auto;
 }
 
 img.large, #bannerImg.large {
