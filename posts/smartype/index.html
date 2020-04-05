@@ -163,10 +163,9 @@ If you've got one of these keyboards and would like to get the weather applet wo
 </p><p>As an experiment I did have a go at bundling the app into an executable (.exe) using a library called <a href="https://www.npmjs.com/package/pkg" title="pkg">pkg</a> however I struggled to get it to include node in the output (this would have been wastefully large anyway).
 
 Plus if I were to make it an executable I'd expect it to be able to update the hosts file, add the netsh entry and register the service all by itself. This isn't something I really fancied doing as I'd had enough of Windows by this point. If someone fancies doing something like this however I'd be very interested to see the solution.
-</p><div class="img-wrapper"><img src="https://gavg.github.io/images/posts/smartype_working.png" alt="Smartype keyboard working weather app" loading="lazy" class="large mx-auto"></div><br></article></div><footer class="w3-center w3-black w3-padding-16"><div class="w3-row-padding"><a href="https://gavg.github.io">gavg.github.io</a><a href="https://gavg.github.io/misc/mad/">Site Policy</a></div></footer><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1"></script><script>window.dataLayer = window.dataLayer || []
-function gtag(){dataLayer.push(arguments)}
-gtag('js', new Date())
-gtag('config', 'UA-123089114-1')
+</p><div class="img-wrapper"><img src="https://gavg.github.io/images/posts/smartype_working.png" alt="Smartype keyboard working weather app" loading="lazy" class="large mx-auto"></div><br></article></div><footer class="w3-center w3-black w3-padding-16"><div class="w3-row-padding"><a href="https://gavg.github.io">gavg.github.io</a><a href="https://gavg.github.io/misc/mad/">Site Policy</a></div></footer><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-XXXXX-Y', 'auto')
+ga('send', 'pageview')
 
 window.addEventListener('load', function(){
     var reveals = document.getElementsByClassName('reveals')
@@ -182,4 +181,5 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js')
     })
-}</script><script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js" defer></script></body></html>
+}
+</script><script async src="https://www.google-analytics.com/analytics.js"></script><script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js" defer></script></body></html>
