@@ -1,12 +1,12 @@
 doctype html
-//- var baseURL = "file:///Library/WebServer/Documents/GavG.github.io"
 - var baseURL = "https://gavg.github.io"
-html
+html(lang='en')
   include includes/head
   include includes/menu
   include includes/banner
   body
     block header
-    #app
+    #app.w-100
       block content
     include includes/footer
+    block scripts

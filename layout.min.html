@@ -1,0 +1,14 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" href="https://gavg.github.io/images/logo.png?v=1" type="image/png"><link rel="icon" href="https://gavg.github.io/images/logo.png?v=1" type="image/png"><title>GavG</title><link rel="stylesheet" href="https://gavg.github.io/css/base.css?v=1.06"></head><div class="w3-top"><div class="w3-bar w3-white w3-wide w3-padding w3-card"><a href="https://gavg.github.io" class="w3-bar-item w3-button">Gav<img id="logo" src="https://gavg.github.io/images/logo.png" alt="GavG Logo"></a><input type="checkbox" id="menu-toggle-input"><label id="menu-toggle" for="menu-toggle-input" class="w3-bar-item w3-right"><div class="bar1"></div><div class="bar2"></div><div class="bar3"></div></label><div class="w3-right"><a href="https://gavg.github.io/index.html" class="w3-bar-item w3-button">About</a><a href="https://gavg.github.io/posts/index.html" class="w3-bar-item w3-button">Posts</a></div></div></div><body><div id="app" class="w-100"></div><footer class="w3-center w3-black w3-padding-16"><div class="w3-row-padding"><a href="https://gavg.github.io">gavg.github.io</a><a href="https://gavg.github.io/misc/mad/">Site Policy</a></div></footer><script async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1"></script><script>window.dataLayer = window.dataLayer || []
+function gtag(){dataLayer.push(arguments)}
+gtag('js', new Date())
+gtag('config', 'UA-123089114-1')
+
+window.addEventListener('load', function(){
+  var reveals = document.getElementsByClassName('reveals')
+  for (i = 0; i < reveals.length; i++) {
+    reveals[i].addEventListener('click', function(e){
+      e.target.scrollTop = 0
+      e.target.classList.toggle('open')
+    })
+  }
+})</script></body></html>

@@ -1,16 +1,9 @@
 head
   meta(charset="UTF-8")
   meta(name="viewport" content="width=device-width, initial-scale=1")
-  link(rel="shortcut icon" href="images/logo.png?v=1" type="image/png")
-  link(rel="icon" href="images/logo.png?v=1" type="image/png")
+  link(rel="shortcut icon" href=baseURL+"/images/logo.png?v=1" type="image/png")
+  link(rel="icon" href=baseURL+"/images/logo.png?v=1" type="image/png")
   title GavG
   block meta
-  link(rel='stylesheet', href=baseURL+'/css/base.css?v=1.05')
-  //Global site tag (gtag.js) - Google Analytics
-  script(async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1")
-  script.
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-123089114-1');
+  link(rel='stylesheet', href=baseURL+'/css/base.css?v=1.06')
 
