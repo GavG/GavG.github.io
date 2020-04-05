@@ -1,7 +1,10 @@
-mixin postLink(href, title, img)
+mixin postLink(href, title, img, type, webp)
     div.post-link
         a(href=href).w3-row-padding
             div.w3-col.l3.m6.w3-margin-bottom
                 div.w3-display-container
                     div.w3-display-bottomleft.w3-black.br-2.w3-padding=title
-                    img(src=img, alt=title).app_image.w3-margin-bottom
+                    picture
+                        source(srcset=webp type="image/webp")
+                        source(srcset=img type="image/"+type) 
+                        img(src=img alt=title).app_image.w3-margin-bottom
