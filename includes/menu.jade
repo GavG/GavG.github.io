@@ -1,12 +1,15 @@
 div.w3-top
-  div.w3-bar.w3-white.w3-wide.w3-padding.w3-card
-    a(href=baseURL).w3-bar-item.w3-button Gav
-      img(id="logo" src=baseURL+'/images/logo.png' alt='GavG Logo')
-    input(type="checkbox" id="menu-toggle-input")
-    label(id="menu-toggle" for="menu-toggle-input").w3-bar-item.w3-right
-      div.bar1
-      div.bar2
-      div.bar3
-    div.w3-right
-      a(href=baseURL+"/index.html").w3-bar-item.w3-button About
-      a(href=baseURL+"/posts/index.html").w3-bar-item.w3-button Posts
+    div.w3-bar.w3-white.w3-wide.w3-padding.w3-card
+        a(href=baseURL).w3-bar-item.w3-button Gav
+            picture
+                source(srcset=baseURL+'/images/logo.webp' type="image/webp")
+                source(srcset=img type=baseURL+'/images/logo.png') 
+                img(id="logo" src=baseURL+'/images/logo.png' alt='GavG Logo')
+        input(type="checkbox" id="menu-toggle-input")
+        label(id="menu-toggle" for="menu-toggle-input").w3-bar-item.w3-right
+            div.bar1
+            div.bar2
+            div.bar3
+        div.w3-right
+            a(href=baseURL+"/index.html").w3-bar-item.w3-button About
+            a(href=baseURL+"/posts/index.html").w3-bar-item.w3-button Posts
