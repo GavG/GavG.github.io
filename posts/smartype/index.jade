@@ -20,16 +20,16 @@ block scripts
 
 block content
 
-    article.w3-container
+    article.container
         h3.w3-border-bottom.w3-border-light-grey.w3-padding-16 Smartype Keyboard "Weather Offline" Fix
 
         p The Smartype USB keyboard was introduced by KEYVIEW in 2012. It features a built-in display capable of showing a live view of the current line when text editing or a dashboard comprising of a few applets:
         div.container-row
-            ul.mw-50
+            ul.mw-50.w3-ul
                 li The current time
                 li The current calendar date
                 li The current weather conditions
-            ul.mw-50
+            ul.mw-50.w3-ul
                 li The latest email and unread count from a specified mailbox
                 li Images from a specified directory
 
@@ -97,7 +97,7 @@ block content
             Coming from a PHP background I had to spend a bit of time figuring out how to shoehorn my synchronous ideas into the node libraries asynchronous patterns.
             As the response for the intercepted request is dependant on the response from the open weather API it would have been nice to use a synchronous flow, alas it seems everything in Node JS wants to be async, hence I ended up using a promise and awaiting its resolution which seemed to work out just fine.
 
-        pre.prettyprint.lang-js.w3-code.reveals.
+        pre.prettyprint.lang-js.code.reveals.
             // server.js
 
             const http = require('http');
@@ -172,7 +172,7 @@ block content
                 }).listen(port);
             }
 
-        pre.prettyprint.lang-js.w3-code.reveals.
+        pre.prettyprint.lang-js.code.reveals.
             // weather.js
 
             let request = require('request');
@@ -209,11 +209,11 @@ block content
 
             Host file entry:
 
-        code.w3-code 127.0.0.2 www.worldweatheronline.com
+        code.code 127.0.0.2 www.worldweatheronline.com
 
         p Thereafter I could use netsh to redirect traffic on 127.0.0.2 to my node server which is running on localhost:
 
-        code.w3-code netsh interface portproxy add v4tov4 listenport=80 listenaddress=127.0.0.2 connectport=9999 connectaddress=127.0.0.1
+        code.code netsh interface portproxy add v4tov4 listenport=80 listenaddress=127.0.0.2 connectport=9999 connectaddress=127.0.0.1
 
         h4.w3-padding-16 Debugging
 
@@ -229,7 +229,7 @@ block content
             I initially assumed that these were the icons be supplied by the API, but they weren't. Removing the weather icon section from the response:
 
 
-        code.w3-code.prettyprint.lang-xml.
+        code.code.prettyprint.lang-xml.
             #{'<weatherIconUrl>'}<br>
             &nbsp#{'<![CDATA[http://cdn.worldweatheronline.net/images/wsymbols01_png_64/wsymbol_0002_sunny_intervals.png]]>'}<br>
             #{'</weatherIconUrl>'}
@@ -241,7 +241,7 @@ block content
 
             e.g.
 
-        code.w3-code.prettyprint.lang-xml.
+        code.code.prettyprint.lang-xml.
             #{'<weatherDesc>'}<br>
             &nbsp#{'<![CDATA[Partly cloudy]]>'}<br>
             #{'</weatherDesc>'}
@@ -250,7 +250,7 @@ block content
 
         p Luckily most of the sought keywords have matching equivalents in the openweathermap.org API! So not much work was needed there bar a couple of mappings:
 
-        code.w3-code.prettyprint.lang-js.
+        code.code.prettyprint.lang-js.
             const description_map = {<br>
             &nbsp'Mist': 'Fog',<br>
             &nbsp'Clouds': 'Cloudy',<br>
