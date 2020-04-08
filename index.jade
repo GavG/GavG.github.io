@@ -27,19 +27,19 @@ block scripts
 block content
 
     div(id='about').container
-        h3.w3-border-bottom.w3-border-light-grey.w3-padding-16 About
+        h3.border-bottom.border-light-grey.padding-16 About
         p Welcome to a collection of software odds and ends. These are a bunch of my experiments, feel free to have a mooch around.
 
-        div(id="posts").container.w3-padding-32
-            h3.w3-border-bottom.w3-border-light-grey.w3-padding-16 Recent Posts
+        div(id="posts").container.padding-32
+            h3.border-bottom.border-light-grey.padding-16 Recent Posts
             div.container-row
                 +postLink(baseURL+'/posts/smartype', 'Smartype Keyboard Weather Adapter', baseURL+'/images/posts/keyview_icon.png', 'png', baseURL+'/images/posts/keyview_icon.webp')
                 +postLink(baseURL+'/posts/randomtimer', 'Random Timer', baseURL+'/misc/randomtimer/icon.png', 'png', baseURL+'/misc/randomtimer/icon.webp')
                 +postLink(baseURL+'/posts/ctf', 'CTF Puzzle', baseURL+'/images/posts/lock.png', 'png', baseURL+'/images/posts/lock.webp')
                 +postLink(baseURL+'/posts/rmab', 'Rapid Mobile App Bodging', baseURL+'/images/posts/rmab.png', 'png', baseURL+'/images/posts/rmab.webp')
 
-        div(id="apps").container.w3-padding-32
-            h3.w3-border-bottom.w3-border-light-grey.w3-padding-16 Popular Apps
+        div(id="apps").container.padding-32
+            h3.border-bottom.border-light-grey.padding-16 Popular Apps
             div.container-row
                 +appLink('https://play.google.com/store/apps/details?id=com.gavg.obsrt', 'OBS Remote Tally Light', baseURL+'/images/apps/obsrt.png', 'png', baseURL+'/images/apps/obsrt.webp')
                 +appLink(baseURL+'/calc/index.html', 'CSS Calc', baseURL+'/images/apps/calc.png', 'png', baseURL+'/images/apps/calc.webp')

@@ -21,7 +21,7 @@ block scripts
 block content
 
     article.container
-        h3.w3-border-bottom.w3-border-light-grey.w3-padding-16 Smartype Keyboard "Weather Offline" Fix
+        h3.border-bottom.border-light-grey.padding-16 Smartype Keyboard "Weather Offline" Fix
 
         p The Smartype USB keyboard was introduced by KEYVIEW in 2012. It features a built-in display capable of showing a live view of the current line when text editing or a dashboard comprising of a few applets:
         div.container-row
@@ -33,7 +33,7 @@ block content
                 li The latest email and unread count from a specified mailbox
                 li Images from a specified directory
 
-        h4.w3-padding-16 The Backstory
+        h4.padding-16 The Backstory
 
         p.
             I picked up one of these keyboards from a charity shop as it looked a wee bit interesting and was relatively cheap.
@@ -51,7 +51,7 @@ block content
         div.img-wrapper
             img.large(src=baseURL+'/images/posts/smartype_weather_offline.jpg', alt="Smartype keyboard, non-functional weather applet" loading="lazy").mx-auto
 
-        h4.w3-padding-16 The Fix
+        h4.padding-16 The Fix
 
         p.
             I fired up Wireshark to see what was going on. It turns out that the software was trying to get weather data from a weather webservice API called 'worldweatheronline' using a premium account.
@@ -215,7 +215,7 @@ block content
 
         code.code netsh interface portproxy add v4tov4 listenport=80 listenaddress=127.0.0.2 connectport=9999 connectaddress=127.0.0.1
 
-        h4.w3-padding-16 Debugging
+        h4.padding-16 Debugging
 
         p.
             I thought this was an alright solution, the only issue was that it didn't seem to work. This required some head scratching.
