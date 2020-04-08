@@ -15,8 +15,6 @@ window.addEventListener('load', function() {
     }
 
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/sw.min.js')
-        })
+        navigator.serviceWorker.register('/sw.min.js')
     }
 })
