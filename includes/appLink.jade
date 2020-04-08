@@ -1,9 +1,9 @@
 mixin appLink(href, title, img)
     div.post-link
-        a(href=href).w3-row-padding
+        a(href=href).row-padding
             div.col.l3.m6.margin-bottom
-                div.w3-display-container
-                    div.w3-display-bottomleft.w3-black.br-2.padding=title
+                div.display-container
+                    div.display-bottomleft.black.br-2.padding=title
                     picture
                         source(srcset=webp type="image/webp")
                         source(srcset=img type="image/"+type) 
