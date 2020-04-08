@@ -67,10 +67,6 @@ h4 {
     border-left: 10px solid #607d8b;
 }
 
-body {
-    margin: 0
-}
-
 .img-wrapper {
     max-width: 1200px;
     margin: auto;
@@ -609,6 +605,7 @@ body {
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
+    margin: 0;
 }
 
 #app {
