@@ -67,11 +67,6 @@ h4 {
     border-left: 10px solid #607d8b;
 }
 
-*, *:before, *:after {
-    -webkit-box-sizing: inherit;
-    box-sizing: inherit
-}
-
 body {
     margin: 0
 }
@@ -622,24 +617,6 @@ body {
     flex-grow: 1;
     max-width: 1564px;
     margin: auto;
-}
-
-.header {
-    padding-top: 50px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    height: 50vh;
-    min-height: 50vh;
-    margin: 0px;
-    width: 100%;
-    overflow: hidden;
 }
 
 .br-2 {
