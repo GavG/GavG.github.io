@@ -685,6 +685,23 @@ footer div {
     stroke-dashoffset: 126;
 }
 
+.display-bottomleft {
+    position: absolute;
+    bottom: 0px;
+    left: 0pc;
+}
+
+
+.post-link .display-container {
+    position: relative;
+}
+
+.post-link .display-bottomleft {
+    background-color: #00000099;
+    color: #eee;
+    max-width: 150px;
+}
+
 @media only screen and (max-width: 1200px) {
     .app_image {
         height: 150px;
