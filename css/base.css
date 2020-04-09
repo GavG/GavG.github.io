@@ -46,30 +46,6 @@ img.large, #bannerImg.large {
 .app_image {
     height: 200px;
 }
-@media only screen and (max-width: 1200px) {
-    .app_image {
-        height: 150px;
-    }
-}
-@media only screen and (max-width: 850px) {
-    .app_image {
-        height: 100px;
-    }
-    .container-row .display-container {
-        min-width: 100px;
-    }
-}
-@media only screen and (max-width: 700px) {
-    .post-link {
-        width: 50%;
-    }
-    .container, .panel {
-        padding: 0.01em 4px;
-    }
-    .app_image {
-        height: 70px;
-    }
-}
 
 .mw-50 {
     max-width: 50%;
@@ -707,4 +683,29 @@ footer div {
     stroke: #b3b3b3;
     stroke-dasharray: 126;
     stroke-dashoffset: 126;
+}
+
+@media only screen and (max-width: 1200px) {
+    .app_image {
+        height: 150px;
+    }
+}
+@media only screen and (max-width: 850px) {
+    .app_image {
+        height: 100px;
+    }
+    .container-row .display-container {
+        min-width: 100px;
+    }
+}
+@media only screen and (max-width: 700px) {
+    .post-link {
+        width: 50%;
+    }
+    .container, .panel {
+        padding: 0.01em 4px;
+    }
+    .app_image {
+        height: 70px;
+    }
 }
