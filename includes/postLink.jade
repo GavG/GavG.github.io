@@ -3,7 +3,7 @@ mixin postLink(href, title, img, type, webp)
         a(href=href).row-padding
             div.col.l3.m6.margin-bottom
                 div.display-container
-                    div.display-bottomleft.black.br-2.padding=title
+                    div.display-bottomleft.br-2.padding=title
                     picture
                         source(srcset=webp type="image/webp")
                         source(srcset=img type="image/"+type) 
