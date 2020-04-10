@@ -1,7 +1,7 @@
 var CACHE_NAME = 'gavg-cache-v3';
 var urlsToCache = [
     '/',
-    '/includes/scripts/main.min.js',
+    '/includes/scripts/main.min.js?v=1',
     '/css/base.min.css?v=1.10',
 ];
 
