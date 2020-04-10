@@ -1,6 +1,5 @@
-var CACHE_NAME = 'gavg-cache-v3';
+var CACHE_NAME = 'gavg-cache-v4';
 var urlsToCache = [
-    '/',
     '/includes/scripts/main.min.js?v=1',
     '/css/base.min.css?v=1.10',
 ];
@@ -10,6 +9,19 @@ self.addEventListener('install', function(event) {
         caches.open(CACHE_NAME)
         .then(function(cache) {
             return cache.addAll(urlsToCache);
+        })
+    )
+})
+
+self.addEventListener('activate', function(event) {
+    event.waitUntil(
+        caches.keys()
+        .then(function(keyList) {
+            return Promise.all(keyList.map(function(key) {
+                if (key != CACHE_NAME) {
+                    return caches.delete(key);
+                }
+            }));
         })
     );
 });
