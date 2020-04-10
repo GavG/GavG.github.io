@@ -1,7 +1,7 @@
-var CACHE_NAME = 'my-site-cache-v1';
+var CACHE_NAME = 'gavg-cache-v2';
 var urlsToCache = [
     '/',
-    '/css/base.min.css?v=1.10',
+    '/css/base.min.css',
 ];
 
 self.addEventListener('install', function(event) {
