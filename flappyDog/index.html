@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Flappy-Dog</title>
+    <style>
+        html,
+        body,
+        #canvas {
+            margin: 0px;
+            width: 100%;
+            height: 100%;
+            border: 0px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <script>
+        var c = document.getElementById("canvas")
+        var ctx = c.getContext("2d")
+
+        let sprite = new Image(16, 8);
+        sprite.src = 'sprite.png';
+
+        var ox
+        var oy
+
+        var px
+        var py
+
+        var sx = 0
+
+        var unit
+        var up_amount
+        var sprite_size
+
+        init()
+
+        function init() {
+            window.addEventListener('resize', resize, false)
+            resize()
+            oy = c.height / 2
+            py = oy
+            ox = c.width / 2
+            px = ox
+            unit = c.height / 100
+            up_amount = 5 * unit
+            sprite_size = 5 * unit
+            document.addEventListener('keydown', keyDown)
+            window.requestAnimationFrame(draw)
+        }
+
+        function resize() {
+            c.width = window.innerWidth;
+            c.height = window.innerHeight;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, c.width, c.height);
+            ctx.drawImage(sprite, sx, 0, 8, 8, px, py, sprite_size, sprite_size)
+            move_down()
+            window.requestAnimationFrame(draw)
+        }
+
+        function keyDown(e) {
+            if (e.keyCode == 32) {
+                move_up()
+            }
+        }
+
+        function move_up() {
+            py -= up_amount
+            sx = 8
+        }
+
+        function move_down() {
+            py += unit
+            sx = 0
+        }
+    </script>
+
+</body>
+
+</html>
