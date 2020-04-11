@@ -2,519 +2,514 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1">
-  <meta name="theme-color" content="#472ed1" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="manifest" href="manifest.json">
-  <link rel="shortcut icon" href="icon-192.png">
-  <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1">
+    <meta name="theme-color" content="#472ed1" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="shortcut icon" href="icon-192.png">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
 
-  <title>RANDOM TIMER</title>
+    <title>RANDOM TIMER</title>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123089114-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
 
-    gtag('config', 'UA-123089114-1');
-  </script>
+        gtag('config', 'UA-123089114-1');
+    </script>
 
 
-  <style>
-    body,
-    html {
-      width: 100%;
-      height: 100%;
-      padding: 0;
-      margin: 0;
-      color: #FFF;
-    }
+    <style>
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            color: #FFF;
+        }
 
-    html {
-      overflow: hidden;
-    }
+        html {
+            overflow: hidden;
+        }
 
-    body {
-      font-size: 25px;
-      overflow: auto;
-      background: #472ed1;
-      background: linear-gradient(0deg, rgba(0, 57, 122, 1) 0%, rgba(69, 56, 173, 1) 50%, rgba(71, 46, 209, 1) 100%);
-    }
+        body {
+            font-size: 25px;
+            overflow: auto;
+            background: #472ed1;
+            background: linear-gradient(0deg, rgba(0, 57, 122, 1) 0%, rgba(69, 56, 173, 1) 50%, rgba(71, 46, 209, 1) 100%);
+        }
 
-    body.red {
-      background: rgb(122, 0, 0);
-      background: linear-gradient(0deg, rgba(122, 0, 0, 1) 0%, rgba(173, 56, 56, 1) 50%, rgba(209, 63, 46, 1) 100%);
-    }
+        body.red {
+            background: rgb(122, 0, 0);
+            background: linear-gradient(0deg, rgba(122, 0, 0, 1) 0%, rgba(173, 56, 56, 1) 50%, rgba(209, 63, 46, 1) 100%);
+        }
 
-    input {
-      font-family: Arial;
-      margin: 20px;
-      margin-right: 10px;
-      border-radius: 5px;
-      width: 20px;
-      text-align: center;
-    }
+        input {
+            font-family: Arial;
+            margin: 20px;
+            margin-right: 10px;
+            border-radius: 5px;
+            width: 20px;
+            text-align: center;
+        }
 
-    button,
-    input[type='submit'] {
-      cursor: pointer;
-    }
+        button,
+        input[type='submit'] {
+            cursor: pointer;
+        }
 
-    input,
-    .quick-row button {
-      font-size: 12px;
-    }
+        input,
+        .quick-row button {
+            font-size: 12px;
+        }
 
-    #app,
-    #go,
-    .quick-row button {
-      font-family: 'Permanent Marker', fantasy, Papyrus;
-      -webkit-appearance: none;
-    }
+        #app,
+        #go,
+        .quick-row button {
+            font-family: 'Permanent Marker', fantasy, Papyrus;
+            -webkit-appearance: none;
+        }
 
-    #app {
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+        #app {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    h1 {
-      text-align: center;
-      font-size: 50px;
-      margin-bottom: 20px;
-    }
+        h1 {
+            text-align: center;
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
 
-    h2 {
-      margin: 10px 0;
-      margin-top: 0px;
-    }
+        h2 {
+            margin: 10px 0;
+            margin-top: 0px;
+        }
 
-    input[type='number'] {
-      vertical-align: middle;
-    }
+        input[type='number'] {
+            vertical-align: middle;
+        }
 
-    #go {
-      width: 200px;
-      height: 50px;
-      min-height: 50px;
-      margin: 20px 0;
-      background-color: #5C5;
-      font-size: 30px;
-      color: #FFF;
-      border-radius: 5px;
-      display: block;
-      outline: none;
-      border: none;
-    }
+        #go {
+            width: 200px;
+            height: 50px;
+            min-height: 50px;
+            margin: 20px 0;
+            background-color: #5C5;
+            font-size: 30px;
+            color: #FFF;
+            border-radius: 5px;
+            display: block;
+            outline: none;
+            border: none;
+        }
 
-    #go.running {
-      background-color: #C55;
-    }
+        #go.running {
+            background-color: #C55;
+        }
 
-    #go:not(.running):disabled {
-      background-color: #666;
-      color: #999;
-    }
+        #go:not(.running):disabled {
+            background-color: #666;
+            color: #999;
+        }
 
-    .dashed {
-      border: dashed 5px;
-      border-radius: 10px;
-      max-width: 500px;
-      padding: 10px;
-      margin: 10px auto;
-    }
+        .dashed {
+            border: dashed 5px;
+            border-radius: 10px;
+            max-width: 500px;
+            padding: 10px;
+            margin: 10px auto;
+        }
 
-    .border-green {
-      border-color: #5C5;
-    }
+        .border-green {
+            border-color: #5C5;
+        }
 
-    .border-red {
-      border-color: #C55;
-    }
+        .border-red {
+            border-color: #C55;
+        }
 
-    .wide {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      align-items: center;
-      max-width: 800px;
-      margin: auto 0;
-    }
+        .wide {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            align-items: center;
+            max-width: 800px;
+            margin: auto 0;
+        }
 
-    .quick-row {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      margin: 10px 0;
-    }
+        .quick-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            margin: 10px 0;
+        }
 
-    .quick-row button {
-      border-radius: 5px;
-      border: none;
-      color: #FFF;
-      font-size: 50%;
-      width: 30px;
-    }
+        .quick-row button {
+            border-radius: 5px;
+            border: none;
+            color: #FFF;
+            font-size: 50%;
+            width: 30px;
+        }
 
-    .quick-row button.min {
-      background-color: #55C;
-    }
+        .quick-row button.min {
+            background-color: #008;
+        }
 
-    .quick-row button.sec {
-      background-color: #99F;
-    }
+        .quick-row button.sec {
+            background-color: #55C;
+        }
 
-    .invalid {
-      background-color: #C55;
-    }
+        .invalid {
+            background-color: #C55;
+        }
 
-    label {
-      margin: auto 5px;
-    }
+        label {
+            margin: auto 5px;
+        }
 
-    @media only screen and (min-width: 800px) {
-      h1 {
-        font-size: 50px;
-      }
-      body {
-        font-size: 20px;
-      }
-    }
+        @media only screen and (min-width: 800px) {
+            h1 {
+                font-size: 50px;
+            }
+            body {
+                font-size: 20px;
+            }
+        }
 
-    @media only screen and (min-width: 950px) {
-      h1 {
-        font-size: 80px;
-      }
-      body {
-        font-size: 30px;
-      }
-      .wide {
-        max-width: 1000px;
-      }
-      #go {
-        font-size: 40px;
-        height: 60px;
-      }
-      input[type='number'] {
-        width: 40px;
-      }
-      .quick-row button {
-        width: 40px;
-      }
-    }
+        @media only screen and (min-width: 950px) {
+            h1 {
+                font-size: 80px;
+            }
+            body {
+                font-size: 30px;
+            }
+            .wide {
+                max-width: 1000px;
+            }
+            #go {
+                font-size: 40px;
+                height: 60px;
+            }
+            input[type='number'] {
+                width: 40px;
+            }
+            .quick-row button {
+                width: 40px;
+            }
+        }
 
-    @media only screen and (min-width: 1200px) {
-      h1 {
-        font-size: 120px;
-      }
-      body {
-        font-size: 40px;
-      }
-      #go {
-        font-size: 50px;
-        height: 80px;
-        width: 220px;
-      }
-      input,
-      .quick-row button {
-        font-size: 20px;
-      }
-      .quick-row button {
-        width: 50px;
-      }
-    }
+        @media only screen and (min-width: 1200px) {
+            h1 {
+                font-size: 120px;
+            }
+            body {
+                font-size: 40px;
+            }
+            #go {
+                font-size: 50px;
+                height: 80px;
+                width: 220px;
+            }
+            input,
+            .quick-row button {
+                font-size: 20px;
+            }
+            .quick-row button {
+                width: 50px;
+            }
+        }
 
-    @media only screen and (max-height: 600px) {
-      h1 {
-        margin-top: 10px;
-      }
-      .dashed {
-        padding: 5px;
-      }
-      input {
-        margin: 5px;
-      }
-    }
+        @media only screen and (max-height: 600px) {
+            h1 {
+                margin-top: 10px;
+            }
+            .dashed {
+                padding: 5px;
+            }
+            input {
+                margin: 5px;
+            }
+        }
 
-    @media only screen and (max-height: 800px) and (max-width: 440px) {
-      .wide {
-        min-height: 400px;
-      }
-      h1 {
-        font-size: 40px;
-        margin-top: 10px;
-      }
-      body {
-        font-size: 20px;
-      }
-      .wide {
-        min-height: 300px;
-      }
-    }
+        @media only screen and (max-height: 800px) and (max-width: 440px) {
+            .wide {
+                min-height: 400px;
+            }
+            h1 {
+                font-size: 40px;
+                margin-top: 10px;
+            }
+            body {
+                font-size: 20px;
+            }
+            .wide {
+                min-height: 300px;
+            }
+        }
 
-    @media only screen and (min-width: 1200px) and (min-height: 800px) {
-      #go {
-        margin-bottom: 100px;
-      }
-    }
+        @media only screen and (min-width: 1200px) and (min-height: 800px) {
+            #go {
+                margin-bottom: 100px;
+            }
+        }
 
-    @keyframes flickerAnimation {
-      0% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
+        @keyframes flickerAnimation {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
 
-    @-o-keyframes flickerAnimation {
-      0% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
+        @-o-keyframes flickerAnimation {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
 
-    @-moz-keyframes flickerAnimation {
-      0% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
+        @-moz-keyframes flickerAnimation {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
 
-    @-webkit-keyframes flickerAnimation {
-      0% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
+        @-webkit-keyframes flickerAnimation {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
 
-    .animate-flicker {
-      -webkit-animation: flickerAnimation 2s infinite;
-      -moz-animation: flickerAnimation 2s infinite;
-      -o-animation: flickerAnimation 2s infinite;
-      animation: flickerAnimation 2s infinite;
-    }
-  </style>
+        .animate-flicker {
+            -webkit-animation: flickerAnimation 2s infinite;
+            -moz-animation: flickerAnimation 2s infinite;
+            -o-animation: flickerAnimation 2s infinite;
+            animation: flickerAnimation 2s infinite;
+        }
+    </style>
 
 </head>
 
 <body>
-  <div id='app'>
-    <h1 id='title'>Random Timer</h1>
-    <div class='wide'>
-      <div class='dashed border-red'>
-        <h2>Max Time</h2>
-        <div class='quick-row'>
-          <button class='min' onclick="quickset_max(2 ,0)">2m</button>
-          <button class='min' onclick="quickset_max(1 ,0)">1m</button>
-          <button class='sec' onclick="quickset_max(0, 30)">30s</button>
-          <button class='sec' onclick="quickset_max(0, 10)">10s</button>
-        </div>
-        <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_mins" placeholder="0" /><label class="units" for="maxtime_mins">mins</label>
-        <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_secs" placeholder="0" /><label class="units" for="maxtime_secs">secs</label>
-      </div>
+    <div id='app'>
+        <h1 id='title'>Random Timer</h1>
+        <div class='wide'>
+            <div class='dashed border-red'>
+                <h2>Max Time</h2>
+                <div class='quick-row'>
+                    <button class='min' onclick="quickset_max(2 ,0)">2m</button>
+                    <button class='min' onclick="quickset_max(1 ,0)">1m</button>
+                    <button class='sec' onclick="quickset_max(0, 30)">30s</button>
+                    <button class='sec' onclick="quickset_max(0, 10)">10s</button>
+                </div>
+                <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_mins" placeholder="0" /><label class="units" for="maxtime_mins">mins</label>
+                <input type="number" min="0" step="1" oninput="numcheck(this)" id="maxtime_secs" placeholder="0" /><label class="units" for="maxtime_secs">secs</label>
+            </div>
 
-      <div class='dashed border-green'>
-        <h2>Min Time</h2>
-        <div class='quick-row'>
-          <button class='min' onclick="quickset_min(1 ,0)">1m</button>
-          <button class='sec' onclick="quickset_min(0, 30)">30s</button>
-          <button class='sec' onclick="quickset_min(0, 10)">10s</button>
-          <button class='sec' onclick="quickset_min(0, 0)">0s</button>
+            <div class='dashed border-green'>
+                <h2>Min Time</h2>
+                <div class='quick-row'>
+                    <button class='min' onclick="quickset_min(1 ,0)">1m</button>
+                    <button class='sec' onclick="quickset_min(0, 30)">30s</button>
+                    <button class='sec' onclick="quickset_min(0, 10)">10s</button>
+                    <button class='sec' onclick="quickset_min(0, 0)">0s</button>
+                </div>
+                <input type="number" min="0" step="1" oninput="numcheck(this)" id="mintime_mins" placeholder="0" /><label class="units" for="mintime_mins">mins</label>
+                <input type="number" min="0" step="1" oninput="numcheck(this)" id="mintime_secs" placeholder="0" /><label class="units" for="mintime_secs">secs</label>
+            </div>
         </div>
-        <input type="number" min="0" step="1" oninput="numcheck(this)" id="mintime_mins" placeholder="0" /><label class="units" for="mintime_mins">mins</label>
-        <input type="number" min="0" step="1" oninput="numcheck(this)" id="mintime_secs" placeholder="0" /><label class="units" for="mintime_mins">secs</label>
-      </div>
+
+        <input type='submit' id="go" value='GO!' />
+
     </div>
 
-    <input type='submit' id="go" value='GO!' />
+    <script>
+        var maxmin_input = document.getElementById('maxtime_mins');
+        var maxsec_input = document.getElementById('maxtime_secs');
+        var minmin_input = document.getElementById('mintime_mins');
+        var minsec_input = document.getElementById('mintime_secs');
+        var go_button = document.getElementById('go');
+        var title = document.getElementById('title');
 
-  </div>
+        var red = '#7a0000';
+        var blue = '#472ed1';
 
-  <script>
-    var maxmin_input = document.getElementById('maxtime_mins');
-    var maxsec_input = document.getElementById('maxtime_secs');
-    var minmin_input = document.getElementById('mintime_mins');
-    var minsec_input = document.getElementById('mintime_secs');
-    var go_button = document.getElementById('go');
-    var title = document.getElementById('title');
+        var timeout;
+        var beep_interval;
+        var go_str = 'GO!';
+        var stop_str = 'STOP!';
+        var is_safari = navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf('Chrome') == -1;
 
-    var red = '#7a0000';
-    var blue = '#472ed1';
-
-    var timeout;
-    var beep_interval;
-    var go_str = 'GO!';
-    var stop_str = 'STOP!';
-    var is_safari = navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf('Chrome') == -1;
-
-    function quickset_max(mins, secs) {
-      maxmin_input.value = mins;
-      maxsec_input.value = secs;
-      comp_check();
-    }
-
-    function quickset_min(mins, secs) {
-      minmin_input.value = mins;
-      minsec_input.value = secs;
-      comp_check();
-    }
-
-    function numcheck(input) {
-      input.value = parseInt(input.value.replace(/\D/g, ''), 10);
-      comp_check();
-    }
-
-    function comp_check() {
-      var comp = get_max_time() < get_min_time();
-      if (comp) {
-        maxmin_input.classList.add('invalid');
-        maxsec_input.classList.add('invalid');
-        if (!timeout) {
-          go_button.disabled = true;
-        }
-      } else {
-        maxmin_input.classList.remove('invalid');
-        maxsec_input.classList.remove('invalid');
-        go_button.disabled = false;
-      }
-      return comp;
-    }
-
-    function preload_vals() {
-      for (var pv = 0; pv < inputs.length; pv++) {
-        var val = localStorage.getItem(pv);
-        if (val) {
-          inputs[pv].value = val;
-        }
-      }
-      comp_check();
-    }
-
-    function store_vals() {
-      for (var sv = 0; sv < inputs.length; sv++) {
-        localStorage.setItem(sv, inputs[sv].value);
-      }
-    }
-
-    function get_max_time() {
-      return (parseInt(maxmin_input.value || 0, 10) * 60) + parseInt(maxsec_input.value || 0, 10);
-    }
-
-    function get_min_time() {
-      return (parseInt(minmin_input.value || 0, 10) * 60) + parseInt(minsec_input.value || 0, 10) + 1;
-    }
-
-    var inputs = [maxmin_input, maxsec_input, minmin_input, minsec_input];
-
-    var beep = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU' + Array(1e3).join(123));
-
-    preload_vals();
-
-    go_button.addEventListener('click', function() {
-
-      if (go_button.value == go_str) {
-
-        if (comp_check()) {
-          return false;
+        function quickset_max(mins, secs) {
+            maxmin_input.value = mins;
+            maxsec_input.value = secs;
+            comp_check();
         }
 
-        go_button.value = stop_str;
-        go_button.classList.add('running');
-        title.classList.add('animate-flicker');
-      } else {
-        clearTimeout(timeout);
-        timeout = false;
-        clearInterval(beep_interval);
-        go_button.value = go_str;
-        go_button.classList.remove('running');
-        document.body.classList.remove('red');
-        title.classList.remove('animate-flicker');
-        comp_check();
-        return false;
-      }
-
-      var maxtime = get_max_time();
-      var mintime = get_min_time();
-
-      console.log("MAX: " + maxtime)
-      console.log("MIN: " + mintime)
-
-      var time = Math.abs(Math.floor(Math.random() * (maxtime - mintime)) + mintime) * 1000;
-
-      console.log("randtime: " + time + "ms");
-
-      if (is_safari) {
-        //safari's user intent delegation game is poor...
-        s_time = time
-        for (var s = 0; s < 11; s++) {
-          setTimeout('beep.play()', s_time);
-          s_time += 500;
+        function quickset_min(mins, secs) {
+            minmin_input.value = mins;
+            minsec_input.value = secs;
+            comp_check();
         }
-      }
 
-      var i = 0;
-      timeout = setTimeout(function() {
+        function numcheck(input) {
+            input.value = parseInt(input.value.replace(/\D/g, ''), 10);
+            comp_check();
+        }
 
-        beep_interval = setInterval(function() {
-          if (!is_safari) {
-            beep.play();
-          }
-          title.classList.remove('animate-flicker');
-          if (typeof window.navigator.vibrate === "function") {
-            window.navigator.vibrate(200);
-          }
-          if (i % 2) {
-            document.querySelector('meta[name="theme-color"]').setAttribute("content", red);
-            document.body.classList.add('red')
-          } else {
-            document.querySelector('meta[name="theme-color"]').setAttribute("content", blue);
-            document.body.classList.remove('red')
-          }
-          i++;
-          if (i > 9) {
-            go_button.value = go_str;
-            go_button.classList.remove('running');
-            document.querySelector('meta[name="theme-color"]').setAttribute("content", blue);
-            document.body.classList.remove('red');
-            clearInterval(beep_interval);
-          }
-        }, 500)
-      }, time);
+        function comp_check() {
+            var comp = get_max_time() < get_min_time();
+            if (comp) {
+                maxmin_input.classList.add('invalid');
+                maxsec_input.classList.add('invalid');
+                if (!timeout) {
+                    go_button.disabled = true;
+                }
+            } else {
+                maxmin_input.classList.remove('invalid');
+                maxsec_input.classList.remove('invalid');
+                go_button.disabled = false;
+            }
+            return comp;
+        }
 
-      store_vals();
-    })
-  </script>
+        function preload_vals() {
+            for (var pv = 0; pv < inputs.length; pv++) {
+                var val = localStorage.getItem(pv);
+                if (val) {
+                    inputs[pv].value = val;
+                }
+            }
+            comp_check();
+        }
+
+        function store_vals() {
+            for (var sv = 0; sv < inputs.length; sv++) {
+                localStorage.setItem(sv, inputs[sv].value);
+            }
+        }
+
+        function get_max_time() {
+            return (parseInt(maxmin_input.value || 0, 10) * 60) + parseInt(maxsec_input.value || 0, 10);
+        }
+
+        function get_min_time() {
+            return (parseInt(minmin_input.value || 0, 10) * 60) + parseInt(minsec_input.value || 0, 10) + 1;
+        }
+
+        var inputs = [maxmin_input, maxsec_input, minmin_input, minsec_input];
+
+        var beep = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU' + Array(1e3).join(123));
+
+        preload_vals();
+
+        go_button.addEventListener('click', function() {
+
+            if (go_button.value == go_str) {
+
+                if (comp_check()) {
+                    return false;
+                }
+
+                go_button.value = stop_str;
+                go_button.classList.add('running');
+                title.classList.add('animate-flicker');
+            } else {
+                clearTimeout(timeout);
+                timeout = false;
+                clearInterval(beep_interval);
+                go_button.value = go_str;
+                go_button.classList.remove('running');
+                document.body.classList.remove('red');
+                title.classList.remove('animate-flicker');
+                comp_check();
+                return false;
+            }
+
+            var maxtime = get_max_time();
+            var mintime = get_min_time();
+
+            var time = Math.abs(Math.floor(Math.random() * (maxtime - mintime)) + mintime) * 1000;
+
+            if (is_safari) {
+                //safari's user intent delegation game is poor...
+                s_time = time
+                for (var s = 0; s < 11; s++) {
+                    setTimeout('beep.play()', s_time);
+                    s_time += 500;
+                }
+            }
+
+            var i = 0;
+            timeout = setTimeout(function() {
+
+                beep_interval = setInterval(function() {
+                    if (!is_safari) {
+                        beep.play();
+                    }
+                    title.classList.remove('animate-flicker');
+                    if (typeof window.navigator.vibrate === "function") {
+                        window.navigator.vibrate(200);
+                    }
+                    if (i % 2) {
+                        document.querySelector('meta[name="theme-color"]').setAttribute("content", red);
+                        document.body.classList.add('red')
+                    } else {
+                        document.querySelector('meta[name="theme-color"]').setAttribute("content", blue);
+                        document.body.classList.remove('red')
+                    }
+                    i++;
+                    if (i > 9) {
+                        go_button.value = go_str;
+                        go_button.classList.remove('running');
+                        document.querySelector('meta[name="theme-color"]').setAttribute("content", blue);
+                        document.body.classList.remove('red');
+                        clearInterval(beep_interval);
+                    }
+                }, 500)
+            }, time);
+
+            store_vals();
+        })
+    </script>
 
 </body>
 
