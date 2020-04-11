@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
     <title>Flappy-Dog</title>
     <style>
         html,
@@ -12,6 +13,10 @@
             width: 100%;
             height: 100%;
             border: 0px;
+        }
+
+        #canvas {
+            background-color: #ff6;
         }
     </style>
 </head>
@@ -24,9 +29,8 @@
         var c = document.getElementById("canvas")
         var ctx = c.getContext("2d")
 
-        let sprite = new Image(16, 8);
-        sprite.src = 'sprite.png';
-
+        let sprite = new Image(16, 8)
+        let sprite_src = 'sprite.png'
         var ox
         var oy
 
@@ -38,49 +42,102 @@
         var unit
         var up_amount
         var sprite_size
+        var down_amount
+        var min_y
+
+        var game_over
+        var game_started
+
+        var gravity
 
         init()
 
         function init() {
-            window.addEventListener('resize', resize, false)
             resize()
-            oy = c.height / 2
+            reset()
+            registerEventListeners()
+            sprite.src = sprite_src
+        }
+
+        function reset() {
             py = oy
-            ox = c.width / 2
             px = ox
-            unit = c.height / 100
-            up_amount = 5 * unit
-            sprite_size = 5 * unit
-            document.addEventListener('keydown', keyDown)
-            window.requestAnimationFrame(draw)
+            game_over = false
+            game_started = false
+            draw()
         }
 
         function resize() {
-            c.width = window.innerWidth;
-            c.height = window.innerHeight;
+            console.log('resize')
+            c.width = window.screen.width;
+            c.height = window.screen.height;
+            unit = c.height / 50
+            up_amount = 5 * unit
+            down_amount = unit / 5
+            sprite_size = 5 * unit
+            min_y = sprite_size
+            max_y = c.height - min_y
+            oy = c.height / 2
+            ox = (c.width / 2) - (sprite_size / 2)
         }
 
         function draw() {
             ctx.clearRect(0, 0, c.width, c.height);
             ctx.drawImage(sprite, sx, 0, 8, 8, px, py, sprite_size, sprite_size)
-            move_down()
-            window.requestAnimationFrame(draw)
-        }
 
-        function keyDown(e) {
-            if (e.keyCode == 32) {
-                move_up()
+            if (game_over) {
+                ctx.font = "30px Comic Sans MS";
+                ctx.fillStyle = "red";
+                ctx.textAlign = "center";
+                ctx.fillText("Game Over", c.width / 2, c.height / 2);
+            }
+
+            if (game_started && !game_over) {
+                window.requestAnimationFrame(draw)
             }
         }
 
         function move_up() {
-            py -= up_amount
-            sx = 8
+            if (!game_over) {
+                if (!game_started) {
+                    game_started = true
+                    gravity = setInterval(move_down, 20)
+                }
+                if (py > min_y) {
+                    py -= up_amount
+                }
+
+                sx = 8
+
+                window.requestAnimationFrame(draw)
+            }
         }
 
         function move_down() {
-            py += unit
-            sx = 0
+            if (!game_over) {
+                if (py < max_y) {
+                    py += down_amount
+                } else {
+                    game_over = true
+                    clearInterval(gravity)
+                    setTimeout(function() {
+                        if (game_over && confirm('You died, play again?')) {
+                            reset()
+                        }
+                    }, 50)
+                }
+                sx = 0
+            }
+        }
+
+        function registerEventListeners() {
+            sprite.addEventListener('load', draw)
+
+            document.addEventListener('keydown', function(e) {
+                if (e.keyCode == 32) move_up()
+            })
+
+            c.addEventListener('mousedown', move_up)
         }
     </script>
 
