@@ -85,7 +85,7 @@ img.large, #bannerImg.large {
     position: absolute;
     color: #FFF;
     text-decoration: underline;
-    content: 'Click to Expand';
+    content: '...';
     cursor: pointer;
     top: 0px;
     left: 0px;
