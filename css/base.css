@@ -453,7 +453,6 @@ a {
     display: block;
     width: auto;
     padding: 8px 12px !important;
-    border: 1px solid #4caf50 !important;
     border-left: 4px solid #4CAF50 !important;
     word-wrap: break-word
 }
