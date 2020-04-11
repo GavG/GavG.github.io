@@ -41,6 +41,7 @@ block content
         p Top start, I was able to quickly transform the UI into a tally light system. The only massive tweak I needed to make was to add a state for the 'IN PREVIEW' status as this wasn't natively supported. Luckily, beacuse the app was well written and I have some previous experience using Vue and it's variable 'Store' management, I was able to add the extra state, getters and setters with little effort.
         p The last part was to package the web app into a mobile app. For this I used Apache Cordova which is like Ionic / Phonegap - same same. I simply plonked the exported web app into a new Cordova project as the index script, set the config details and added a Cordova extension called 'Insomnia' to prevent the device from sleeping while the app is in use. And that's it! Within about 2 hours cummulative work I had a functioning cross-platform mobile app that met the requirements.
 
-        +appLink('https://play.google.com/store/apps/details?id=com.gavg.obsrt', 'OBS Remote Tally Light', baseURL+'/images/apps/obsrt.png')
+        div.w100.container-row
+            +appLink('https://play.google.com/store/apps/details?id=com.gavg.obsrt', 'OBS Remote Tally Light', baseURL+'/images/apps/obsrt.png')
 
         p In conclusion, bodging things like this can be very useful and time saving, but it's not appropriate for all applications.
