@@ -124,7 +124,7 @@
             pipe_rate = c.width / 200
 
             pipe_offset_height = c.height / 5
-            pipe_gap = sprite_height * 1.5
+            pipe_gap = sprite_height * 5
             pipe_range = c.height * (3 / 5)
 
             pipes[0] = {
@@ -155,8 +155,8 @@
         function draw() {
             ctx.clearRect(0, 0, c.width, c.height);
 
-            draw_sprite()
             draw_pipes()
+            draw_sprite()
 
             if (game_over) {
                 ctx.font = "30px Comic Sans MS";
@@ -216,7 +216,7 @@
 
         function pipe_passed_check(old_x, new_x, pipe_y) {
             if (old_x >= px && new_x <= px) {
-                if (pipe_y < py && py > (pipe_y + pipe_gap)) {
+                if (pipe_y < py && py < (pipe_y + pipe_gap)) {
                     score += 1
                 } else {
                     end_game()
@@ -231,6 +231,12 @@
                     0,
                     pipe_width,
                     pipes[i].y
+                )
+                ctx.fillRect(
+                    pipes[i].x,
+                    pipes[i].y + pipe_gap,
+                    pipe_width,
+                    c.height
                 )
             }
         }
