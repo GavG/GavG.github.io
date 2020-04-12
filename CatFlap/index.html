@@ -52,6 +52,7 @@
         let sprites
 
         var score = 0
+        var high_score = localStorage.getItem('highscore', score)
 
         var ox
         var oy
@@ -164,14 +165,30 @@
             draw_score()
 
             if (game_over) {
-                ctx.fillStyle = "red";
-                ctx.textAlign = "center";
-                ctx.fillText("Game Over", c.width / 2, c.height / 2);
+                draw_end_screen()
             }
 
             if (game_started && !game_over) {
                 window.requestAnimationFrame(draw)
             }
+        }
+
+        function draw_end_screen() {
+            ctx.fillStyle = "red"
+            ctx.textAlign = "center"
+            ctx.fillText("Game Over", c.width / 2, c.height / 2)
+
+            draw_high_score()
+        }
+
+        function draw_high_score() {
+            ctx.fillStyle = "#22F"
+            ctx.textAlign = "center"
+            ctx.fillText("High Score", c.width / 2, c.height / 4)
+            ctx.fillStyle = "#FFF"
+            ctx.fillText(high_score, c.width / 2, (c.height / 4) + 35)
+            ctx.fillStyle = "#000"
+            ctx.strokeText(high_score, c.width / 2, (c.height / 4) + 35)
         }
 
         function draw_sprite() {
@@ -311,9 +328,17 @@
             game_over = true
             clearInterval(moving_up)
             clearInterval(game_stepper)
+            if (score > high_score) {
+                set_high_score(score)
+            }
             setTimeout(function() {
                 // if (game_over && confirm('You died, play again?')) { // reset() // }
             }, 50)
+        }
+
+        function set_high_score(score) {
+            high_score = score
+            localStorage.setItem('highscore', score)
         }
 
         function registerEventListeners() {
