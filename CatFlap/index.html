@@ -44,6 +44,7 @@
 
         let sprite_width = 16
         let sprite_height = 16
+        let double_sprite_height = 2 * sprite_height
 
         var sprite
         let sprites = {
@@ -62,7 +63,10 @@
 
         var px
         var py
+
         var p_angle = 0
+        var max_p_angle = 1.5
+        var min_p_angle = -1.5
 
         var end_move_up
 
@@ -79,6 +83,9 @@
         var game_started
 
         var game_stepper
+
+        var pipe_width
+        var pipes = []
 
         init()
 
@@ -108,12 +115,26 @@
             max_y = c.height - min_y
             oy = (c.height / 2) - (sprite_height / 2)
             ox = (c.width / 2) - (sprite_width / 2)
+
+            pipe_width = c.width / 30
+            pipes[0] = {
+                x: c.width,
+                y: random_height(),
+            }
+            pipes[1] = {
+                x: c.width + pipe_width * 3,
+                y: random_height(),
+            }
+            pipes[2] = {
+                x: c.width + pipe_width * 7,
+                y: random_height(),
+            }
         }
 
         function draw() {
             ctx.clearRect(0, 0, c.width, c.height);
 
-            draw_sprite(ctx)
+            draw_sprite()
 
             if (game_over) {
                 ctx.font = "30px Comic Sans MS";
@@ -127,7 +148,7 @@
             }
         }
 
-        function draw_sprite(ctx) {
+        function draw_sprite() {
             let _px = px
             let _py = py
             ctx.translate(_px, _py)
@@ -142,17 +163,27 @@
                 sprite_width,
                 sprite_height,
             )
-            ctx.rotate(p_angle)
+            ctx.rotate(-p_angle)
             ctx.translate(-_px, -_py)
         }
 
         function game_step() {
             move_down()
-            draw_obstacles()
+            draw_pipes()
         }
 
-        function draw_obstacles() {
+        function random_height() {
+            return Math.random(double_sprite_height, c.height - double_sprite_height) * c.height
+        }
 
+        function draw_pipes() {
+            for (var i = 0; i < pipes.length; i++) {
+                ctx.fillRect(
+                    (pipes[i].x -= 5),
+                    0,
+                    (pipes[i].x -= 5) + pipe_width,
+                    pipes[i].y)
+            }
         }
 
         function set_sprite(key) {
@@ -170,6 +201,10 @@
                     py -= up_amount
                 }
 
+                if (p_angle > min_p_angle) {
+                    p_angle -= ((p_angle / 2) + 0.3)
+                }
+
                 set_sprite('jumping')
 
                 clearTimeout(end_move_up)
@@ -185,15 +220,17 @@
             if (!game_over) {
                 if (py < max_y) {
                     py += down_amount
-                    p_angle += 0.01
+
+                    if (p_angle < max_p_angle) {
+                        p_angle += 0.02
+                    }
+
                     down_amount += acceleration
                 } else {
                     game_over = true
                     clearInterval(game_stepper)
                     setTimeout(function() {
-                        if (game_over && confirm('You died, play again?')) {
-                            reset()
-                        }
+                        // if (game_over && confirm('You died, play again?')) { // reset() // }
                     }, 50)
                 }
             }
