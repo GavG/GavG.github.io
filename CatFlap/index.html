@@ -106,7 +106,7 @@
             sprite_size = 5 * unit
             min_y = sprite_height
             max_y = c.height - min_y
-            oy = c.height / 2
+            oy = (c.height / 2) - (sprite_height / 2)
             ox = (c.width / 2) - (sprite_width / 2)
         }
 
@@ -185,6 +185,7 @@
             if (!game_over) {
                 if (py < max_y) {
                     py += down_amount
+                    p_angle += 0.01
                     down_amount += acceleration
                 } else {
                     game_over = true
