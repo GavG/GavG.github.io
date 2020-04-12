@@ -42,21 +42,14 @@
         let sprite_img = new Image(35, 18)
         let sprite_src = 'sprite.png'
 
-        let sprite_width = 16
-        let sprite_height = 16
-        let double_sprite_height = 2 * sprite_height
+        let original_sprite_width = 16
+        let original_sprite_height = 16
+
+        let sprite_width
+        let sprite_height
 
         var sprite
-        let sprites = {
-            'resting': {
-                'offset_x': 1,
-                'offset_y': 1,
-            },
-            'jumping': {
-                'offset_x': 2 + sprite_width,
-                'offset_y': 1,
-            },
-        }
+        let sprites
 
         var ox
         var oy
@@ -72,7 +65,6 @@
 
         var unit
         var up_amount
-        var sprite_size
 
         var acceleration = 0.2
         var down_amount
@@ -87,6 +79,9 @@
         var pipe_width
         var pipes = []
         var pipe_rate
+
+        let pipe_offset_height
+        let pipe_range
 
         init()
 
@@ -112,7 +107,9 @@
             unit = c.height / 50
             up_amount = 6 * unit
             down_amount = unit / 3
-            sprite_size = 5 * unit
+
+            sprite_width = unit * 2
+            sprite_height = unit * 2
 
             min_y = sprite_height
             max_y = c.height - min_y
@@ -121,20 +118,33 @@
             ox = (c.width / 2) - (sprite_width / 2)
 
             pipe_width = c.width / 21
-
             pipe_rate = c.width / 200
+
+            pipe_offset_height = c.height / 5
+            pipe_range = c.height * (3 / 5)
 
             pipes[0] = {
                 x: c.width,
                 y: random_height(),
             }
             pipes[1] = {
-                x: c.width + pipe_width * 7,
+                x: c.width + pipe_width * 8,
                 y: random_height(),
             }
             pipes[2] = {
-                x: c.width + pipe_width * 14,
+                x: c.width + pipe_width * 15,
                 y: random_height(),
+            }
+
+            sprites = {
+                'resting': {
+                    'offset_x': 1,
+                    'offset_y': 1,
+                },
+                'jumping': {
+                    'offset_x': 2 + original_sprite_width,
+                    'offset_y': 1,
+                },
             }
         }
 
@@ -165,8 +175,8 @@
                 sprite_img,
                 sprite.offset_x,
                 sprite.offset_y,
-                sprite_width,
-                sprite_height,
+                original_sprite_width,
+                original_sprite_height,
                 0, 0,
                 sprite_width,
                 sprite_height,
@@ -181,16 +191,13 @@
         }
 
         function random_height() {
-            return Math.random(
-                double_sprite_height,
-                c.height
-            ) * (c.height - double_sprite_height)
+            return (Math.random() * pipe_range) + pipe_offset_height
         }
 
         function move_pipes() {
             for (var i = 0; i < pipes.length; i++) {
                 pipes[i].x -= pipe_rate
-                if (pipes[i].x <= 0) {
+                if (pipes[i].x <= -pipe_width) {
                     pipes[i].x = c.width
                     pipes[i].y = random_height()
                     //Increment score
