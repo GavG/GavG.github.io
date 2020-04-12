@@ -8,41 +8,62 @@
     <style>
         html,
         body,
+        .wrapper,
         #canvas {
-            margin: 0px;
             width: 100%;
             height: 100%;
+        }
+
+        body {
+            margin: 0px;
             border: 0px;
+            background-color: #333;
         }
 
         #canvas {
+            display: block;
             background-color: #fb6;
+            max-width: 500px;
+            margin: auto;
         }
     </style>
 </head>
 
 <body>
 
-    <canvas id="canvas"></canvas>
+    <div class='wrapper'>
+        <canvas id="canvas"></canvas>
+    </div>
 
     <script>
         var c = document.getElementById("canvas")
         var ctx = c.getContext("2d")
 
-        let sprite = new Image(33, 16)
+        let sprite_img = new Image(35, 18)
         let sprite_src = 'sprite.png'
 
         let sprite_width = 16
         let sprite_height = 16
-        let sprite_2_offset = sprite_width + 1
+
+        var sprite
+        let sprites = {
+            'resting': {
+                'offset_x': 1,
+                'offset_y': 1,
+            },
+            'jumping': {
+                'offset_x': 2 + sprite_width,
+                'offset_y': 1,
+            },
+        }
 
         var ox
         var oy
 
         var px
         var py
+        var p_angle = 0
 
-        var sx = 0
         var end_move_up
 
         var unit
@@ -63,9 +84,9 @@
 
         function init() {
             resize()
-            reset()
+            set_sprite('resting')
             registerEventListeners()
-            sprite.src = sprite_src
+            sprite_img.src = sprite_src
         }
 
         function reset() {
@@ -77,21 +98,22 @@
         }
 
         function resize() {
-            c.width = window.screen.width;
-            c.height = window.screen.height;
+            c.width = c.offsetWidth;
+            c.height = c.offsetHeight;
             unit = c.height / 50
             up_amount = 6 * unit
             down_amount = unit / 3
             sprite_size = 5 * unit
-            min_y = sprite_size
+            min_y = sprite_height
             max_y = c.height - min_y
             oy = c.height / 2
-            ox = (c.width / 2) - (sprite_size / 2)
+            ox = (c.width / 2) - (sprite_width / 2)
         }
 
         function draw() {
             ctx.clearRect(0, 0, c.width, c.height);
-            ctx.drawImage(sprite, sx, 0, sprite_width, sprite_height, px, py, sprite_size, sprite_size)
+
+            draw_sprite(ctx)
 
             if (game_over) {
                 ctx.font = "30px Comic Sans MS";
@@ -105,6 +127,25 @@
             }
         }
 
+        function draw_sprite(ctx) {
+            let _px = px
+            let _py = py
+            ctx.translate(_px, _py)
+            ctx.rotate(p_angle)
+            ctx.drawImage(
+                sprite_img,
+                sprite.offset_x,
+                sprite.offset_y,
+                sprite_width,
+                sprite_height,
+                0, 0,
+                sprite_width,
+                sprite_height,
+            )
+            ctx.rotate(p_angle)
+            ctx.translate(-_px, -_py)
+        }
+
         function game_step() {
             move_down()
             draw_obstacles()
@@ -112,6 +153,10 @@
 
         function draw_obstacles() {
 
+        }
+
+        function set_sprite(key) {
+            sprite = sprites[key]
         }
 
         function move_up() {
@@ -125,11 +170,11 @@
                     py -= up_amount
                 }
 
-                sx = sprite_2_offset
+                set_sprite('jumping')
 
                 clearTimeout(end_move_up)
                 end_move_up = setTimeout(function() {
-                    sx = 0
+                    set_sprite('resting')
                 }, 200)
 
                 window.requestAnimationFrame(draw)
@@ -154,13 +199,16 @@
         }
 
         function registerEventListeners() {
-            sprite.addEventListener('load', draw)
+            sprite_img.addEventListener('load', function() {
 
-            document.addEventListener('keydown', function(e) {
-                if (e.keyCode == 32) move_up()
+                reset()
+
+                document.addEventListener('keydown', function(e) {
+                    if (e.keyCode == 32) move_up()
+                })
+
+                c.addEventListener('mousedown', move_up)
             })
-
-            c.addEventListener('mousedown', move_up)
         }
     </script>
 
