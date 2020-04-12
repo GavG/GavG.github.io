@@ -86,6 +86,7 @@
 
         var pipe_width
         var pipes = []
+        var pipe_rate
 
         init()
 
@@ -107,26 +108,32 @@
         function resize() {
             c.width = c.offsetWidth;
             c.height = c.offsetHeight;
+
             unit = c.height / 50
             up_amount = 6 * unit
             down_amount = unit / 3
             sprite_size = 5 * unit
+
             min_y = sprite_height
             max_y = c.height - min_y
+
             oy = (c.height / 2) - (sprite_height / 2)
             ox = (c.width / 2) - (sprite_width / 2)
 
-            pipe_width = c.width / 30
+            pipe_width = c.width / 21
+
+            pipe_rate = c.width / 200
+
             pipes[0] = {
                 x: c.width,
                 y: random_height(),
             }
             pipes[1] = {
-                x: c.width + pipe_width * 3,
+                x: c.width + pipe_width * 7,
                 y: random_height(),
             }
             pipes[2] = {
-                x: c.width + pipe_width * 7,
+                x: c.width + pipe_width * 14,
                 y: random_height(),
             }
         }
@@ -135,6 +142,7 @@
             ctx.clearRect(0, 0, c.width, c.height);
 
             draw_sprite()
+            draw_pipes()
 
             if (game_over) {
                 ctx.font = "30px Comic Sans MS";
@@ -169,20 +177,35 @@
 
         function game_step() {
             move_down()
-            draw_pipes()
+            move_pipes()
         }
 
         function random_height() {
-            return Math.random(double_sprite_height, c.height - double_sprite_height) * c.height
+            return Math.random(
+                double_sprite_height,
+                c.height
+            ) * (c.height - double_sprite_height)
+        }
+
+        function move_pipes() {
+            for (var i = 0; i < pipes.length; i++) {
+                pipes[i].x -= pipe_rate
+                if (pipes[i].x <= 0) {
+                    pipes[i].x = c.width
+                    pipes[i].y = random_height()
+                    //Increment score
+                }
+            }
         }
 
         function draw_pipes() {
             for (var i = 0; i < pipes.length; i++) {
                 ctx.fillRect(
-                    (pipes[i].x -= 5),
+                    pipes[i].x,
                     0,
-                    (pipes[i].x -= 5) + pipe_width,
-                    pipes[i].y)
+                    pipe_width,
+                    pipes[i].y
+                )
             }
         }
 
