@@ -69,7 +69,7 @@
         var unit
         var up_amount
 
-        var acceleration = 0.2
+        var acceleration = 0.15
         var down_amount
 
         var min_y
@@ -109,8 +109,8 @@
             c.height = c.offsetHeight;
 
             unit = c.height / 50
-            up_amount = 6 * unit
-            down_amount = unit / 3
+            up_amount = 1.2 * unit
+            down_amount = unit / 4
 
             sprite_width = unit * 2
             sprite_height = unit * 2
@@ -131,14 +131,17 @@
             pipes[0] = {
                 x: c.width,
                 y: random_height(),
+                passed: false,
             }
             pipes[1] = {
                 x: c.width + pipe_width * 8,
                 y: random_height(),
+                passed: false,
             }
             pipes[2] = {
                 x: c.width + pipe_width * 15,
                 y: random_height(),
+                passed: false,
             }
 
             sprites = {
@@ -155,13 +158,10 @@
 
         function draw() {
             ctx.clearRect(0, 0, c.width, c.height);
-            ctx.font = "30px Comic Sans MS";
-            ctx.textAlign = "left";
-            ctx.fillStyle = "white";
-            ctx.fillText(score, 10, 40);
 
             draw_pipes()
             draw_sprite()
+            draw_score()
 
             if (game_over) {
                 ctx.fillStyle = "red";
@@ -193,6 +193,13 @@
             ctx.translate(-_px, -_py)
         }
 
+        function draw_score() {
+            ctx.font = "30px Comic Sans MS"
+            ctx.textAlign = "left"
+            ctx.fillStyle = "white"
+            ctx.fillText(score, 10, 40)
+        }
+
         function game_step() {
             move_down()
             move_pipes()
@@ -205,26 +212,26 @@
         function move_pipes() {
             for (var i = 0; i < pipes.length; i++) {
 
-                var old_x = pipes[i].x
-
                 pipes[i].x -= pipe_rate
 
                 if (pipes[i].x <= -pipe_width) { //Check if pipe went off-screen
                     pipes[i].x = c.width
+                    pipes[i].passed = false
                     pipes[i].y = random_height()
-                } else {
-                    pipe_passed_check(old_x, pipes[i].x, pipes[i].y)
+                } else if (!pipes[i].passed) {
+                    pipe_collision_check(pipes[i])
                 }
             }
         }
 
-        function pipe_passed_check(old_x, new_x, pipe_y) {
-            if (old_x >= px + sprite_width && new_x <= px + sprite_width) {
-                if (pipe_y < py && py < (pipe_y + pipe_gap)) {
-                    score += 1
-                } else {
-                    end_game()
-                }
+        function pipe_collision_check(pipe) {
+            if ((px + sprite_width) > pipe.x && px < (pipe.x + pipe_width) &&
+                ((py + sprite_height) < pipe.y || py > (pipe.y + pipe_gap))) {
+                end_game()
+            }
+            if (px > (pipe.x + pipe_width)) {
+                pipe.passed = true
+                score += 1
             }
         }
 
@@ -261,12 +268,12 @@
                     clearInterval(moving_up)
                     var moved_up_counter = 0
                     moving_up = setInterval(function() {
-                        py -= up_amount / 5
+                        py -= up_amount
                         moved_up_counter += 1
                         if (moved_up_counter == 5) {
                             clearInterval(moving_up)
                         }
-                    }, 10)
+                    }, 20)
                 }
 
                 if (p_angle > min_p_angle) {
@@ -302,6 +309,7 @@
 
         function end_game() {
             game_over = true
+            clearInterval(moving_up)
             clearInterval(game_stepper)
             setTimeout(function() {
                 // if (game_over && confirm('You died, play again?')) { // reset() // }
