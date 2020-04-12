@@ -154,12 +154,14 @@
 
         function draw() {
             ctx.clearRect(0, 0, c.width, c.height);
+            ctx.font = "30px Comic Sans MS";
+            ctx.fillStyle = "white";
+            ctx.fillText(score, 10, 40);
 
             draw_pipes()
             draw_sprite()
 
             if (game_over) {
-                ctx.font = "30px Comic Sans MS";
                 ctx.fillStyle = "red";
                 ctx.textAlign = "center";
                 ctx.fillText("Game Over", c.width / 2, c.height / 2);
@@ -215,7 +217,7 @@
         }
 
         function pipe_passed_check(old_x, new_x, pipe_y) {
-            if (old_x >= px && new_x <= px) {
+            if (old_x >= px && new_x <= px + sprite_width) {
                 if (pipe_y < py && py < (pipe_y + pipe_gap)) {
                     score += 1
                 } else {
