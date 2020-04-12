@@ -64,6 +64,7 @@
         var min_p_angle = -1.5
 
         var end_move_up
+        var moving_up
 
         var unit
         var up_amount
@@ -155,6 +156,7 @@
         function draw() {
             ctx.clearRect(0, 0, c.width, c.height);
             ctx.font = "30px Comic Sans MS";
+            ctx.textAlign = "left";
             ctx.fillStyle = "white";
             ctx.fillText(score, 10, 40);
 
@@ -217,7 +219,7 @@
         }
 
         function pipe_passed_check(old_x, new_x, pipe_y) {
-            if (old_x >= px && new_x <= px + sprite_width) {
+            if (old_x >= px + sprite_width && new_x <= px + sprite_width) {
                 if (pipe_y < py && py < (pipe_y + pipe_gap)) {
                     score += 1
                 } else {
@@ -227,6 +229,7 @@
         }
 
         function draw_pipes() {
+            ctx.fillStyle = "green";
             for (var i = 0; i < pipes.length; i++) {
                 ctx.fillRect(
                     pipes[i].x,
@@ -255,7 +258,15 @@
                     game_stepper = setInterval(game_step, 20)
                 }
                 if (py > min_y) {
-                    py -= up_amount
+                    clearInterval(moving_up)
+                    var moved_up_counter = 0
+                    moving_up = setInterval(function() {
+                        py -= up_amount / 10
+                        moved_up_counter += 1
+                        if (moved_up_counter == 10) {
+                            clearInterval(moving_up)
+                        }
+                    }, 10)
                 }
 
                 if (p_angle > min_p_angle) {
