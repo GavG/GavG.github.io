@@ -29,8 +29,13 @@
         var c = document.getElementById("canvas")
         var ctx = c.getContext("2d")
 
-        let sprite = new Image(16, 8)
+        let sprite = new Image(33, 16)
         let sprite_src = 'sprite.png'
+
+        let sprite_width = 16
+        let sprite_height = 16
+        let sprite_2_offset = sprite_width + 1
+
         var ox
         var oy
 
@@ -38,11 +43,15 @@
         var py
 
         var sx = 0
+        var end_move_up
 
         var unit
         var up_amount
         var sprite_size
+
+        var acceleration = 0.2
         var down_amount
+
         var min_y
 
         var game_over
@@ -72,8 +81,8 @@
             c.width = window.screen.width;
             c.height = window.screen.height;
             unit = c.height / 50
-            up_amount = 5 * unit
-            down_amount = unit / 5
+            up_amount = 6 * unit
+            down_amount = unit / 3
             sprite_size = 5 * unit
             min_y = sprite_size
             max_y = c.height - min_y
@@ -83,7 +92,7 @@
 
         function draw() {
             ctx.clearRect(0, 0, c.width, c.height);
-            ctx.drawImage(sprite, sx, 0, 8, 8, px, py, sprite_size, sprite_size)
+            ctx.drawImage(sprite, sx, 0, sprite_width, sprite_height, px, py, sprite_size, sprite_size)
 
             if (game_over) {
                 ctx.font = "30px Comic Sans MS";
@@ -98,6 +107,7 @@
         }
 
         function move_up() {
+            down_amount = unit / 5
             if (!game_over) {
                 if (!game_started) {
                     game_started = true
@@ -107,7 +117,12 @@
                     py -= up_amount
                 }
 
-                sx = 8
+                sx = sprite_2_offset
+
+                clearTimeout(end_move_up)
+                end_move_up = setTimeout(function() {
+                    sx = 0
+                }, 200)
 
                 window.requestAnimationFrame(draw)
             }
@@ -117,6 +132,7 @@
             if (!game_over) {
                 if (py < max_y) {
                     py += down_amount
+                    down_amount += acceleration
                 } else {
                     game_over = true
                     clearInterval(gravity)
@@ -126,7 +142,6 @@
                         }
                     }, 50)
                 }
-                sx = 0
             }
         }
 
