@@ -16,7 +16,7 @@
         }
 
         #canvas {
-            background-color: #ff6;
+            background-color: #fb6;
         }
     </style>
 </head>
@@ -57,7 +57,7 @@
         var game_over
         var game_started
 
-        var gravity
+        var game_stepper
 
         init()
 
@@ -106,12 +106,21 @@
             }
         }
 
+        function game_step() {
+            move_down()
+            draw_obstacles()
+        }
+
+        function draw_obstacles() {
+
+        }
+
         function move_up() {
             down_amount = unit / 5
             if (!game_over) {
                 if (!game_started) {
                     game_started = true
-                    gravity = setInterval(move_down, 20)
+                    game_stepper = setInterval(game_step, 20)
                 }
                 if (py > min_y) {
                     py -= up_amount
@@ -135,7 +144,7 @@
                     down_amount += acceleration
                 } else {
                     game_over = true
-                    clearInterval(gravity)
+                    clearInterval(game_stepper)
                     setTimeout(function() {
                         if (game_over && confirm('You died, play again?')) {
                             reset()
