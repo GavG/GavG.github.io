@@ -226,7 +226,7 @@
 
         function pipe_collision_check(pipe) {
             if ((px + sprite_width) > pipe.x && px < (pipe.x + pipe_width) &&
-                ((py + sprite_height) < pipe.y || py > (pipe.y + pipe_gap))) {
+                (py < pipe.y || (py + sprite_height) > (pipe.y + pipe_gap))) {
                 end_game()
             }
             if (px > (pipe.x + pipe_width)) {
