@@ -51,6 +51,8 @@
         var sprite
         let sprites
 
+        var score = 0
+
         var ox
         var oy
 
@@ -82,6 +84,7 @@
 
         let pipe_offset_height
         let pipe_range
+        let pipe_gap
 
         init()
 
@@ -121,6 +124,7 @@
             pipe_rate = c.width / 200
 
             pipe_offset_height = c.height / 5
+            pipe_gap = sprite_height * 1.5
             pipe_range = c.height * (3 / 5)
 
             pipes[0] = {
@@ -196,11 +200,26 @@
 
         function move_pipes() {
             for (var i = 0; i < pipes.length; i++) {
+
+                var old_x = pipes[i].x
+
                 pipes[i].x -= pipe_rate
-                if (pipes[i].x <= -pipe_width) {
+
+                if (pipes[i].x <= -pipe_width) { //Check if pipe went off-screen
                     pipes[i].x = c.width
                     pipes[i].y = random_height()
-                    //Increment score
+                } else {
+                    pipe_passed_check(old_x, pipes[i].x, pipes[i].y)
+                }
+            }
+        }
+
+        function pipe_passed_check(old_x, new_x, pipe_y) {
+            if (old_x >= px && new_x <= px) {
+                if (pipe_y < py && py > (pipe_y + pipe_gap)) {
+                    score += 1
+                } else {
+                    end_game()
                 }
             }
         }
@@ -257,13 +276,17 @@
 
                     down_amount += acceleration
                 } else {
-                    game_over = true
-                    clearInterval(game_stepper)
-                    setTimeout(function() {
-                        // if (game_over && confirm('You died, play again?')) { // reset() // }
-                    }, 50)
+                    end_game()
                 }
             }
+        }
+
+        function end_game() {
+            game_over = true
+            clearInterval(game_stepper)
+            setTimeout(function() {
+                // if (game_over && confirm('You died, play again?')) { // reset() // }
+            }, 50)
         }
 
         function registerEventListeners() {
