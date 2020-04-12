@@ -261,9 +261,9 @@
                     clearInterval(moving_up)
                     var moved_up_counter = 0
                     moving_up = setInterval(function() {
-                        py -= up_amount / 10
+                        py -= up_amount / 5
                         moved_up_counter += 1
-                        if (moved_up_counter == 10) {
+                        if (moved_up_counter == 5) {
                             clearInterval(moving_up)
                         }
                     }, 10)
