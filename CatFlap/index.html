@@ -47,6 +47,7 @@
 
         let sprite_width
         let sprite_height
+        var leeway
 
         var sprite
         let sprites
@@ -110,11 +111,13 @@
             c.height = c.offsetHeight;
 
             unit = c.height / 50
-            up_amount = 1.2 * unit
+            up_amount = unit
             down_amount = unit / 4
 
             sprite_width = unit * 2
             sprite_height = unit * 2
+
+            leeway = unit / 4
 
             min_y = sprite_height
             max_y = c.height - min_y
@@ -242,8 +245,8 @@
         }
 
         function pipe_collision_check(pipe) {
-            if ((px + sprite_width) > pipe.x && px < (pipe.x + pipe_width) &&
-                (py < pipe.y || (py + sprite_height) > (pipe.y + pipe_gap))) {
+            if ((px + sprite_width - leeway) > pipe.x && px < (pipe.x + pipe_width) &&
+                (((py + leeway) < pipe.y) || (py + sprite_height - leeway) > (pipe.y + pipe_gap))) {
                 end_game()
             }
             if (px > (pipe.x + pipe_width)) {
@@ -284,13 +287,14 @@
                 if (py > min_y) {
                     clearInterval(moving_up)
                     var moved_up_counter = 0
+                    py -= up_amount
                     moving_up = setInterval(function() {
-                        py -= up_amount
                         moved_up_counter += 1
-                        if (moved_up_counter == 5) {
+                        py -= (up_amount * (1 - (moved_up_counter / 10)))
+                        if (moved_up_counter == 8) {
                             clearInterval(moving_up)
                         }
-                    }, 20)
+                    }, 10)
                 }
 
                 if (p_angle > min_p_angle) {
