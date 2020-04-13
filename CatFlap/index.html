@@ -323,24 +323,25 @@
         }
 
         function move_up() {
-            down_amount = unit / 5
+            clearInterval(moving_up)
             if (!game_over) {
                 if (!game_started) {
                     game_started = true
                     game_stepper = setInterval(game_step, 20)
                 }
                 if (py > min_y) {
-                    clearInterval(moving_up)
                     var moved_up_counter = 0
                     py -= up_amount
                     moving_up = setInterval(function() {
                         moved_up_counter += 1
-                        py -= (up_amount * (1 - (moved_up_counter / 10)))
-                        if (moved_up_counter == 8) {
+                        py -= up_amount
+                        if (moved_up_counter == 5) {
                             clearInterval(moving_up)
                         }
-                    }, 5)
+                    }, 10)
                 }
+
+                down_amount = unit / 4
 
                 if (p_angle > min_p_angle) {
                     p_angle -= ((p_angle / 2) + 0.3)
