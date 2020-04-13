@@ -66,6 +66,9 @@
         let sprite_img = new Image(35, 18)
         let sprite_src = 'sprite.png'
 
+        let move_up_sound = document.createElement("audio")
+        move_up_sound.src = "meow.mp3"
+
         let original_sprite_width = 16
         let original_sprite_height = 16
 
@@ -334,6 +337,8 @@
                 }
 
                 set_sprite('jumping')
+
+                move_up_sound.play()
 
                 clearTimeout(end_move_up)
                 end_move_up = setTimeout(function() {
