@@ -20,11 +20,30 @@
             background-color: #333;
         }
 
+        .wrapper {
+            position: relative;
+        }
+
         #canvas {
             display: block;
             background-color: #fb6;
             max-width: 500px;
             margin: auto;
+        }
+
+        #play {
+            display: none;
+            position: absolute;
+            bottom: 20%;
+            left: 0;
+            right: 0;
+            z-index: 1;
+            margin: auto;
+            background-color: #2fb;
+            border: solid 3px #fff;
+            border-radius: 8px;
+            font-size: 30px;
+            color: #92b;
         }
     </style>
 </head>
@@ -33,11 +52,16 @@
 
     <div class='wrapper'>
         <canvas id="canvas"></canvas>
+
+        <button id="play">PLAY AGAIN</button>
     </div>
 
     <script>
         var c = document.getElementById("canvas")
         var ctx = c.getContext("2d")
+
+        let play_button = document.getElementById("play")
+        play_button.addEventListener('click', reset)
 
         let sprite_img = new Image(35, 18)
         let sprite_src = 'sprite.png'
@@ -103,6 +127,8 @@
             px = ox
             game_over = false
             game_started = false
+            play_button.style.display = 'none'
+            init_pipes()
             draw()
         }
 
@@ -132,6 +158,21 @@
             pipe_gap = sprite_height * 5
             pipe_range = c.height * (3 / 5)
 
+            init_pipes()
+
+            sprites = {
+                'resting': {
+                    'offset_x': 1,
+                    'offset_y': 1,
+                },
+                'jumping': {
+                    'offset_x': 2 + original_sprite_width,
+                    'offset_y': 1,
+                },
+            }
+        }
+
+        function init_pipes() {
             pipes[0] = {
                 x: c.width,
                 y: random_height(),
@@ -146,17 +187,6 @@
                 x: c.width + pipe_width * 15,
                 y: random_height(),
                 passed: false,
-            }
-
-            sprites = {
-                'resting': {
-                    'offset_x': 1,
-                    'offset_y': 1,
-                },
-                'jumping': {
-                    'offset_x': 2 + original_sprite_width,
-                    'offset_y': 1,
-                },
             }
         }
 
@@ -177,6 +207,8 @@
         }
 
         function draw_end_screen() {
+            ctx.fillStyle = "#fff5"
+            ctx.fillRect(0, 0, c.width, c.height);
             ctx.fillStyle = "red"
             ctx.textAlign = "center"
             ctx.fillText("Game Over", c.width / 2, c.height / 2)
@@ -335,9 +367,11 @@
             if (score > high_score) {
                 set_high_score(score)
             }
-            setTimeout(function() {
-                // if (game_over && confirm('You died, play again?')) { // reset() // }
-            }, 50)
+            show_play_button()
+        }
+
+        function show_play_button() {
+            play_button.style.display = 'block'
         }
 
         function set_high_score(score) {
