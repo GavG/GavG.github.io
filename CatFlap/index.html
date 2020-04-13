@@ -124,7 +124,6 @@
 
         function init() {
             resize()
-            set_sprite('resting')
             register_event_listeners()
             sprite_img.src = sprite_src
         }
@@ -132,10 +131,12 @@
         function reset() {
             py = oy
             px = ox
+            p_angle = 0
             score = 0
             game_over = false
             game_started = false
             play_button.style.display = 'none'
+            set_sprite('resting')
             init_pipes()
             draw()
         }
