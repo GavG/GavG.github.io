@@ -124,7 +124,7 @@
         function init() {
             resize()
             set_sprite('resting')
-            registerEventListeners()
+            register_event_listeners()
             sprite_img.src = sprite_src
         }
 
@@ -394,7 +394,7 @@
             localStorage.setItem('highscore', score)
         }
 
-        function registerEventListeners() {
+        function register_event_listeners() {
             sprite_img.addEventListener('load', function() {
 
                 reset()
