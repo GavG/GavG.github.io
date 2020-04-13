@@ -103,6 +103,7 @@
         var up_amount
 
         var acceleration = 0.15
+        var original_down_amount
         var down_amount
 
         var min_y
@@ -147,7 +148,8 @@
 
             unit = c.height / 50
             up_amount = unit
-            down_amount = unit / 4
+            original_down_amount = unit / 4
+            down_amount = original_down_amount
 
             sprite_width = unit * 2
             sprite_height = unit * 2
@@ -341,7 +343,7 @@
                     }, 10)
                 }
 
-                down_amount = unit / 4
+                down_amount = original_down_amount
 
                 if (p_angle > min_p_angle) {
                     p_angle -= ((p_angle / 2) + 0.3)
