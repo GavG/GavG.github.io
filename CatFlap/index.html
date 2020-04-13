@@ -69,6 +69,9 @@
         let move_up_sound = document.createElement("audio")
         move_up_sound.src = "meow.mp3"
 
+        let dead_sound = document.createElement("audio")
+        dead_sound.src = "dead.mp3"
+
         let original_sprite_width = 16
         let original_sprite_height = 16
 
@@ -171,6 +174,10 @@
                 },
                 'jumping': {
                     'offset_x': 2 + original_sprite_width,
+                    'offset_y': 1,
+                },
+                'dead': {
+                    'offset_x': 3 + (2 * original_sprite_width),
                     'offset_y': 1,
                 },
             }
@@ -367,12 +374,14 @@
         }
 
         function end_game() {
+            dead_sound.play()
             game_over = true
             clearInterval(moving_up)
             clearInterval(game_stepper)
             if (score > high_score) {
                 set_high_score(score)
             }
+            set_sprite('dead')
             show_play_button()
         }
 
