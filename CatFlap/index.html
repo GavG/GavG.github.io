@@ -111,7 +111,9 @@
         var game_over
         var game_started
 
-        var game_stepper
+        var game_step_interval = 2
+        var game_step_time
+        var last_game_step_time = (new Date()).getTime()
 
         var pipe_width
         var pipes = []
@@ -217,6 +219,13 @@
             }
 
             if (game_started && !game_over) {
+
+                game_step_time = (new Date()).getTime()
+                if (game_step_time > (last_game_step_time + game_step_interval)) {
+                    game_step()
+                    last_game_step_time = game_step_time
+                }
+
                 window.requestAnimationFrame(draw)
             }
         }
@@ -329,7 +338,6 @@
             if (!game_over) {
                 if (!game_started) {
                     game_started = true
-                    game_stepper = setInterval(game_step, 20)
                 }
                 if (py > min_y) {
                     var moved_up_counter = 0
@@ -382,7 +390,6 @@
             dead_sound.play()
             game_over = true
             clearInterval(moving_up)
-            clearInterval(game_stepper)
             if (score > high_score) {
                 set_high_score(score)
             }
