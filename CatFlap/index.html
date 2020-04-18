@@ -22,7 +22,7 @@
 
         .wrapper {
             position: relative;
-            background-color: #8D8;
+            background-color: #6C6;
             max-width: 500px;
             margin: auto;
         }
@@ -31,13 +31,13 @@
             height: 70%;
             width: 100%;
             display: block;
-            background-color: #22E;
+            background-color: #91D8F5;
         }
 
         #play {
             display: none;
             position: absolute;
-            bottom: 20%;
+            bottom: 11%;
             left: 0;
             right: 0;
             z-index: 1;
@@ -77,6 +77,8 @@
 
         let original_sprite_width = 16
         let original_sprite_height = 16
+
+        let bottom_pipe_color = "#da5"
 
         let sprite_width
         let sprite_height
@@ -350,7 +352,7 @@
         }
 
         function draw_pipes() {
-            ctx.fillStyle = "#fb6";
+            ctx.fillStyle = bottom_pipe_color;
             for (var i = 0; i < pipes.length; i++) {
                 ctx.fillRect(
                     pipes[i].x,
