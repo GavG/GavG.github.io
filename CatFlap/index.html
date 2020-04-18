@@ -92,6 +92,8 @@
         var px
         var py
 
+        var py_target
+
         var p_angle = 0
         var max_p_angle = 1.5
         var min_p_angle = -1.5
@@ -134,6 +136,7 @@
         function reset() {
             py = oy
             px = ox
+            py_target = null
             p_angle = 0
             score = 0
             game_over = false
@@ -149,7 +152,8 @@
             c.height = c.offsetHeight;
 
             unit = c.height / 50
-            up_amount = unit
+            up_amount = unit * 4
+            up_increment = unit * 1.2
             original_down_amount = unit / 6
             down_amount = original_down_amount
 
@@ -251,8 +255,17 @@
         }
 
         function draw_sprite() {
+            if (py_target) {
+                py -= up_increment
+                if (py <= py_target) {
+                    py_target = null
+                    set_sprite('resting')
+                }
+            }
+
             let _px = px
             let _py = py
+
             ctx.translate(_px, _py)
             ctx.rotate(p_angle)
             ctx.drawImage(
@@ -334,39 +347,24 @@
         }
 
         function move_up() {
-            clearInterval(moving_up)
             if (!game_over) {
                 if (!game_started) {
                     game_started = true
+                    window.requestAnimationFrame(draw)
                 }
                 if (py > min_y) {
                     var moved_up_counter = 0
-                    py -= up_amount
-                    moving_up = setInterval(function() {
-                        moved_up_counter += 1
-                        py -= up_amount
-                        if (moved_up_counter == 5) {
-                            clearInterval(moving_up)
-                        }
-                    }, 10)
+                    py_target = Math.max(py - up_amount, 0)
+                    set_sprite('jumping')
+
+                    if (p_angle > min_p_angle) {
+                        p_angle = -0.5
+                    }
+
+                    down_amount = original_down_amount
+
+                    move_up_sound.play()
                 }
-
-                down_amount = original_down_amount
-
-                if (p_angle > min_p_angle) {
-                    p_angle -= ((p_angle / 2) + 0.3)
-                }
-
-                set_sprite('jumping')
-
-                move_up_sound.play()
-
-                clearTimeout(end_move_up)
-                end_move_up = setTimeout(function() {
-                    set_sprite('resting')
-                }, 200)
-
-                window.requestAnimationFrame(draw)
             }
         }
 
