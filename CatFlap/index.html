@@ -231,7 +231,9 @@
             draw_score()
 
             if (game_over) {
+                set_sprite('dead')
                 draw_end_screen()
+                window.requestAnimationFrame(draw)
             }
 
             if (game_started && !game_over) {
@@ -247,23 +249,26 @@
         }
 
         function draw_end_screen() {
-            ctx.fillStyle = "#fff5"
-            ctx.fillRect(0, 0, c.width, c.height);
             ctx.fillStyle = "red"
             ctx.textAlign = "center"
             ctx.fillText("Game Over", c.width / 2, c.height / 2)
 
-            draw_high_score()
+            draw_scores()
         }
 
-        function draw_high_score() {
+        function draw_scores() {
             ctx.fillStyle = "#22F"
             ctx.textAlign = "center"
-            ctx.fillText("High Score", c.width / 2, c.height / 4)
+            ctx.fillText("Score", c.width / 2, unit * 10)
             ctx.fillStyle = "#FFF"
-            ctx.fillText(high_score, c.width / 2, (c.height / 4) + 35)
+            ctx.fillText(score, c.width / 2, unit * 20)
+            ctx.fillStyle = "#22F"
+            ctx.textAlign = "center"
+            ctx.fillText("High Score", c.width / 2, unit * 40)
+            ctx.fillStyle = "#FFF"
+            ctx.fillText(high_score, c.width / 2, unit * 50)
             ctx.fillStyle = "#000"
-            ctx.strokeText(high_score, c.width / 2, (c.height / 4) + 35)
+            ctx.strokeText(high_score, c.width / 2, unit * 50)
         }
 
         function draw_sprite() {
@@ -407,11 +412,10 @@
         function end_game() {
             dead_sound.play()
             game_over = true
-            clearInterval(moving_up)
+            py_target = null
             if (score > high_score) {
                 set_high_score(score)
             }
-            set_sprite('dead')
             show_play_button()
         }
 
