@@ -102,7 +102,7 @@
         var p_angle = 0
         var target_p_angle = 0
         var max_p_angle = 1.5
-        var min_p_angle = -1.5
+        var min_p_angle = -0.5
 
         var end_move_up
         var moving_up
@@ -169,7 +169,7 @@
             sprite_width = unit * 3
             sprite_height = unit * 3
 
-            leeway = sprite_height / 12
+            leeway = sprite_height / 4
 
             min_y = sprite_height
             max_y = c.height - min_y
@@ -277,17 +277,11 @@
 
             let dir = py - last_py
 
-            // if (dir > 0) { // target_p_angle += 0.02 // } else { // target_p_angle -= 0.05 // }
-
-            console.log(dir)
-
-            if (p_angle < target_p_angle) p_angle += 0.1
-
-            if (p_angle > target_p_angle) p_angle -= 0.2
-
             if (dir < dir_threshold) {
+                p_angle = Math.max(p_angle - 0.05, min_p_angle)
                 set_sprite('resting')
             } else {
+                p_angle = Math.min(p_angle + 0.05, max_p_angle)
                 set_sprite('jumping')
             }
 
