@@ -99,7 +99,7 @@
         var last_py
 
         var p_angle = 0
-        var target_p_angle = 0
+        var p_target_angle = 0
         var max_p_angle = 1.5
         var min_p_angle = -0.5
 
@@ -165,7 +165,7 @@
             original_down_amount = unit / 6
             down_amount = original_down_amount
 
-            dir_threshold = unit / 4
+            dir_threshold = unit / 3
 
             sprite_width = unit * 3
             sprite_height = unit * 3
@@ -315,11 +315,12 @@
             let dir = py - last_py
 
             if (dir > dir_threshold) {
-                p_angle = Math.min(p_angle + 0.05, max_p_angle)
+                p_target_angle = max_p_angle
                 set_sprite('jumping')
+                if (p_angle < p_target_angle) p_angle += 0.05
             } else {
-                p_angle = Math.max(p_angle - 0.07, min_p_angle)
                 set_sprite('resting')
+                if (p_angle > p_target_angle) p_angle -= 0.05
             }
 
             last_py = py
@@ -390,8 +391,10 @@
                 }
                 if (py > min_y) {
                     py_target = Math.max(py - up_amount, 0)
+                    p_target_angle = min_p_angle
                     down_amount = original_down_amount
                     move_up_sound.play()
+                    p_angle = 0
                 }
             }
         }
