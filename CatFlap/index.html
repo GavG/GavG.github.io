@@ -82,7 +82,6 @@
 
         let sprite_width
         let sprite_height
-        var leeway
 
         var sprite
         let sprites
@@ -132,6 +131,8 @@
         let pipe_range
         let pipe_gap
 
+        var leeway
+
         init()
 
         function init() {
@@ -169,13 +170,16 @@
             sprite_width = unit * 3
             sprite_height = unit * 3
 
-            leeway = sprite_height / 4
+            leeway = sprite_height / 6
 
-            min_y = sprite_height
-            max_y = c.height - min_y
+            half_sprite_width = sprite_width / 2
+            half_sprite_height = sprite_height / 2
 
-            oy = (c.height / 2) - (sprite_height / 2)
-            ox = (c.width / 2) - (sprite_width / 2)
+            min_y = 0
+            max_y = c.height - sprite_height
+
+            oy = c.height / 2
+            ox = c.width / 2
 
             pipe_width = c.width / 21
             pipe_rate = c.width / 220
@@ -263,8 +267,7 @@
         }
 
         function draw_sprite() {
-            if (py_target) {
-
+            if (py_target !== null) {
                 py -= up_increment
 
                 if (py <= py_target) {
@@ -272,33 +275,23 @@
                 }
             }
 
-            let _px = px
-            let _py = py
-
-            let dir = py - last_py
-
-            if (dir < dir_threshold) {
-                p_angle = Math.max(p_angle - 0.05, min_p_angle)
-                set_sprite('resting')
-            } else {
-                p_angle = Math.min(p_angle + 0.05, max_p_angle)
-                set_sprite('jumping')
-            }
-
-            last_py = py
+            let _px = px + half_sprite_width
+            let _py = py + half_sprite_height
 
             ctx.translate(_px, _py)
+
             ctx.rotate(p_angle)
+
             ctx.drawImage(
                 sprite_img,
                 sprite.offset_x,
                 sprite.offset_y,
                 original_sprite_width,
-                original_sprite_height,
-                0, 0,
+                original_sprite_height, -half_sprite_width, -half_sprite_height,
                 sprite_width,
                 sprite_height,
             )
+
             ctx.rotate(-p_angle)
             ctx.translate(-_px, -_py)
         }
@@ -311,8 +304,20 @@
         }
 
         function game_step() {
-            move_down()
             move_pipes()
+            move_down()
+
+            let dir = py - last_py
+
+            if (dir > dir_threshold) {
+                p_angle = Math.min(p_angle + 0.05, max_p_angle)
+                set_sprite('jumping')
+            } else {
+                p_angle = Math.max(p_angle - 0.07, min_p_angle)
+                set_sprite('resting')
+            }
+
+            last_py = py
         }
 
         function random_height() {
@@ -335,8 +340,13 @@
         }
 
         function pipe_collision_check(pipe) {
-            if ((px + sprite_width - leeway) > pipe.x && px < (pipe.x + pipe_width) &&
-                (((py + leeway) < pipe.y) || (py + sprite_height - leeway) > (pipe.y + pipe_gap))) {
+            if (
+                ((px + sprite_width) > pipe.x) &&
+                (px < (pipe.x + pipe_width - leeway)) && (
+                    (py + leeway < pipe.y) ||
+                    (py + sprite_height - leeway > (pipe.y + pipe_gap))
+                )
+            ) {
                 end_game()
             }
             if (px > (pipe.x + pipe_width)) {
