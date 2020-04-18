@@ -9,8 +9,7 @@
     <style>
         html,
         body,
-        .wrapper,
-        #canvas {
+        .wrapper {
             width: 100%;
             height: 100%;
         }
@@ -23,13 +22,16 @@
 
         .wrapper {
             position: relative;
+            background-color: #8D8;
+            max-width: 500px;
+            margin: auto;
         }
 
         #canvas {
+            height: 70%;
+            width: 100%;
             display: block;
             background-color: #fb6;
-            max-width: 500px;
-            margin: auto;
         }
 
         #play {
@@ -413,7 +415,7 @@
                     if (e.keyCode == 32) move_up()
                 })
 
-                c.addEventListener('mousedown', move_up)
+                document.addEventListener('mousedown', move_up)
             })
         }
     </script>
