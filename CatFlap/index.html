@@ -69,6 +69,16 @@
         let sprite_img = new Image(35, 18)
         let sprite_src = 'sprite.png'
 
+        let post_img = new Image(60, 57)
+        let post_src = 'rope.png'
+
+        let images = [
+            sprite_img,
+            post_img,
+        ]
+
+        let post_pattern
+
         let move_up_sound = document.createElement("audio")
         move_up_sound.src = "meow.mp3"
 
@@ -139,6 +149,7 @@
             resize()
             register_event_listeners()
             sprite_img.src = sprite_src
+            post_img.src = post_src
         }
 
         function reset() {
@@ -356,14 +367,15 @@
         }
 
         function draw_pipes() {
-            ctx.fillStyle = bottom_pipe_color;
             for (var i = 0; i < pipes.length; i++) {
+                ctx.fillStyle = 'black'
                 ctx.fillRect(
                     pipes[i].x,
                     0,
                     pipe_width,
                     pipes[i].y
                 )
+                ctx.fillStyle = post_pattern
                 ctx.fillRect(
                     pipes[i].x,
                     pipes[i].y + pipe_gap,
@@ -425,17 +437,26 @@
             localStorage.setItem('highscore', score)
         }
 
-        function register_event_listeners() {
-            sprite_img.addEventListener('load', function() {
+        function check_all_images_loaded() {
+            for (var i = 0; i < images.length; i++) {
+                if (!images[i].complete) return
+            }
 
-                reset()
+            post_pattern = ctx.createPattern(post_img, 'repeat')
 
-                document.addEventListener('keydown', function(e) {
-                    if (e.keyCode == 32) move_up()
-                })
+            reset()
 
-                document.addEventListener('mousedown', move_up)
+            document.addEventListener('keydown', function(e) {
+                if (e.keyCode == 32) move_up()
             })
+
+            document.addEventListener('mousedown', move_up)
+        }
+
+        function register_event_listeners() {
+            for (var i = 0; i < images.length; i++) {
+                images[i].addEventListener('load', check_all_images_loaded)
+            }
         }
     </script>
 
