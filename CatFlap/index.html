@@ -67,15 +67,32 @@
         play_button.addEventListener('click', reset)
 
         let sprite_img = new Image(35, 18)
-        let sprite_src = 'sprite.png'
-
         let post_img = new Image(60, 57)
-        let post_src = 'rope.png'
+        let ball_w_img = new Image(30, 29)
+        let ball_r_img = new Image(30, 29)
+        let ball_y_img = new Image(30, 29)
 
-        let images = [
-            sprite_img,
-            post_img,
+        let ball_imgs = [
+            ball_w_img,
+            ball_r_img,
+            ball_y_img,
         ]
+
+        let original_ball_img_width = 30
+        let original_ball_img_height = 29
+
+        var half_ball_width
+        var half_ball_height
+        var ball_width
+        var ball_height
+
+        let images = {
+            'sprite.png': sprite_img,
+            'rope.png': post_img,
+            'ball_white.png': ball_w_img,
+            'ball_red.png': ball_r_img,
+            'ball_yellow.png': ball_y_img,
+        }
 
         let post_pattern
 
@@ -130,11 +147,12 @@
         var game_over
         var game_started
 
-        var game_step_interval = 2
+        var game_step_interval = 4
         var game_step_time
         var last_game_step_time = (new Date()).getTime()
 
         var pipe_width
+        var half_pipe_width
         var pipes = []
         var pipe_rate
 
@@ -148,8 +166,6 @@
         function init() {
             resize()
             register_event_listeners()
-            sprite_img.src = sprite_src
-            post_img.src = post_src
         }
 
         function reset() {
@@ -171,7 +187,7 @@
             c.height = c.offsetHeight;
 
             unit = c.height / 50
-            up_amount = unit * 6
+            up_amount = unit * 5.8
             up_increment = unit
             original_down_amount = unit / 6
             down_amount = original_down_amount
@@ -180,6 +196,12 @@
 
             sprite_width = unit * 3
             sprite_height = unit * 3
+
+            ball_width = unit * 3
+            ball_height = unit * 3
+
+            half_ball_width = ball_width / 2
+            half_ball_height = ball_height / 2
 
             leeway = sprite_height / 6
 
@@ -193,6 +215,7 @@
             ox = c.width / 2
 
             pipe_width = c.width / 21
+            half_pipe_width = pipe_width / 2
             pipe_rate = c.width / 220
 
             pipe_gap = sprite_height * 4
@@ -220,16 +243,19 @@
             pipes[0] = {
                 x: c.width,
                 y: random_height(),
+                ball_img: random_ball_img(),
                 passed: false,
             }
             pipes[1] = {
                 x: c.width + pipe_width * 8,
                 y: random_height(),
+                ball_img: random_ball_img(),
                 passed: false,
             }
             pipes[2] = {
                 x: c.width + pipe_width * 15,
                 y: random_height(),
+                ball_img: random_ball_img(),
                 passed: false,
             }
         }
@@ -344,6 +370,7 @@
                     pipes[i].x = c.width
                     pipes[i].passed = false
                     pipes[i].y = random_height()
+                    pipes[i].ball_img = random_ball_img()
                 } else if (!pipes[i].passed) {
                     pipe_collision_check(pipes[i])
                 }
@@ -366,15 +393,28 @@
             }
         }
 
+        function random_ball_img() {
+            return ball_imgs[Math.floor(Math.random() * ball_imgs.length)]
+        }
+
         function draw_pipes() {
             for (var i = 0; i < pipes.length; i++) {
                 ctx.fillStyle = 'black'
                 ctx.fillRect(
-                    pipes[i].x,
+                    pipes[i].x + half_pipe_width,
                     0,
-                    pipe_width,
+                    2,
                     pipes[i].y
                 )
+                ctx.translate(pipes[i].x, pipes[i].y - ball_height)
+                ctx.drawImage(
+                    pipes[i].ball_img,
+                    0,
+                    0,
+                    ball_width,
+                    ball_height,
+                )
+                ctx.translate(-pipes[i].x, -pipes[i].y + ball_height)
                 ctx.fillStyle = post_pattern
                 ctx.fillRect(
                     pipes[i].x,
@@ -454,8 +494,9 @@
         }
 
         function register_event_listeners() {
-            for (var i = 0; i < images.length; i++) {
-                images[i].addEventListener('load', check_all_images_loaded)
+            for (const [src, img] of Object.entries(images)) {
+                img.addEventListener('load', check_all_images_loaded)
+                img.src = src
             }
         }
     </script>
