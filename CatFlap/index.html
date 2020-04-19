@@ -257,18 +257,12 @@
         }
 
         function draw_scores() {
+            ctx.fillStyle = "#FFF"
+            ctx.textAlign = "center"
+            ctx.fillText("Score: " + score, c.width / 2, (c.height / 2) - 70)
             ctx.fillStyle = "#22F"
             ctx.textAlign = "center"
-            ctx.fillText("Score", c.width / 2, unit * 10)
-            ctx.fillStyle = "#FFF"
-            ctx.fillText(score, c.width / 2, unit * 20)
-            ctx.fillStyle = "#22F"
-            ctx.textAlign = "center"
-            ctx.fillText("High Score", c.width / 2, unit * 40)
-            ctx.fillStyle = "#FFF"
-            ctx.fillText(high_score, c.width / 2, unit * 50)
-            ctx.fillStyle = "#000"
-            ctx.strokeText(high_score, c.width / 2, unit * 50)
+            ctx.fillText("High Score: " + high_score, c.width / 2, (c.height / 2) + 70)
         }
 
         function draw_sprite() {
@@ -419,7 +413,7 @@
             if (score > high_score) {
                 set_high_score(score)
             }
-            show_play_button()
+            setTimeout(show_play_button, 500)
         }
 
         function show_play_button() {
