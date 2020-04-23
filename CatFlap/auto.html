@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+    <meta name='description' content='A flapping cat game, similar to Flappy Bird' />
+    <title>CatFlap</title>
+    <style>
+        html,
+        body,
+        .wrapper {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            margin: 0px;
+            border: 0px;
+            background-color: #222;
+        }
+
+        .wrapper {
+            position: relative;
+            background-color: #6C6;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        #canvas {
+            height: 70%;
+            width: 100%;
+            display: block;
+            background-color: #91D8F5;
+        }
+
+        #play {
+            display: none;
+            position: absolute;
+            bottom: 11%;
+            left: 0;
+            right: 0;
+            z-index: 1;
+            margin: auto;
+            background-color: #2fb;
+            border: solid 3px #fff;
+            border-radius: 8px;
+            font-size: 30px;
+            color: #92b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class='wrapper'>
+        <canvas id="canvas"></canvas>
+
+        <button id="play">PLAY AGAIN</button>
+    </div>
+
+    <script>
+        var c = document.getElementById("canvas")
+        var ctx = c.getContext("2d")
+
+        let play_button = document.getElementById("play")
+        play_button.addEventListener('click', reset)
+
+        let sprite_img = new Image(35, 18)
+        let post_img = new Image(60, 57)
+        let ball_w_img = new Image(30, 29)
+        let ball_r_img = new Image(30, 29)
+        let ball_y_img = new Image(30, 29)
+        let ball_p_img = new Image(30, 29)
+        let ball_g_img = new Image(30, 29)
+
+        let ball_imgs = [
+            ball_w_img,
+            ball_r_img,
+            ball_y_img,
+            ball_p_img,
+            ball_g_img,
+        ]
+
+        let original_ball_img_width = 30
+        let original_ball_img_height = 29
+
+        var half_ball_width
+        var half_ball_height
+        var ball_width
+        var ball_height
+
+        let images = {
+            'sprite.png': sprite_img,
+            'rope.png': post_img,
+            'ball_white.png': ball_w_img,
+            'ball_red.png': ball_r_img,
+            'ball_yellow.png': ball_y_img,
+            'ball_purple.png': ball_p_img,
+            'ball_green.png': ball_g_img,
+        }
+
+        let post_pattern
+
+        let move_up_sound = document.createElement("audio")
+        move_up_sound.src = "meow.mp3"
+
+        let dead_sound = document.createElement("audio")
+        dead_sound.src = "dead.mp3"
+
+        let original_sprite_width = 16
+        let original_sprite_height = 16
+
+        let bottom_pipe_color = "#da5"
+
+        let sprite_width
+        let sprite_height
+
+        var sprite
+        let sprites
+
+        var score = 0
+        var high_score = localStorage.getItem('highscore', score)
+
+        var ox
+        var oy
+
+        var px
+        var py
+
+        var py_target
+        var last_py
+
+        var p_angle = 0
+        var p_target_angle = 0
+        var max_p_angle = 1.5
+        var min_p_angle = -0.5
+
+        var end_move_up
+        var moving_up
+
+        var unit
+        var up_amount
+
+        var acceleration = 0.1
+        var original_down_amount
+        var down_amount
+
+        var dir_threshold
+
+        var min_y
+
+        var game_over
+        var game_started
+
+        var game_step_interval = 4
+        var game_step_time
+        var last_game_step_time = (new Date()).getTime()
+
+        var pipe_width
+        var half_pipe_width
+        var pipes = []
+        var pipe_rate
+
+        let pipe_range
+        let pipe_gap
+
+        var leeway
+
+        init()
+
+        function init() {
+            resize()
+            register_event_listeners()
+        }
+
+        function reset() {
+            py = oy
+            px = ox
+            py_target = null
+            p_angle = 0
+            score = 0
+            game_over = false
+            game_started = false
+            play_button.style.display = 'none'
+            set_sprite('resting')
+            init_pipes()
+            draw()
+        }
+
+        function resize() {
+            c.width = c.offsetWidth;
+            c.height = c.offsetHeight;
+
+            unit = c.height / 50
+            up_amount = unit * 5.8
+            up_increment = unit
+            original_down_amount = unit / 6
+            down_amount = original_down_amount
+
+            dir_threshold = unit / 4
+
+            sprite_width = unit * 3
+            sprite_height = unit * 3
+
+            ball_width = unit * 3
+            ball_height = unit * 3
+
+            half_ball_width = ball_width / 2
+            half_ball_height = ball_height / 2
+
+            leeway = sprite_height / 6
+
+            half_sprite_width = sprite_width / 2
+            half_sprite_height = sprite_height / 2
+
+            min_y = 0
+            max_y = c.height - sprite_height
+
+            oy = c.height / 2
+            ox = c.width / 2
+
+            pipe_width = c.width / 21
+            half_pipe_width = pipe_width / 2
+            pipe_rate = c.width / 220
+
+            pipe_gap = sprite_height * 4
+            pipe_range = c.height * (3 / 5)
+
+            init_pipes()
+
+            sprites = {
+                'resting': {
+                    'offset_x': 1,
+                    'offset_y': 1,
+                },
+                'jumping': {
+                    'offset_x': 2 + original_sprite_width,
+                    'offset_y': 1,
+                },
+                'dead': {
+                    'offset_x': 3 + (2 * original_sprite_width),
+                    'offset_y': 1,
+                },
+            }
+        }
+
+        function init_pipes() {
+            pipes[0] = {
+                x: c.width,
+                y: random_height(),
+                ball_img: random_ball_img(),
+                passed: false,
+            }
+            pipes[1] = {
+                x: c.width + pipe_width * 8,
+                y: random_height(),
+                ball_img: random_ball_img(),
+                passed: false,
+            }
+            pipes[2] = {
+                x: c.width + pipe_width * 15,
+                y: random_height(),
+                ball_img: random_ball_img(),
+                passed: false,
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            draw_pipes()
+            draw_sprite()
+            draw_score()
+
+            if (game_over) {
+                set_sprite('dead')
+                draw_end_screen()
+                window.requestAnimationFrame(draw)
+            }
+
+            if (game_started && !game_over) {
+
+                game_step_time = (new Date()).getTime()
+                if (game_step_time > (last_game_step_time + game_step_interval)) {
+                    game_step()
+                    last_game_step_time = game_step_time
+                }
+
+                window.requestAnimationFrame(draw)
+            }
+        }
+
+        function draw_end_screen() {
+            ctx.fillStyle = "red"
+            ctx.textAlign = "center"
+            ctx.fillText("Game Over", c.width / 2, c.height / 2)
+
+            draw_scores()
+        }
+
+        function draw_scores() {
+            ctx.fillStyle = "#FFF"
+            ctx.textAlign = "center"
+            ctx.fillText("Score: " + score, c.width / 2, (c.height / 2) - 70)
+            ctx.fillStyle = "#22F"
+            ctx.textAlign = "center"
+            ctx.fillText("High Score: " + high_score, c.width / 2, (c.height / 2) + 70)
+        }
+
+        function draw_sprite() {
+            if (py_target !== null) {
+                py -= up_increment
+
+                if (py <= py_target) {
+                    py_target = null
+                }
+            }
+
+            let _px = px + half_sprite_width
+            let _py = py + half_sprite_height
+
+            ctx.translate(_px, _py)
+
+            ctx.rotate(p_angle)
+
+            ctx.drawImage(
+                sprite_img,
+                sprite.offset_x,
+                sprite.offset_y,
+                original_sprite_width,
+                original_sprite_height, -half_sprite_width, -half_sprite_height,
+                sprite_width,
+                sprite_height,
+            )
+
+            ctx.rotate(-p_angle)
+            ctx.translate(-_px, -_py)
+        }
+
+        function draw_score() {
+            ctx.font = "30px Comic Sans MS"
+            ctx.textAlign = "left"
+            ctx.fillStyle = "white"
+            ctx.fillText(score, 10, 40)
+        }
+
+        function game_step() {
+            move_pipes()
+            move_down()
+
+            for (var i = 0; i < pipes.length; i++) {
+                if (!pipes[i].passed && pipes[i].x < (px + (pipe_width * 6))) {
+                    if (py > (pipes[i].y + pipe_gap - sprite_height) && py > pipes[i].y) {
+                        move_up()
+                    }
+                    break
+                }
+            }
+
+            let dir = py - last_py
+
+            if (dir > dir_threshold) {
+                p_target_angle = max_p_angle
+                set_sprite('jumping')
+                if (p_angle < p_target_angle) p_angle += 0.05
+            } else {
+                set_sprite('resting')
+                if (p_angle > p_target_angle) p_angle -= 0.05
+            }
+
+            last_py = py
+        }
+
+        function random_height() {
+            return (Math.random() * pipe_range)
+        }
+
+        function move_pipes() {
+            for (var i = 0; i < pipes.length; i++) {
+
+                pipes[i].x -= pipe_rate
+
+                if (pipes[i].x <= -pipe_width) { //Check if pipe went off-screen
+                    pipes[i].x = c.width
+                    pipes[i].passed = false
+                    pipes[i].y = random_height()
+                    pipes[i].ball_img = random_ball_img()
+                } else if (!pipes[i].passed) {
+                    pipe_collision_check(pipes[i])
+                }
+            }
+        }
+
+        function pipe_collision_check(pipe) {
+            if (
+                ((px + sprite_width) > pipe.x) &&
+                (px < (pipe.x + pipe_width - leeway)) && (
+                    (py + leeway < pipe.y) ||
+                    (py + sprite_height - leeway > (pipe.y + pipe_gap))
+                )
+            ) {
+                end_game()
+            }
+            if (px > (pipe.x + pipe_width)) {
+                pipe.passed = true
+                score += 1
+            }
+        }
+
+        function random_ball_img() {
+            return ball_imgs[Math.floor(Math.random() * ball_imgs.length)]
+        }
+
+        function draw_pipes() {
+            for (var i = 0; i < pipes.length; i++) {
+                ctx.fillStyle = 'black'
+                ctx.fillRect(
+                    pipes[i].x + half_pipe_width,
+                    0,
+                    2,
+                    pipes[i].y
+                )
+                ctx.translate(pipes[i].x, pipes[i].y - ball_height)
+                ctx.drawImage(
+                    pipes[i].ball_img,
+                    0,
+                    0,
+                    ball_width,
+                    ball_height,
+                )
+                ctx.translate(-pipes[i].x, -pipes[i].y + ball_height)
+                ctx.fillStyle = post_pattern
+                ctx.fillRect(
+                    pipes[i].x,
+                    pipes[i].y + pipe_gap,
+                    pipe_width,
+                    c.height
+                )
+            }
+        }
+
+        function set_sprite(key) {
+            sprite = sprites[key]
+        }
+
+        function move_up() {
+            if (!game_over) {
+                if (!game_started) {
+                    game_started = true
+                    window.requestAnimationFrame(draw)
+                }
+                if (py > min_y) {
+                    py_target = Math.max(py - up_amount, 0)
+                    p_target_angle = min_p_angle
+                    down_amount = original_down_amount
+                    move_up_sound.play()
+                    p_angle = 0
+                }
+            }
+        }
+
+        function move_down() {
+            if (!game_over) {
+                if (py >= max_y) {
+                    end_game()
+                }
+
+                if (!py_target) {
+                    py += down_amount
+                    down_amount += acceleration
+                }
+            }
+        }
+
+        function end_game() {
+            dead_sound.play()
+            game_over = true
+            py_target = null
+            if (score > high_score) {
+                set_high_score(score)
+            }
+            setTimeout(show_play_button, 500)
+        }
+
+        function show_play_button() {
+            play_button.style.display = 'block'
+        }
+
+        function set_high_score(score) {
+            high_score = score
+            localStorage.setItem('highscore', score)
+        }
+
+        function check_all_images_loaded() {
+            for (var i = 0; i < images.length; i++) {
+                if (!images[i].complete) return
+            }
+
+            post_pattern = ctx.createPattern(post_img, 'repeat')
+
+            reset()
+
+            document.addEventListener('keydown', function(e) {
+                if (e.keyCode == 32) move_up()
+            })
+
+            document.addEventListener('mousedown', move_up)
+        }
+
+        function register_event_listeners() {
+            for (const [src, img] of Object.entries(images)) {
+                img.addEventListener('load', check_all_images_loaded)
+                img.src = src
+            }
+        }
+    </script>
+
+</body>
+
+</html>
