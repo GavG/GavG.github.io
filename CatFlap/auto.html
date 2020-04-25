@@ -429,14 +429,16 @@
                     ball_width,
                     ball_height,
                 )
-                ctx.translate(-pipes[i].x, -pipes[i].y + ball_height)
+                ctx.translate(0, -pipes[i].y + ball_height)
                 ctx.fillStyle = post_pattern
                 ctx.fillRect(
-                    pipes[i].x,
+                    0,
                     pipes[i].y + pipe_gap,
                     pipe_width,
                     c.height
                 )
+
+                ctx.translate(-pipes[i].x, 0)
             }
         }
 
