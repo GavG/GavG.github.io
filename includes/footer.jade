@@ -4,4 +4,8 @@ footer.center.black.padding-16
         a(href="https://gavg.github.io/misc/mad/") Site Policy
 
 script(async src='/includes/scripts/main.min.js?v=2')
-script(async src='https://www.google-analytics.com/analytics.js')
+script.
+    window.dataLayer = window.dataLayer || []
+    function gtag(){dataLayer.push(arguments)}
+    gtag('js', new Date())
+    gtag('config', 'UA-123089114-1')
