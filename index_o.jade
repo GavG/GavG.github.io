@@ -1,4 +1,4 @@
-//output:index.html, pretty:false
+//output:index_o.html, pretty:false
 extends layout
 
 include includes/postLink
@@ -11,9 +11,6 @@ block meta
     meta(name="keywords" content="GavG,Programming,Tinkering,Hacking,Experiments")
     meta(name="author" content="GavG")
 
-block header
-    +banner(baseURL+'/images/logo.png', '#4682b4', '', 'png', baseURL+'/images/logo.webp')
-
 block scripts
     script.
         var logo = document.getElementById('bannerImg');
@@ -25,6 +22,9 @@ block scripts
         });
 
 block content
+
+    block header
+        +banner(baseURL+'/images/logo.png', '#4682b4', '', 'png', baseURL+'/images/logo.webp')
 
     div(id='about').container
         h3.border-bottom.border-light-grey.padding-16 About
