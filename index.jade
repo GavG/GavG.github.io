@@ -21,10 +21,10 @@ block scripts
             logo.style.webkitTransform = 'rotate(' + offset * 3 +'deg)';
         });
 
-block content
+block header
+    +banner(baseURL+'/images/logo.png', '#4682b4', '', 'png', baseURL+'/images/logo.webp')
 
-    block header
-        +banner(baseURL+'/images/logo.png', '#4682b4', '', 'png', baseURL+'/images/logo.webp')
+block content
 
     div(id='about').container
         h3.border-bottom.border-light-grey.padding-16 About
