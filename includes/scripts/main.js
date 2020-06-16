@@ -8,7 +8,7 @@ window.addEventListener('load', function() {
     }
 
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.min.js')
+        navigator.serviceWorker.register('/sw.js')
     }
 
     if (window.localStorage.getItem('cookie-consent')) {
