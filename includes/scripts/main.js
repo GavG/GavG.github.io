@@ -28,4 +28,5 @@ window.addEventListener('load', function() {
 
 function acceptCookies() {
     window.localStorage.setItem('cookie-consent', 1)
+    document.getElementById('cookieWarning').style.display = 'none'
 }
