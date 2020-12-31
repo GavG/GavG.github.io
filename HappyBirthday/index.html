@@ -9,6 +9,11 @@
         @import url(https://fonts.googleapis.com/css?family=Nobile:400italic,700italic);
         @import url(https://fonts.googleapis.com/css?family=Dancing+Script);
 
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
         @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
             html {
                 transform: rotate(-90deg);
@@ -20,6 +25,10 @@
                 top: 100%;
                 left: 0;
             }
+
+            #card h1 {
+                margin: 0;
+            }
         }
 
         * {
@@ -29,14 +38,22 @@
         }
 
         body {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            padding: 1rem;
             background: #ffa9a9;
-            padding: 50px;
+        }
+
+        #confetti-canvas {
+            min-width: 100%;
+            min-height: 100%;
         }
 
         #card,
         #card-front,
         #card-inside {
-            height: 480px;
+            height: 100%;
         }
 
         .wrap {
@@ -236,6 +253,7 @@
         </div>
     </div>
 
+    <script src="confetti.min.js"></script>
     <script>
         let url = new URL(window.location);
         let config = JSON.parse(atob(url.searchParams.get('z')))
@@ -250,23 +268,29 @@
             openB = document.getElementById('open'),
             closeB = document.getElementById('close'),
             timer = null
+            audio = null
 
             openB.addEventListener('click', function () {
-                card.setAttribute('class', 'open-half');
-                if (timer) clearTimeout(timer);
+                card.setAttribute('class', 'open-half')
+                if(!audio) {
+                    audio = new Audio('happy_birthday.mp3');
+                    audio.play()
+                    confetti.start()
+                }
+                if (timer) clearTimeout(timer)
                 timer = setTimeout(function () {
                     card.setAttribute('class', 'open-fully');
                     timer = null;
-                }, 1000);
+                }, 1000)
             })
 
             closeB.addEventListener('click', function () {
-                card.setAttribute('class', 'close-half');
-                if (timer) clearTimerout(timer);
+                card.setAttribute('class', 'close-half')
+                if (timer) clearTimerout(timer)
                 timer = setTimeout(function () {
-                    card.setAttribute('class', '');
+                    card.setAttribute('class', '')
                     timer = null;
-                }, 1000);
+                }, 1000)
             })
         })
 
