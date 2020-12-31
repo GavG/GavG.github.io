@@ -249,7 +249,7 @@
 
         <div id="card-front">
             <div class="wrap" id="wrapInner">
-                <h1>Happy Birthday!</h1>
+                <h1>Happy Birthday</h1>
                 <h1 id="toOuter"></h1>
             </div>
             <button id="open">&gt;</button>
@@ -264,8 +264,8 @@
 
         window.addEventListener('load', function(){
 
-            document.getElementById('toOuter').innerText = config.name
-            document.getElementById('toInner').innerText = config.name
+            document.getElementById('toOuter').innerText = config.name + '!'
+            document.getElementById('toInner').innerText = config.name + ','
             document.getElementById('sign').innerText = config.sign
 
             var card = document.getElementById('card'),
