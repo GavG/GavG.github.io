@@ -61,6 +61,10 @@
             height: 100%;
         }
 
+        #wrapInner {
+            background-size: cover;
+        }
+
         #card-front,
         #card-inside {
             width: 50%;
@@ -244,7 +248,7 @@
         </div>
 
         <div id="card-front">
-            <div class="wrap">
+            <div class="wrap" id="wrapInner">
                 <h1>Happy Birthday!</h1>
                 <h1 id="toOuter"></h1>
             </div>
@@ -273,13 +277,14 @@
             openB.addEventListener('click', function () {
                 card.setAttribute('class', 'open-half')
                 if(!audio) {
-                    audio = new Audio('happy_birthday.mp3');
+                    audio = new Audio('happy_birthday.mp3')
                     audio.play()
                     confetti.start()
                 }
                 if (timer) clearTimeout(timer)
                 timer = setTimeout(function () {
-                    card.setAttribute('class', 'open-fully');
+                    card.setAttribute('class', 'open-fully')
+                    document.getElementById('wrapInner').style.backgroundImage = 'url(' + config.image + ')'
                     timer = null;
                 }, 1000)
             })
@@ -289,6 +294,7 @@
                 if (timer) clearTimerout(timer)
                 timer = setTimeout(function () {
                     card.setAttribute('class', '')
+                    document.getElementById('wrapInner').style.backgroundImage = 'none'
                     timer = null;
                 }, 1000)
             })
