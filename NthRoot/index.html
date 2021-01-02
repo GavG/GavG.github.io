@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nth Root</title>
+</head>
+<body>
+    <input type="number" id="value_input" placeholder="value">
+    <input type="number" id="n_input" placeholder="n">
+    <button type="button" id="btn">Compute</button>
+    <span id="output"></span>
+    <script>
+        let iterations = 0
+        
+        window.addEventListener('load', function(){
+            let value_input = document.getElementById('value_input')
+            let n_input = document.getElementById('n_input')
+            let output = document.getElementById('output')
+            let btn = document.getElementById('btn')
+
+            btn.addEventListener('click', function(event){
+                iterations = 0
+                output.innerText = nthRoot(parseFloat(value_input.value), parseFloat(n_input.value))
+                console.log(iterations)
+            })
+        })
+
+        function nthRoot(value, n, precision = 4) {
+            return binSearch(0, value, (t) => compare(Math.pow(t, n), value, precision))
+        }
+
+        function compare(value, target, precision) {
+            value = +value.toFixed(precision)
+            target = +target.toFixed(precision)
+            return (value == target) ? 0 : (value > target ? 1 : -1)
+        }
+
+        function binSearch(start, end, callback) {
+            start = Math.min(start, end)
+            end = Math.max(start, end)
+            let guess = ((end - start) / 2) + start
+            let result = callback(guess)
+            iterations += 1
+            return result ? binSearch(result < 0 ? guess : start, result < 0 ? end : guess, callback) : guess
+        }
+    </script>
+</body>
+</html>
