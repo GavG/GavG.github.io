@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keypress detector</title>
+</head>
+<body>
+    <div id="keyLog"></div>
+    <script>
+        let keyLog = document.getElementById('keyLog')
+
+        function log(event, direction){
+            let el = document.createElement('p')
+            console.log(event)
+            el.innerText = (new Date()).getTime() 
+            + ' dir: ' 
+            + direction 
+            + ' key code: ' 
+            + event.code 
+            + ' alt: ' 
+            + event.altKey 
+            + ' ctrl: ' 
+            + event.ctrlKey
+            keyLog.append(el)
+        }
+
+        window.addEventListener('keydown', (e) => log(e, 'down'))
+        window.addEventListener('keyup', (e) => log(e, 'up'))
+    </script>
+</body>
+</html>
