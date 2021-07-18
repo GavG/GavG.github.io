@@ -260,7 +260,7 @@ main {
 }
 
 #main-header {
-    max-height: 200px;
+    max-height: 150px;
 }
 
 #profile-pic {
@@ -288,4 +288,10 @@ dl dt {
 
 dl dd {
     margin-left: 1rem;
+}
+
+@media screen and (min-width: 860px) {
+    #main-header {
+        max-height: 200px;
+    }
 }
