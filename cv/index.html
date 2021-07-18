@@ -16,41 +16,79 @@
 
 <body>
 
-    <main class="h-100 flex-col">
+    <main class="mnh-100 flex-col">
 
         <header id="main-header" class='bg-primary w-100 flex-row'>
 
-            <picture class="w-40 w-sm-25">
+            <picture class="w-40 w-sm-25 flex-row justify-content-center align-items-center ">
                 <source type="image/webp" srcset="images/profile_pic.webp">
                 <img id="profile-pic" src="images/profile_pic.png" alt="Portrait photo of Gavin looking fine" loading="lazy">
             </picture>
 
             <div class="w-60 w-sm-75 fc-light text-left mx-1 flex-row flex-wrap align-items-center">
-                <h1 class="w-100">Gavin Gration</h1>
-                <h2 class="w-100">Software Developer</h2>
+                <h1 class="w-100 mt-auto mb-0">Gavin Gration</h1>
+                <h2 class="w-100 mt-0">Software Developer</h2>
             </div>
 
         </header>
 
-        <div class="w-100 flex-row flex-grow">
+        <div class="w-100 flex-col flex-sm-row flex-grow">
 
-            <nav class='h-sm-100 bg-secondary w-40 w-sm-25'>
+            <nav class='order-1 order-sm-0 mnh-sm-100 bg-secondary w-100 w-sm-40 fc-dark p-1'>
+
                 <section>
                     <h3>Contact Details</h3>
-                    <a href="mailto:gavg.apps@gmail.com">gavg.apps@gmail.com</a>
+                    <div>
+                        <span>Email:</span>
+                        <a href="mailto:gavg.apps@gmail.com">gavg.apps@gmail.com</a>
+                    </div>
                 </section>
-                
+
+                <section>
+                    <h3>Key Skills</h3>
+                    <ul>
+                        <li>Web Application Design</li>
+                        <li>Entity Relationship Modelling</li>
+                        <li>Project Management</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Hobbies</h3>
+                    <ul>
+                        <li>Cycling (BMX / Mtb)</li>
+                        <li>Cubing (Twisty Puzzles)</li>
+                        <li>Coding (Anything)</li>
+                    </ul>
+                </section>
+
             </nav>
 
-            <article class="w-60 w-sm-75 mx-1">
+            <div class="order-0 order-sm-1 w-100 w-sm-60 p-1">
 
-                <section id="profile">
-                    <h4>Profile</h4>
-                    <p>Hi, the name's Gration, Gavin Gration.</p>
-                </section>
+                <article id="profile">
+                    <h2>Profile</h2>
+                    <p>Computer Scientist and Software Developer currently working in the Telecoms industry designing, maintaining and integrating various web applications.</p>
+                </article>
 
-            </article>
+                <article id="experience">
+                    <h2>Experience</h2>
+                    <dl>
+                        <dt>Roar Software 2007 - 2019</dt>
+                        <dd>
+                            <p>A small software development house based in Atherton where I learned the ropes of real world development under the guidance of Paul McKay a seasoned veteran in the field</p>
+                            <p>I started my career in the deep end working on huge legacy codebases written mainly in Perl alongside many other projects in various languages for a multitude of industries</p>
+                        </dd>
 
+                        <dt>Vaioni Group Ltd 2019 - 2021</dt>
+                        <dd>
+                            <p>Vaioni Group are an Internet Service and Telecoms provider based in Media City, Manchester.</p>
+                            <p>After Roar was acquired by Aurora KJ Ltd I decided to go on a new adventure. Joining a team in it's infancy I was able to implement and share my knowledge of design principles, security, version control and application architecture with the business. Helping them to automate existing processes, rebuilding and strengthening legacy systems has been a lot of fun</p>
+                        </dd>
+                    </dl>
+                </article>
+
+            </div>
 
         </div>
 
