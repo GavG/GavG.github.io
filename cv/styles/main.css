@@ -63,7 +63,7 @@ html {
     order: 1;
 }
 
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 700px) {
     .flex-sm-row {
         display: flex;
         flex-direction: row;
@@ -117,7 +117,7 @@ h3 {
     font-size: 0.75rem;
 }
 
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 700px) {
     h1 {
         font-size: 3rem;
     }
@@ -161,7 +161,7 @@ h3 {
     min-height: 100%;
 }
 
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 700px) {
     .w-sm-100 {
         width: 100%;
     }
@@ -179,7 +179,7 @@ h3 {
     }
 
     .w-sm-40 {
-        width: 50%;
+        width: 40%;
     }
 
     .w-sm-25 {
@@ -187,6 +187,36 @@ h3 {
     }
 
     .mnh-sm-100 {
+        min-height: 100%;
+    }
+}
+
+@media only screen and (min-width: 960px) {
+    .w-md-100 {
+        width: 100%;
+    }
+
+    .w-md-75 {
+        width: 75%;
+    }
+
+    .w-md-60 {
+        width: 60%;
+    }
+
+    .w-md-50 {
+        width: 50%;
+    }
+
+    .w-md-40 {
+        width: 40%;
+    }
+
+    .w-md-25 {
+        width: 25%;
+    }
+
+    .mnh-md-100 {
         min-height: 100%;
     }
 }
