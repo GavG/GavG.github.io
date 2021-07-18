@@ -288,16 +288,18 @@ nav ul {
     list-style: square;
 }
 
-dl dt {
-    padding-bottom: 0.5rem;
-    border-bottom: solid 1px var(--secondary);
-    font-weight: bold;
-    font-size: 1.2rem;
+article details {
+    margin-bottom: 0.5rem;
 }
 
-dl dd {
-    margin-left: 1rem;
-    margin-bottom: 2rem;
+article details p {
+    padding-left: 1rem;
+}
+
+article details summary {
+    padding-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
 article {
