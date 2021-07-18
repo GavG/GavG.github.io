@@ -18,13 +18,10 @@ html {
 /* - Colors */
 
 :root {
-    /* Theme Colors */
-    --primary: #1565c0;
-    --secondary: #eceff1;
-
-    /* Text Colors */
-    --dark: #222;
-    --light: #FFF;
+    --primary: #1a237e;
+    --secondary: #bbbebf;
+    --dark: #101010;
+    --light: #efefef;
 }
 
 /* - Layout */
@@ -91,6 +88,10 @@ html {
 
 .bg-secondary {
     background-color: var(--secondary);
+}
+
+.bg-light {
+    background-color: var(--light);
 }
 
 /* - Font Colors */
@@ -269,10 +270,22 @@ main {
     max-width: 80%;
     max-height: 80%;
     object-position: 50% 25%;
-    border: solid var(--light) 4px;
     border-radius: 50%;
 }
 
 nav {
     padding: 1rem;
+}
+
+ul {
+    padding-left: 1rem;
+    list-style: square;
+}
+
+dl dt {
+    font-weight: bold;
+}
+
+dl dd {
+    margin-left: 1rem;
 }
