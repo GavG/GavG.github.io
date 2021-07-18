@@ -128,7 +128,7 @@ h3 {
     }
 
     h3 {
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
 }
 
@@ -284,6 +284,7 @@ ul {
 
 dl dt {
     font-weight: bold;
+    font-size: 1.2rem;
 }
 
 dl dd {
