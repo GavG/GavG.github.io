@@ -80,6 +80,18 @@ html {
     }
 }
 
+@media only screen and (min-width: 960px) {
+    .flex-md-row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .flex-md-col {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
 /* - Backgrounds */
 
 .bg-primary {
@@ -298,6 +310,7 @@ article details {
 
 article details p {
     padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 article details summary {
@@ -319,4 +332,14 @@ article h2 {
     #main-header {
         max-height: 200px;
     }
+}
+
+img.img-insert {
+    width: 100%;
+    max-width: 40%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    object-position: center;
+    margin: auto;
 }
