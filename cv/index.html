@@ -6,14 +6,335 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta HTTP-EQUIV='Content-Security-Policy' CONTENT="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; img-src 'self'; media-src 'self'; font-src https://fonts.googleapis.com https://fonts.gstatic.com;">
-
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <meta HTTP-EQUIV='Content-Security-Policy' CONTENT="default-src 'self'; script-src 'none'; style-src 'unsafe-inline'; img-src 'self'; media-src 'self'; font-src 'self'">
+    <meta name="description" content="Gavin Gration, Software Developer">
 
     <title>Gavin Gration</title>
+
+    <style>
+        /* Fonts */
+
+        @font-face {
+            font-family: 'Noto Sans';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url(fonts/o-0IIpQlx3QUlC5A4PNr5TRA.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* Resets */
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        html {
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+        box-sizing: inherit;
+        }
+
+        /* - Colors */
+
+        :root {
+            --primary: #1a237e;
+            --secondary:#9090E0;
+            --dark: #101010;
+            --light: #efefef;
+        }
+
+        /* - Layout */
+
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .flex-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+
+        .flex-grow {
+            flex-grow: 1;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .justify-content-center {
+            justify-content: center;
+        }
+
+        .order-0 {
+            order: 0;
+        }
+
+        .order-1 {
+            order: 1;
+        }
+
+        .fw-400 {
+            width: 400px;
+        }
+
+        @media only screen and (min-width: 960px) {
+            .flex-md-row {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .flex-md-col {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        /* - Backgrounds */
+
+        .bg-primary {
+            background-color: var(--primary);
+        }
+
+        .bg-secondary {
+            background-color: var(--secondary);
+        }
+
+        /* - Font Colors */
+
+        .fc-light {
+            color: var(--light);
+        }
+
+        .fc-dark {
+            color: var(--dark);
+        }
+
+        /* - Headings */
+
+        h1 {
+            font-size: 1.8rem;
+            line-height: 2rem;
+        }
+
+        h2, summary {
+            font-size: 1rem;
+        }
+
+        h3 {
+            font-size: 0.75rem;
+        }
+
+        @media only screen and (min-width: 700px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            h2, summary {
+                font-size: 1.2rem;
+            }
+
+            h3 {
+                font-size: 1rem;
+            }
+        }
+
+        /* - Sizing */
+
+        .w-100 {
+            width: 100%;
+        }
+
+        .w-75 {
+            width: 75%;
+        }
+
+        .w-60 {
+            width: 60%;
+        }
+
+        .w-50 {
+            width: 50%;
+        }
+
+        .w-40 {
+            width: 50%;
+        }
+
+        .w-25 {
+            width: 25%;
+        }
+
+        .mnh-100 {
+            min-height: 100%;
+        }
+
+        /* - Spacing */
+
+        .p-1 {
+            padding: 1rem;
+        }
+
+        .p-05 {
+            padding: 0.5rem;
+        }
+
+        .m-auto {
+            margin: auto;
+        }
+
+        .mx-1 {
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+
+        .mt-1 {
+            margin-top: 1rem;
+        }
+
+        .mt-2 {
+            margin-top: 2rem;
+        }
+
+        .mb-0 {
+            margin-bottom: 0;
+        }
+
+        .rounded {
+            border-radius: 0.5rem;
+        }
+
+        /* Targeted Styling */
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #FFF;
+        }
+
+        header {
+            background: rgb(6,32,59);
+            background: linear-gradient(160deg, rgba(6,32,59,1) 0%, rgba(42,42,201,1) 100%, rgba(24,0,163,1) 100%);
+        }
+
+        .container {
+            min-width: 360px;
+            max-width: 1200px;
+            margin: auto;
+            line-height: 1.5rem;
+        }
+
+        a {
+            color: var(--secondary);
+        }
+
+        #main-header {
+            max-height: 150px;
+        }
+
+        #profile-pic {
+            object-fit: cover;
+            width: auto;
+            height: 80%;
+            max-width: 80%;
+            max-height: 80%;
+            object-position: 50% 25%;
+            border-radius: 50%;
+        }
+
+        nav {
+            width: 100%;
+            padding: 1rem;
+            background: rgb(23,41,60);
+            background: linear-gradient(160deg, rgba(23,41,60,1) 0%, rgba(75,75,113,1) 100%, rgba(112,111,119,1) 100%);
+        }
+
+        nav h3 {
+            margin-top: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: solid 1px var(--dark);
+        }
+
+        nav > section:first-child > h3, main > article:first-child > h2 {
+            margin-top: 0.5rem;
+        }
+
+        nav ul {
+            padding-left: 1.5rem;
+            list-style: square;
+        }
+
+        nav li {
+            margin-top: 0.25rem;
+        }
+
+        summary {
+            cursor: pointer;
+        }
+
+        article details {
+            margin-bottom: 0.5rem;
+        }
+
+        article details p {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        summary {
+            padding-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        article {
+            padding-left: 1rem;
+        }
+
+        article h2 {
+            margin-left: -1rem;
+            color: var(--primary);
+        }
+
+        .img-insert img {
+            margin: auto;
+            display: block;
+        }
+
+        @media only screen and (min-width: 960px) {
+            nav {
+                width: 380px;
+            }
+
+            .flex-sm-row {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .order-sm-0 {
+                order: 0;
+            }
+
+            .order-sm-1 {
+                order: 1;
+            }
+        }
+
+        @media screen and (min-width: 860px) {
+            #main-header {
+                max-height: 200px;
+            }
+        }
+
+    </style>
 
 </head>
 
@@ -23,21 +344,27 @@
 
         <header id="main-header" class='w-100 flex-row rounded'>
 
-            <picture class="w-40 w-sm-25 flex-row justify-content-center align-items-center ">
+            <picture class="img-insert mt-2">
                 <source type="image/webp" srcset="images/profile_pic.webp">
-                <img id="profile-pic" src="images/profile_pic.png" alt="Portrait photo of Gavin looking fine" loading="lazy">
+                <img
+                    id="profile-pic"
+                    src="images/profile_pic.png"
+                    alt="Portrait photo of Gavin looking fine"
+                    width="160"
+                    height="160"
+                >
             </picture>
 
-            <div class="w-60 w-sm-75 fc-light text-left mx-1 flex-row flex-wrap align-items-center">
-                <h1 class="w-100 mt-auto mb-0">Gavin Gration</h1>
-                <h2 class="w-100 mt-0">Software Developer</h2>
+            <div class="fc-light text-left m-auto mx-1">
+                <h1 class="w-100">Gavin Gration</h1>
+                <h2 class="w-100">Software Developer</h2>
             </div>
 
         </header>
 
         <div class="w-100 flex-col flex-sm-row flex-grow mt-1">
 
-            <nav class='order-1 order-sm-0 mnh-sm-100 w-100 w-sm-40 w-md-25 fc-light p-1 rounded'>
+            <nav class='order-1 order-sm-0 fc-light p-1 rounded'>
 
                 <section>
                     <h3>Contact Details</h3>
@@ -88,7 +415,7 @@
 
             </nav>
 
-            <main class="order-0 order-sm-1 w-100 w-sm-60 w-md-75 p-1 fc-dark">
+            <main class="order-0 order-sm-1 w-100 p-1 fc-dark">
 
                 <article id="profile">
                     <h2>Profile</h2>
@@ -107,7 +434,15 @@
                                 <p>I also volunteered for a student lead charity, Keele Nightline and built them a cracking little website. </p>
                                 <p>Alongside studying and volunteering I funded my adventures by taking on jobs at the university bars, restaurants and shops.</p>
                             </div>
-                            <img src="images/keele.png" alt="Gav G at Keele University holding his bound copy of his final year project, looking proud" class="img-insert">
+                            <picture class="img-insert fw-400">
+                                <source type="image/webp" srcset="images/keele.webp">
+                                <img
+                                    src="images/keele.png"
+                                    alt="Gav at Keele University holding a bound copy of his final year project, looking mighty proud"
+                                    height="400"
+                                    width="249"
+                                >
+                            </picture>
                         </div>
 
                     </details>
