@@ -11,8 +11,15 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
-            bold {
+            body {
+                font-family: 'Courier New', Courier, monospace;
+                padding: 1rem;
+            }
+            bold, h1 {
                 font-size: 4rem;
+            }
+            bold {
+                padding-right: 2px;
             }
         </style>
     </head>
@@ -24,6 +31,7 @@
         <main>
             <header>
                 <h1>Able-Software</h1>
+                <p>These are some of the key values I believe software should have. It just so happens they all end in 'able', hence 'Able-Software'. And as a bonus backronym, they spell 'MR FEAST'.</p>
             </header>
             <article>
                 <h2>
@@ -63,13 +71,13 @@
                 <h2>
                     <bold>S</bold>calable
                 </h2>
-                <p></p>
+                <p>Software should work well at scale. Modular design and writing code with bulk operations in mind can help make software that works well not only in development with a single but also in production with many concurrent users and high workload demand. Building software that is conducive to horizontal scaling can allow for the use of responsive infrastructure which can fit usage patterns in a cost-effective way.</p>
             </article>
             <article>
                 <h2>
                     <bold>T</bold>estable
                 </h2>
-                <p></p>
+                <p>Software should be provable. Knowing that a piece of code works is good, but being able to prove it is better. Well written, high-quality tests provide a safety-net for future development, with optimal coverage you can be more sure that changes to one part of a codebase haven't affected the functionality of another. Test Driven Development is a sound means to writing testable code. Highly testable code is also conducive to Continuos Integration and Continuos Deployment, infrastructure and code dependencies can be automatically updated and tested prior to deployment without intervention saving valuable resources and improving security.</p>
             </article>
             <footer></footer>
         </main>
