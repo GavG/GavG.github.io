@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Squares</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+        }
+        #gameCanvas {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="game"></canvas>
+    <script>
+        const canvas = document.getElementById('game')
+        const context = canvas.getContext('2d')
+
+        function draw() {
+            const aspectRatio = window.innerWidth / window.innerHeight
+            const rows = aspectRatio > 1 ? 3 : 2
+            const cols = aspectRatio > 1 ? 2 : 3
+
+            canvas.width = window.innerWidth
+            canvas.height = window.innerHeight
+
+            const cellWidth = canvas.width / cols
+            const cellHeight = canvas.height / rows
+
+            context.clearRect(0, 0, canvas.width, canvas.height)
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const x = col * cellWidth
+                    const y = row * cellHeight
+
+                    context.strokeRect(x, y, cellWidth, cellHeight)
+                }
+            }
+
+            requestAnimationFrame(draw)
+        }
+
+        window.addEventListener('load', draw)
+    </script>
+</body>
+</html>
