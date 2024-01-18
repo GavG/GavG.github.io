@@ -21,26 +21,59 @@
         const canvas = document.getElementById('game')
         const context = canvas.getContext('2d')
 
+        const TAU = 2 * Math.PI
+
         const levels = [
             `1111
              0001
              1111`
         ]
 
+        let cleanCurrentLevel = ''
         let currentLevel = 0
 
-        let cleanCurrentLevel = levels[currentLevel].replace(/\s/g, "")
-
-        let rows = levels[currentLevel].split(/\n/)
-        let rowsCount = rows.length
-
+        let rows = []
+        let rowsCount = 0
         let colsCount = 0
-        rows.filter(row => {
-            const len = row.trim().length
-            if (len > colsCount) {
-                colsCount = len
-            }
-        })
+
+        let playerPos = 0
+        let newPlayerPos = 0
+
+        let playerX = 0
+        let playerY = 0
+
+        let newPlayerX = playerX
+        let newPlayerY = playerY
+
+        function loadLevel(level) {
+            console.log('loadLevel', level)
+
+            currentLevel = level
+
+            cleanCurrentLevel = levels[currentLevel].replace(/\s/g, "")
+
+            rows = levels[currentLevel].split(/\n/)
+            rowsCount = rows.length
+
+            colsCount = 0
+            rows.filter(row => {
+                const len = row.trim().length
+                if (len > colsCount) {
+                    colsCount = len
+                }
+            })
+
+            setCellDimensions()
+
+            playerPos = 0
+            newPlayerPos = 0
+
+            playerX = parseFloat((((playerPos % colsCount) * cellWidth) + (cellWidth / 2)).toFixed(1))
+            playerY = parseFloat(((Math.floor(playerPos / colsCount) * cellHeight) + (cellHeight / 2)).toFixed(1))
+
+            newPlayerX = playerX
+            newPlayerY = playerY
+        }
 
         function makeMoveIfFeasible(toCell, x) {
             if(
@@ -58,58 +91,6 @@
                 newPlayerY = parseFloat(((Math.floor(newPlayerPos / colsCount) * cellHeight) + (cellHeight / 2)).toFixed(1))
             }
         }
-
-        let playerPos = 0
-        let newPlayerPos = 0
-
-        window.addEventListener(
-            'keydown',
-            event => {
-                switch (event.keyCode) {
-                    case 38:
-                        // up
-                        makeMoveIfFeasible(playerPos - colsCount, false)
-                        break;
-
-                    case 40:
-                        // down
-                        makeMoveIfFeasible(playerPos + colsCount, false)
-                        break;
-
-                    case 37:
-                        // left
-                        makeMoveIfFeasible(playerPos -1, true)
-                        break;
-
-                     case 39:
-                        // right
-                        makeMoveIfFeasible(playerPos + 1, true)
-                        break;
-                }
-            }
-        )
-
-        const TAU = 2 * Math.PI
-
-        canvas.width = document.body.clientWidth
-        canvas.height = document.body.clientHeight
-
-        let cellWidth = canvas.width / colsCount
-        let cellHeight = canvas.height / rowsCount
-
-        window.addEventListener('resize', () => {
-            canvas.width = document.body.clientWidth
-            canvas.height = document.body.clientHeight
-
-            cellWidth = canvas.width / colsCount
-            cellHeight = canvas.height / rowsCount
-        })
-
-        let playerX = parseFloat((((playerPos % colsCount) * cellWidth) + (cellWidth / 2)).toFixed(1))
-        let playerY = parseFloat(((Math.floor(playerPos / colsCount) * cellHeight) + (cellHeight / 2)).toFixed(1))
-
-        let newPlayerX = playerX
-        let newPlayerY = playerY
 
         function draw() {
             context.clearRect(0, 0, canvas.width, canvas.height)
@@ -137,8 +118,8 @@
                 }
             }
 
-            let playerXLive = Math.abs(newPlayerX - playerX) < 0.2
-            let playerYLive = Math.abs(newPlayerY - playerY) < 0.2
+            const playerXLive = Math.abs(newPlayerX - playerX) < 0.2
+            const playerYLive = Math.abs(newPlayerY - playerY) < 0.2
 
             if (!playerXLive) {
                 playerX = parseFloat((playerX + ((newPlayerX - playerX) / 2)).toFixed(1))
@@ -162,7 +143,61 @@
             requestAnimationFrame(draw)
         }
 
-        window.addEventListener('load', draw)
+        function setCanvasSize() {
+            console.log('setCanvasSize')
+
+            canvas.width = document.body.clientWidth
+            canvas.height = document.body.clientHeight
+
+            setCellDimensions()
+        }
+
+        function setCellDimensions() {
+            cellWidth = canvas.width / colsCount
+            cellHeight = canvas.height / rowsCount
+        }
+
+        window.addEventListener(
+            'load',
+            () => {
+                console.log('load')
+                setCanvasSize()
+                loadLevel(0)
+                draw()
+            }
+        )
+
+        window.addEventListener(
+            'resize',
+            setCanvasSize
+        )
+
+        window.addEventListener(
+            'keydown',
+            event => {
+                switch (event.keyCode) {
+                    case 38:
+                        // up
+                        makeMoveIfFeasible(playerPos - colsCount, false)
+                        break
+
+                    case 40:
+                        // down
+                        makeMoveIfFeasible(playerPos + colsCount, false)
+                        break
+
+                    case 37:
+                        // left
+                        makeMoveIfFeasible(playerPos - 1, true)
+                        break
+
+                    case 39:
+                        // right
+                        makeMoveIfFeasible(playerPos + 1, true)
+                        break
+                }
+            }
+        )
     </script>
 </body>
 </html>
