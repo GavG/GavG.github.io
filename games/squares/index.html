@@ -24,12 +24,14 @@
         const TAU = 2 * Math.PI
 
         const levels = [
-            `1111
-             0001
-             1111`
+            [
+                [1,1,1,1],
+                [0,0,0,1],
+                [1,1,1,1],
+            ]
         ]
 
-        let cleanCurrentLevel = ''
+        let flatCurrentLevel = []
         let currentLevel = 0
 
         let rows = []
@@ -50,14 +52,14 @@
 
             currentLevel = level
 
-            cleanCurrentLevel = levels[currentLevel].replace(/\s/g, "")
+            flatCurrentLevel = levels[currentLevel].flat()
 
-            rows = levels[currentLevel].split(/\n/)
+            rows = levels[currentLevel]
             rowsCount = rows.length
 
             colsCount = 0
             rows.filter(row => {
-                const len = row.trim().length
+                const len = row.length
                 if (len > colsCount) {
                     colsCount = len
                 }
@@ -78,13 +80,14 @@
         function makeMoveIfFeasible(toCell, x) {
             if(
                 (newPlayerPos === playerPos) &&
-                (cleanCurrentLevel[toCell] > 0) &&
+                (flatCurrentLevel[toCell] > 0) &&
                 (
                     (x && (Math.abs((toCell % colsCount) - (playerPos % colsCount)) < 2)) ||
                     (!x && (Math.abs((toCell % rowsCount) - (playerPos % rowsCount)) < 2))
                 )
             ) {
                 console.log('Move', toCell)
+
                 newPlayerPos = toCell
 
                 newPlayerX = parseFloat((((newPlayerPos % colsCount) * cellWidth) + (cellWidth / 2)).toFixed(1))
@@ -96,15 +99,15 @@
             context.clearRect(0, 0, canvas.width, canvas.height)
 
             for (let rowIndex = 0; rowIndex < rowsCount; rowIndex++) {
-                const row = rows[rowIndex].trim()
+                const row = rows[rowIndex]
                 for (let colIndex = 0; colIndex < colsCount; colIndex++) {
                     const cell = row[colIndex]
 
                     switch (cell) {
-                        case '0':
+                        case 0:
                             context.fillStyle = "#000"
                             break;
-                        case '1':
+                        case 1:
                             context.fillStyle = "#00F"
                             break;
                     }
