@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Squares</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <style>
-        html, body, #gameCanvas {
+        html,
+        body,
+        #gameCanvas {
             padding: 0;
             margin: 0;
             width: 100%;
@@ -15,6 +18,7 @@
         }
     </style>
 </head>
+
 <body>
     <canvas id="game"></canvas>
     <script>
@@ -25,34 +29,33 @@
 
         const levels = [
             [
-                [1,1,1,1],
-                [0,0,0,1],
-                [1,1,1,1],
+                [1, 1, 1, 1],
+                [0, 0, 0, 1],
+                [1, 1, 1, 1],
+            ],
+            [
+                [1, 1, 1, 0],
+                [1, 1, 1, 0],
+                [1, 1, 1, 1],
             ]
         ]
 
-        let flatCurrentLevel = []
         let currentLevel = 0
 
         let rows = []
         let rowsCount = 0
         let colsCount = 0
 
-        let playerPos = 0
-        let newPlayerPos = 0
+        let playerXi = 0
+        let playerYi = 0
 
-        let playerX = 0
-        let playerY = 0
-
-        let newPlayerX = playerX
-        let newPlayerY = playerY
+        let newPlayerX = 0
+        let newPlayerY = 0
 
         function loadLevel(level) {
             console.log('loadLevel', level)
 
             currentLevel = level
-
-            flatCurrentLevel = levels[currentLevel].flat()
 
             rows = levels[currentLevel]
             rowsCount = rows.length
@@ -70,29 +73,11 @@
             playerPos = 0
             newPlayerPos = 0
 
-            playerX = parseFloat((((playerPos % colsCount) * cellWidth) + (cellWidth / 2)).toFixed(1))
-            playerY = parseFloat(((Math.floor(playerPos / colsCount) * cellHeight) + (cellHeight / 2)).toFixed(1))
+            playerX = parseFloat(((playerXi * cellWidth) + (cellWidth / 2)).toFixed(1))
+            playerY = parseFloat(((playerYi * cellHeight) + (cellHeight / 2)).toFixed(1))
 
             newPlayerX = playerX
             newPlayerY = playerY
-        }
-
-        function makeMoveIfFeasible(toCell, x) {
-            if(
-                (newPlayerPos === playerPos) &&
-                (flatCurrentLevel[toCell] > 0) &&
-                (
-                    (x && (Math.abs((toCell % colsCount) - (playerPos % colsCount)) < 2)) ||
-                    (!x && (Math.abs((toCell % rowsCount) - (playerPos % rowsCount)) < 2))
-                )
-            ) {
-                console.log('Move', toCell)
-
-                newPlayerPos = toCell
-
-                newPlayerX = parseFloat((((newPlayerPos % colsCount) * cellWidth) + (cellWidth / 2)).toFixed(1))
-                newPlayerY = parseFloat(((Math.floor(newPlayerPos / colsCount) * cellHeight) + (cellHeight / 2)).toFixed(1))
-            }
         }
 
         function draw() {
@@ -106,10 +91,10 @@
                     switch (cell) {
                         case 0:
                             context.fillStyle = "#000"
-                            break;
+                            break
                         case 1:
                             context.fillStyle = "#00F"
-                            break;
+                            break
                     }
 
                     context.fillRect(colIndex * cellWidth, rowIndex * cellHeight, cellWidth, cellHeight)
@@ -132,10 +117,14 @@
                 playerY = parseFloat((playerY + ((newPlayerY - playerY) / 2)).toFixed(1))
             }
 
-            if (playerXLive && playerYLive && (playerPos !== newPlayerPos)) {
+            if (playerXLive && playerYLive) {
                 playerPos = newPlayerPos
                 playerX = newPlayerX
                 playerY = newPlayerY
+
+                if (rows.flat().reduce((c, a) => c + a, 0) == 1) {
+                    loadLevel(currentLevel + 1)
+                }
             }
 
             context.beginPath()
@@ -160,6 +149,10 @@
             cellHeight = canvas.height / rowsCount
         }
 
+        function subCell() {
+            rows[playerYi][playerXi]--
+        }
+
         window.addEventListener(
             'load',
             () => {
@@ -181,26 +174,42 @@
                 switch (event.keyCode) {
                     case 38:
                         // up
-                        makeMoveIfFeasible(playerPos - colsCount, false)
+                        if(rows[playerYi - 1][playerXi]) {
+                            subCell()
+                            playerYi--
+                        }
                         break
 
                     case 40:
                         // down
-                        makeMoveIfFeasible(playerPos + colsCount, false)
+                        if (rows[playerYi + 1][playerXi]) {
+                            subCell()
+                            playerYi++
+                        }
                         break
 
                     case 37:
                         // left
-                        makeMoveIfFeasible(playerPos - 1, true)
+                        if (rows[playerYi][playerXi - 1]) {
+                            subCell()
+                            playerXi--
+                        }
                         break
 
                     case 39:
                         // right
-                        makeMoveIfFeasible(playerPos + 1, true)
+                        if (rows[playerYi][playerXi + 1]) {
+                            subCell()
+                            playerXi++
+                        }
                         break
                 }
+
+                newPlayerX = parseFloat(((playerXi * cellWidth) + (cellWidth / 2)).toFixed(1))
+                newPlayerY = parseFloat(((playerYi * cellHeight) + (cellHeight / 2)).toFixed(1))
             }
         )
     </script>
 </body>
+
 </html>
