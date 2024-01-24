@@ -37,6 +37,16 @@
                 [1, 1, 1, 0],
                 [1, 1, 1, 0],
                 [1, 1, 1, 1],
+            ],
+            [
+                [1, 1, 1, 1],
+                [1, 0, 0, 1],
+                [2, 2, 2, 1],
+            ],
+            [
+                [1, 1, 1, 1],
+                [0, 0, 1, 1],
+                [1, 2, 2, 1],
             ]
         ]
 
@@ -70,8 +80,8 @@
 
             setCellDimensions()
 
-            playerPos = 0
-            newPlayerPos = 0
+            playerXi = 0
+            playerYi = 0
 
             playerX = parseFloat(((playerXi * cellWidth) + (cellWidth / 2)).toFixed(1))
             playerY = parseFloat(((playerYi * cellHeight) + (cellHeight / 2)).toFixed(1))
@@ -94,6 +104,9 @@
                             break
                         case 1:
                             context.fillStyle = "#00F"
+                            break
+                        case 2:
+                            context.fillStyle = "#0FF"
                             break
                     }
 
@@ -118,7 +131,6 @@
             }
 
             if (playerXLive && playerYLive) {
-                playerPos = newPlayerPos
                 playerX = newPlayerX
                 playerY = newPlayerY
 
@@ -174,7 +186,7 @@
                 switch (event.keyCode) {
                     case 38:
                         // up
-                        if(rows[playerYi - 1][playerXi]) {
+                        if(rows[playerYi - 1] && rows[playerYi - 1][playerXi]) {
                             subCell()
                             playerYi--
                         }
@@ -182,7 +194,7 @@
 
                     case 40:
                         // down
-                        if (rows[playerYi + 1][playerXi]) {
+                        if (rows[playerYi + 1] && rows[playerYi + 1][playerXi]) {
                             subCell()
                             playerYi++
                         }
