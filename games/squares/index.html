@@ -62,12 +62,20 @@
         let newPlayerX = 0
         let newPlayerY = 0
 
+        let gameOver = false
+
         function loadLevel(level) {
             console.log('loadLevel', level)
 
             currentLevel = level
 
-            rows = levels[currentLevel]
+            if (!levels[currentLevel]) {
+                alert('YOU WIN!')
+                gameOver = true
+            }
+
+            rows = JSON.parse(JSON.stringify(levels[currentLevel]))
+
             rowsCount = rows.length
 
             colsCount = 0
@@ -88,6 +96,8 @@
 
             newPlayerX = playerX
             newPlayerY = playerY
+
+            pauseAnimation = false
         }
 
         function draw() {
@@ -137,6 +147,15 @@
                 if (rows.flat().reduce((c, a) => c + a, 0) == 1) {
                     loadLevel(currentLevel + 1)
                 }
+
+                if (
+                    !rows[playerYi][playerXi + 1] && !rows[playerYi][playerXi - 1] &&
+                    (rows[playerYi + 1] ? !rows[playerYi + 1][playerXi] : true) &&
+                    (rows[playerYi - 1] ? !rows[playerYi - 1][playerXi] : true)
+                ) {
+                    alert('NO MOVES AVAILABLE, RESTART LEVEL')
+                    loadLevel(currentLevel)
+                }
             }
 
             context.beginPath()
@@ -144,7 +163,9 @@
             context.fillStyle = "#FFF"
             context.fill()
 
-            requestAnimationFrame(draw)
+            if (!gameOver) {
+                requestAnimationFrame(draw)
+            }
         }
 
         function setCanvasSize() {
