@@ -47,10 +47,17 @@
                 [1, 1, 1, 1],
                 [0, 0, 1, 1],
                 [1, 2, 2, 1],
+            ],
+            [
+                [1, 1, 1, 1, 1],
+                [1, 1, 2, 1, 1],
+                [1, 2, 3, 2, 1],
+                [1, 1, 0, 1, 1],
+                [1, 1, 1, 1, 1],
             ]
         ]
 
-        let currentLevel = 0
+        let currentLevel = null
 
         let rows = []
         let rowsCount = 0
@@ -66,6 +73,8 @@
 
         function loadLevel(level) {
             console.log('loadLevel', level)
+
+            localStorage.setItem("currentLevel", level)
 
             currentLevel = level
 
@@ -117,6 +126,9 @@
                             break
                         case 2:
                             context.fillStyle = "#0FF"
+                            break
+                        case 3:
+                            context.fillStyle = "#FF0"
                             break
                     }
 
@@ -191,7 +203,7 @@
             () => {
                 console.log('load')
                 setCanvasSize()
-                loadLevel(0)
+                loadLevel(parseInt(localStorage.getItem("currentLevel") || 0))
                 draw()
             }
         )
