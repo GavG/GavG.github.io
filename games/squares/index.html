@@ -69,6 +69,8 @@
         let newPlayerX = 0
         let newPlayerY = 0
 
+        let playerSize = 0
+
         let gameOver = false
 
         function loadLevel(level) {
@@ -98,6 +100,7 @@
             })
 
             setCellDimensions()
+            setPlayerSize()
 
             playerXi = 0
             playerYi = 0
@@ -172,14 +175,66 @@
                 }
             }
 
-            context.beginPath()
-            context.arc(playerX, playerY, cellHeight / 4, 0, TAU)
-            context.fillStyle = "#FFF"
-            context.fill()
+            drawPlayer(context)
 
             if (!gameOver) {
                 requestAnimationFrame(draw)
             }
+        }
+
+        function drawPlayer(context) {
+            // Body
+            context.beginPath()
+            context.arc(playerX, playerY + playerSize * 0.4, playerSize * 0.8, 0, Math.PI * 2)
+            context.fillStyle = '#FFFFFF'
+            context.fill()
+            context.strokeStyle = '#000000'
+            context.stroke()
+
+            // Head
+            context.beginPath()
+            context.arc(playerX, playerY - playerSize * 0.4, playerSize * 0.5, 0, Math.PI * 2)
+            context.fillStyle = '#FFFFFF'
+            context.fill()
+            context.stroke()
+
+            // Eyes
+            context.beginPath()
+            context.arc(playerX - playerSize * 0.15, playerY - playerSize * 0.5, playerSize * 0.05, 0, Math.PI * 2)
+            context.fillStyle = '#000000'
+            context.fill()
+
+            context.beginPath()
+            context.arc(playerX + playerSize * 0.15, playerY - playerSize * 0.5, playerSize * 0.05, 0, Math.PI * 2)
+            context.fillStyle = '#000000'
+            context.fill()
+
+            // Mouth
+            context.beginPath()
+            context.arc(playerX, playerY - playerSize * 0.4, playerSize * 0.2, 0, Math.PI)
+            context.stroke()
+
+            // Arms
+            context.beginPath()
+            context.moveTo(playerX - playerSize * 0.4, playerY + playerSize * 0.4)
+            context.lineTo(playerX - playerSize * 1.4, playerY - playerSize * 0.4)
+            context.stroke()
+
+            context.beginPath()
+            context.moveTo(playerX + playerSize * 0.4, playerY + playerSize * 0.4)
+            context.lineTo(playerX + playerSize * 1.4, playerY - playerSize * 0.4)
+            context.stroke()
+
+            // Legs
+            context.beginPath()
+            context.moveTo(playerX - playerSize * 0.3, playerY + playerSize * 0.8)
+            context.lineTo(playerX - playerSize * 0.5, playerY + playerSize * 1.8)
+            context.stroke()
+
+            context.beginPath()
+            context.moveTo(playerX + playerSize * 0.3, playerY + playerSize * 0.8)
+            context.lineTo(playerX + playerSize * 0.5, playerY + playerSize * 1.8)
+            context.stroke();
         }
 
         function setCanvasSize() {
@@ -189,12 +244,17 @@
             canvas.height = document.body.clientHeight
 
             setCellDimensions()
+            setPlayerSize()
             updatePlayerCoords()
         }
 
         function setCellDimensions() {
             cellWidth = canvas.width / colsCount
             cellHeight = canvas.height / rowsCount
+        }
+
+        function setPlayerSize() {
+            playerSize = Math.min(cellWidth, cellHeight) / 4
         }
 
         function subCell() {
