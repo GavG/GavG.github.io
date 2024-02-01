@@ -27,6 +27,15 @@
 
         const TAU = 2 * Math.PI
 
+        const cellColours = [
+            "#00F",
+            "#33F",
+            "#66F",
+            "#99F",
+            "#CCF",
+            "#FFF",
+        ]
+
         const levels = [
             [
                 [1, 1, 1, 1],
@@ -49,12 +58,25 @@
                 [1, 2, 2, 1],
             ],
             [
+                [2, 3, 2, 1],
+                [1, 1, 0, 1],
+                [1, 0, 2, 3],
+                [1, 1, 0, 1],
+                [0, 1, 1, 1],
+            ],
+            [
                 [1, 1, 1, 1, 1],
                 [1, 1, 2, 1, 1],
                 [1, 2, 3, 2, 1],
                 [1, 1, 0, 1, 1],
                 [1, 1, 1, 1, 1],
-            ]
+            ],
+            [
+                [2, 2, 3, 2, 0],
+                [1, 0, 2, 0, 1],
+                [2, 2, 4, 2, 3],
+                [1, 0, 0, 0, 1],
+            ],
         ]
 
         let currentLevel = null
@@ -70,8 +92,7 @@
         let newPlayerY = 0
 
         let playerSize = 0
-
-        let gameOver = false
+        let cellFontSize = 0
 
         function loadLevel(level) {
             console.log('loadLevel', level)
@@ -82,7 +103,6 @@
 
             if (!levels[currentLevel]) {
                 alert('YOU WIN!')
-                gameOver = true
                 loadLevel(0)
                 return
             }
@@ -115,34 +135,22 @@
         }
 
         function draw() {
-            context.clearRect(0, 0, canvas.width, canvas.height)
+            context.fillStyle = cellColours[0]
+            context.fillRect(0, 0, canvas.width, canvas.height)
 
             for (let rowIndex = 0; rowIndex < rowsCount; rowIndex++) {
                 const row = rows[rowIndex]
                 for (let colIndex = 0; colIndex < colsCount; colIndex++) {
                     const cell = row[colIndex]
 
-                    switch (cell) {
-                        case 0:
-                            context.fillStyle = "#000"
-                            break
-                        case 1:
-                            context.fillStyle = "#00F"
-                            break
-                        case 2:
-                            context.fillStyle = "#0FF"
-                            break
-                        case 3:
-                            context.fillStyle = "#FF0"
-                            break
+                    context.fillStyle = cellColours[cell]
+
+                    context.fillRect(Math.ceil(colIndex * cellWidth), Math.ceil(rowIndex * cellHeight), Math.ceil(cellWidth), Math.ceil(cellHeight))
+
+                    if (cell) {
+                        context.fillStyle = cellColours[cell - 1]
+                        context.fillText(cell, colIndex * cellWidth + (cellWidth / 2.25), rowIndex * cellHeight + (cellHeight / 2) + (cellWidth / 16));
                     }
-
-                    context.fillRect(colIndex * cellWidth, rowIndex * cellHeight, cellWidth, cellHeight)
-
-                    context.strokeStyle = "#FFF"
-                    context.lineWidth = 2
-
-                    context.strokeRect(colIndex * cellWidth, rowIndex * cellHeight, cellWidth, cellHeight)
                 }
             }
 
@@ -177,9 +185,7 @@
 
             drawPlayer(context)
 
-            if (!gameOver) {
-                requestAnimationFrame(draw)
-            }
+            requestAnimationFrame(draw)
         }
 
         function oscillatingValue(period, amplitude, meanValue) {
@@ -255,6 +261,9 @@
         function setCellDimensions() {
             cellWidth = canvas.width / colsCount
             cellHeight = canvas.height / rowsCount
+
+            cellFontSize = cellWidth / 4
+            context.font = cellFontSize + "px serif";
         }
 
         function setPlayerSize() {
@@ -332,6 +341,10 @@
 
                     case 39:
                         moveRight()
+                        break
+                    case 82:
+                        // Restart
+                        loadLevel(currentLevel)
                         break
                 }
 
