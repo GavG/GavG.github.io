@@ -187,6 +187,7 @@
             canvas.height = document.body.clientHeight
 
             setCellDimensions()
+            updatePlayerCoords()
         }
 
         function setCellDimensions() {
@@ -196,6 +197,40 @@
 
         function subCell() {
             rows[playerYi][playerXi]--
+        }
+
+        function updatePlayerCoords()
+        {
+            newPlayerX = parseFloat(((playerXi * cellWidth) + (cellWidth / 2)).toFixed(1))
+            newPlayerY = parseFloat(((playerYi * cellHeight) + (cellHeight / 2)).toFixed(1))
+        }
+
+        function moveRight() {
+            if (rows[playerYi][playerXi + 1]) {
+                subCell()
+                playerXi++
+            }
+        }
+
+        function moveLeft() {
+            if (rows[playerYi][playerXi - 1]) {
+                subCell()
+                playerXi--
+            }
+        }
+
+        function moveDown() {
+            if (rows[playerYi + 1] && rows[playerYi + 1][playerXi]) {
+                subCell()
+                playerYi++
+            }
+        }
+
+        function moveUp() {
+            if (rows[playerYi - 1] && rows[playerYi - 1][playerXi]) {
+                subCell()
+                playerYi--
+            }
         }
 
         window.addEventListener(
@@ -218,40 +253,43 @@
             event => {
                 switch (event.keyCode) {
                     case 38:
-                        // up
-                        if(rows[playerYi - 1] && rows[playerYi - 1][playerXi]) {
-                            subCell()
-                            playerYi--
-                        }
+                        moveUp()
                         break
 
                     case 40:
-                        // down
-                        if (rows[playerYi + 1] && rows[playerYi + 1][playerXi]) {
-                            subCell()
-                            playerYi++
-                        }
+                        moveDown()
                         break
 
                     case 37:
-                        // left
-                        if (rows[playerYi][playerXi - 1]) {
-                            subCell()
-                            playerXi--
-                        }
+                        moveLeft()
                         break
 
                     case 39:
-                        // right
-                        if (rows[playerYi][playerXi + 1]) {
-                            subCell()
-                            playerXi++
-                        }
+                        moveRight()
                         break
                 }
 
-                newPlayerX = parseFloat(((playerXi * cellWidth) + (cellWidth / 2)).toFixed(1))
-                newPlayerY = parseFloat(((playerYi * cellHeight) + (cellHeight / 2)).toFixed(1))
+                updatePlayerCoords()
+            }
+        )
+
+        window.addEventListener(
+            'mousedown',
+            event => {
+                const right = event.offsetX > (playerXi + 1) * cellWidth
+                const left = event.offsetX < playerXi * cellWidth
+                const down = event.offsetY > (playerYi + 1) * cellHeight
+                const up = event.offsetY < playerYi * cellHeight
+
+               if([right, left, down, up].filter(m => m).length === 1) {
+
+                    if (right) moveRight()
+                    if (left) moveLeft()
+                    if (up) moveUp()
+                    if (down) moveDown()
+
+                    updatePlayerCoords()
+               }
             }
         )
     </script>
