@@ -86,7 +86,7 @@
             ],
         ]
 
-        const waves = []
+        let waves = []
 
         let currentLevel = null
 
@@ -354,7 +354,7 @@
 
         function initWaves()
         {
-            waves.push(...[
+            waves = [
                 {
                     x: canvas.width / 2,
                     y: canvas.height / 2,
@@ -362,7 +362,7 @@
                     waveHeight: 0.5,
                     waveWidth: cellWidth / 6
                 }
-            ])
+            ]
         }
 
         window.addEventListener(
