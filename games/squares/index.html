@@ -23,7 +23,7 @@
     <canvas id="game"></canvas>
     <script>
         const canvas = document.getElementById('game')
-        const context = canvas.getContext('2d')
+        const ctx = canvas.getContext('2d')
 
         const TAU = 2 * Math.PI
 
@@ -37,6 +37,13 @@
         ]
 
         const levels = [
+            [
+                [1, 1, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+            ],
             [
                 [1, 1, 1, 1],
                 [0, 0, 0, 1],
@@ -79,6 +86,8 @@
             ],
         ]
 
+        const waves = []
+
         let currentLevel = null
 
         let rows = []
@@ -120,6 +129,7 @@
             })
 
             setCellDimensions()
+            initWaves()
             setPlayerSize()
 
             playerXi = 0
@@ -135,21 +145,21 @@
         }
 
         function draw() {
-            context.fillStyle = cellColours[0]
-            context.fillRect(0, 0, canvas.width, canvas.height)
+            ctx.fillStyle = cellColours[0]
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+            drawOcean()
 
             for (let rowIndex = 0; rowIndex < rowsCount; rowIndex++) {
                 const row = rows[rowIndex]
                 for (let colIndex = 0; colIndex < colsCount; colIndex++) {
                     const cell = row[colIndex]
-
-                    context.fillStyle = cellColours[cell]
-
-                    context.fillRect(Math.ceil(colIndex * cellWidth), Math.ceil(rowIndex * cellHeight), Math.ceil(cellWidth), Math.ceil(cellHeight))
-
                     if (cell) {
-                        context.fillStyle = cellColours[cell - 1]
-                        context.fillText(cell, colIndex * cellWidth + (cellWidth / 2.25), rowIndex * cellHeight + (cellHeight / 2) + (cellWidth / 16));
+                        ctx.fillStyle = cellColours[cell]
+                        ctx.fillRect(Math.ceil(colIndex * cellWidth), Math.ceil(rowIndex * cellHeight), Math.ceil(cellWidth), Math.ceil(cellHeight))
+
+                        ctx.fillStyle = cellColours[cell - 1]
+                        ctx.fillText(cell, colIndex * cellWidth + (cellWidth / 2.25), rowIndex * cellHeight + (cellHeight / 2) + (cellWidth / 16));
                     }
                 }
             }
@@ -183,7 +193,7 @@
                 }
             }
 
-            drawPlayer(context)
+            drawPlayer(ctx)
 
             requestAnimationFrame(draw)
         }
@@ -192,59 +202,59 @@
             return meanValue + amplitude * Math.sin(2 * Math.PI * new Date().getTime() / 1000 / period)
         }
 
-        function drawPlayer(context) {
+        function drawPlayer(ctx) {
             // Body
-            context.beginPath()
-            context.arc(playerX, playerY + playerSize * 0.4, playerSize * 0.8, 0, Math.PI * 2)
-            context.fillStyle = '#FFFFFF'
-            context.fill()
-            context.strokeStyle = '#000000'
-            context.stroke()
+            ctx.beginPath()
+            ctx.arc(playerX, playerY + playerSize * 0.4, playerSize * 0.8, 0, Math.PI * 2)
+            ctx.fillStyle = '#FFFFFF'
+            ctx.fill()
+            ctx.strokeStyle = '#000000'
+            ctx.stroke()
 
             // Head
-            context.beginPath()
-            context.arc(playerX, playerY - playerSize * 0.4, playerSize * 0.5, 0, Math.PI * 2)
-            context.fillStyle = '#FFFFFF'
-            context.fill()
-            context.stroke()
+            ctx.beginPath()
+            ctx.arc(playerX, playerY - playerSize * 0.4, playerSize * 0.5, 0, Math.PI * 2)
+            ctx.fillStyle = '#FFFFFF'
+            ctx.fill()
+            ctx.stroke()
 
             // Eyes
-            context.beginPath()
-            context.arc(playerX - playerSize * 0.15, playerY - playerSize * 0.5, playerSize * oscillatingValue(1, 0.01, 0.05), 0, Math.PI * 2)
-            context.fillStyle = '#000000'
-            context.fill()
+            ctx.beginPath()
+            ctx.arc(playerX - playerSize * 0.15, playerY - playerSize * 0.5, playerSize * oscillatingValue(1, 0.01, 0.05), 0, Math.PI * 2)
+            ctx.fillStyle = '#000000'
+            ctx.fill()
 
-            context.beginPath()
-            context.arc(playerX + playerSize * 0.15, playerY - playerSize * 0.5, playerSize * oscillatingValue(1, 0.01, 0.05), 0, Math.PI * 2)
-            context.fillStyle = '#000000'
-            context.fill()
+            ctx.beginPath()
+            ctx.arc(playerX + playerSize * 0.15, playerY - playerSize * 0.5, playerSize * oscillatingValue(1, 0.01, 0.05), 0, Math.PI * 2)
+            ctx.fillStyle = '#000000'
+            ctx.fill()
 
             // Mouth
-            context.beginPath()
-            context.arc(playerX, playerY - playerSize * 0.4, playerSize * oscillatingValue(4, 0.025, 0.2), 0, Math.PI)
-            context.stroke()
+            ctx.beginPath()
+            ctx.arc(playerX, playerY - playerSize * 0.4, playerSize * oscillatingValue(4, 0.025, 0.2), 0, Math.PI)
+            ctx.stroke()
 
             // Arms
-            context.beginPath()
-            context.moveTo(playerX - playerSize * 0.4, playerY + playerSize * 0.4)
-            context.lineTo(playerX - playerSize * 1.4, playerY - playerSize * 0.4)
-            context.stroke()
+            ctx.beginPath()
+            ctx.moveTo(playerX - playerSize * 0.4, playerY + playerSize * 0.4)
+            ctx.lineTo(playerX - playerSize * 1.4, playerY - playerSize * 0.4)
+            ctx.stroke()
 
-            context.beginPath()
-            context.moveTo(playerX + playerSize * 0.4, playerY + playerSize * 0.4)
-            context.lineTo(playerX + playerSize * 1.4, playerY - playerSize * 0.4)
-            context.stroke()
+            ctx.beginPath()
+            ctx.moveTo(playerX + playerSize * 0.4, playerY + playerSize * 0.4)
+            ctx.lineTo(playerX + playerSize * 1.4, playerY - playerSize * 0.4)
+            ctx.stroke()
 
             // Legs
-            context.beginPath()
-            context.moveTo(playerX - playerSize * 0.3, playerY + playerSize * 0.8)
-            context.lineTo(playerX - playerSize * 0.5, playerY + playerSize * 1.8)
-            context.stroke()
+            ctx.beginPath()
+            ctx.moveTo(playerX - playerSize * 0.3, playerY + playerSize * 0.8)
+            ctx.lineTo(playerX - playerSize * 0.5, playerY + playerSize * 1.8)
+            ctx.stroke()
 
-            context.beginPath()
-            context.moveTo(playerX + playerSize * 0.3, playerY + playerSize * 0.8)
-            context.lineTo(playerX + playerSize * 0.5, playerY + playerSize * 1.8)
-            context.stroke();
+            ctx.beginPath()
+            ctx.moveTo(playerX + playerSize * 0.3, playerY + playerSize * 0.8)
+            ctx.lineTo(playerX + playerSize * 0.5, playerY + playerSize * 1.8)
+            ctx.stroke();
         }
 
         function setCanvasSize() {
@@ -254,6 +264,7 @@
             canvas.height = document.body.clientHeight
 
             setCellDimensions()
+            initWaves()
             setPlayerSize()
             updatePlayerCoords()
         }
@@ -263,7 +274,7 @@
             cellHeight = canvas.height / rowsCount
 
             cellFontSize = cellWidth / 4
-            context.font = cellFontSize + "px serif";
+            ctx.font = cellFontSize + "px serif";
         }
 
         function setPlayerSize() {
@@ -306,6 +317,52 @@
                 subCell()
                 playerYi--
             }
+        }
+
+
+        function drawOcean() {
+            ctx.fillStyle = '#4d94cc'
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+            const waveAmplitude = (Math.sin((2 * Math.PI * (new Date().getTime())) / 2000) + 1) / 2
+
+            waves.forEach(
+                wave => drawWave(
+                    wave.x,
+                    wave.y,
+                    wave.count,
+                    (wave.waveHeight * waveAmplitude) + 0.2,
+                    wave.waveWidth,
+                )
+            )
+        }
+
+        function drawWave(x, y, count, waveHeight, waveWidth) {
+            ctx.save()
+            ctx.translate(0, y)
+            ctx.scale(1, waveHeight)
+
+            for (let i = 0; i < count; i++) {
+                ctx.beginPath()
+                ctx.arc(x + (i * waveWidth * 2), 0, waveWidth, 0, Math.PI)
+                ctx.strokeStyle = '#FFF'
+                ctx.stroke();
+            }
+
+            ctx.restore()
+        }
+
+        function initWaves()
+        {
+            waves.push(...[
+                {
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    count: 3,
+                    waveHeight: 0.5,
+                    waveWidth: cellWidth / 6
+                }
+            ])
         }
 
         window.addEventListener(
