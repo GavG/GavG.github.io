@@ -339,12 +339,23 @@
 
         function drawWave(x, y, count, waveHeight, waveWidth) {
             ctx.save()
-            ctx.translate(0, y)
+            ctx.translate(0, y - (waveHeight * waveWidth))
             ctx.scale(1, waveHeight)
 
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < count + 1; i++) {
                 ctx.beginPath()
-                ctx.arc(x + (i * waveWidth * 2), 0, waveWidth, 0, Math.PI)
+                let rad = Math.PI
+                let start = 0
+
+                if (i === 0) {
+                    rad *= 0.5
+                }
+
+                if (i === count) {
+                    start = Math.PI / 2
+                }
+
+                ctx.arc(x + (i * waveWidth * 2), 0, waveWidth, start, rad)
                 ctx.strokeStyle = '#FFF'
                 ctx.stroke();
             }
